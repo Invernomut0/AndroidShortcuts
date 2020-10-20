@@ -10,8 +10,8 @@
         android:shortcutDisabledMessage="@string/shortcut1_disabled">
         <intent
             android:action="action1"
-            android:targetPackage="com.pamir.shortcuts"
-            android:targetClass="com.pamir.shortcuts.MainActivity" />
+            android:targetPackage="com.invernomuto.DualBoot"
+            android:targetClass="com.invernomuto.DualBoot.MainActivity" />
     </shortcut>
 
     <shortcut
@@ -23,8 +23,8 @@
         android:shortcutDisabledMessage="@string/shortcut2_disabled">
         <intent
             android:action="action2"
-            android:targetPackage="com.pamir.shortcuts"
-            android:targetClass="com.pamir.shortcuts.MainActivity" />
+            android:targetPackage="com.invernomuto.DualBoot"
+            android:targetClass="com.invernomuto.DualBoot.MainActivity" />
     </shortcut>
 
     <shortcut
@@ -36,8 +36,8 @@
         android:shortcutDisabledMessage="@string/shortcut3_disabled">
         <intent
             android:action="action3"
-            android:targetPackage="com.pamir.shortcuts"
-            android:targetClass="com.pamir.shortcuts.MainActivity" />
+            android:targetPackage="com.invernomuto.DualBoot"
+            android:targetClass="com.invernomuto.DualBoot.MainActivity" />
     </shortcut>
 
 </shortcuts>

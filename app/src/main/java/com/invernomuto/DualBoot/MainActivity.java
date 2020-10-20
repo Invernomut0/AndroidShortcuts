@@ -1,9 +1,11 @@
-package com.pamir.shortcuts;
+package com.invernomuto.DualBoot;
 
 import android.os.Bundle;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.invernomuto.DualBoot.R;
 
 public class MainActivity extends AppCompatActivity {
 

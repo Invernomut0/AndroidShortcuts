@@ -16,7 +16,7 @@
             </intent-filter>
 
             <!-- Sortcut Support -->
-            <meta-data android:name="android.app.DualBoot"
+            <meta-data android:name="android.app.shortcuts"
                 android:resource="@xml/dualboot" />
             <!---->
 

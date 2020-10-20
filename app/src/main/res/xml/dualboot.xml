@@ -27,6 +27,7 @@
             android:targetClass="com.invernomuto.DualBoot.MainActivity" />
     </shortcut>
 
+    <!--
     <shortcut
         android:shortcutId="shortcut3"
         android:enabled="true"
@@ -39,5 +40,5 @@
             android:targetPackage="com.invernomuto.DualBoot"
             android:targetClass="com.invernomuto.DualBoot.MainActivity" />
     </shortcut>
-
+-->
 </shortcuts>

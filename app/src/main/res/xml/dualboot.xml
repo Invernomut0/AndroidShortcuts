@@ -4,7 +4,7 @@
     <shortcut
         android:shortcutId="shortcut1"
         android:enabled="true"
-        android:icon="@drawable/ic_directions_run_black_24dp"
+        android:icon="@drawable/b"
         android:shortcutShortLabel="@string/shortcut1"
         android:shortcutLongLabel="@string/shortcut1_long"
         android:shortcutDisabledMessage="@string/shortcut1_disabled">
@@ -17,7 +17,7 @@
     <shortcut
         android:shortcutId="shortcut2"
         android:enabled="true"
-        android:icon="@drawable/ic_directions_bike_black_24dp"
+        android:icon="@drawable/a"
         android:shortcutShortLabel="@string/shortcut2"
         android:shortcutLongLabel="@string/shortcut2_long"
         android:shortcutDisabledMessage="@string/shortcut2_disabled">

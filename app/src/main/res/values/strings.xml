@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DualBootManager</string>
+    <string name="app_name">DualBoot Companion App</string>
 
     <string name="shortcut1">Slot B</string>
     <string name="shortcut1_long">Reboot to Slot B</string>
@@ -8,6 +8,11 @@
     <string name="shortcut2">Slot A</string>
     <string name="shortcut2_long">Reboot to Slot A</string>
     <string name="shortcut2_disabled">Disabled shortcut 2</string>
+    <string name="getpropfailed">GetProp Failed</string>
+    <string name="root_failed">Root Failed</string>
+    <string name="Active_Slot">Active Slot: </string>
+    <string name="initStr">Orangefox DualBoot Project reborn\n Based on Zackptg dualboot\n .-=Invernomuto=-.</string>
+    <string name="root_perm">Root Permission: </string>
 
     <!--
     <string name="shortcut3">-</string>

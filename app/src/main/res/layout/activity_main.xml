@@ -1,17 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:foregroundTint="@color/colorAccent"
     tools:context="com.pamir.shortcuts.com.pamir.DualBoot.MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20dp"
-        android:id="@+id/textview"
-        android:layout_gravity="center"
-        android:text="Hello World!" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="305dp"
+            android:src="@drawable/logo_resized" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/lato_bold"
+                android:lineSpacingExtra="10sp"
+                android:padding="10sp"
+                android:text="OrangeFox DualBoot Reborn\nBased on Zackptg5 Dualboot Project\n.-=by Invernomuto=-."
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp"
+                android:typeface="normal" />
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fillViewport="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="157dp"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/lato"
+                        android:foregroundTint="@color/colorAccent"
+                        android:padding="10sp"
+                        android:paddingTop="20sp"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="20dp" />
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="slota_click"
+                android:text="Reboot to slot A" />
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:onClick="slotb_click"
+                android:text="Reboot to slot B" />
+        </LinearLayout>
+
+
+    </LinearLayout>
 
 </FrameLayout>

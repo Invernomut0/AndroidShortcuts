@@ -3,16 +3,26 @@
 
     <string name="shortcut1">Slot B</string>
     <string name="shortcut1_long">Reboot to Slot B</string>
-    <string name="shortcut1_disabled">Disabled shortcut 1</string>
+    <string name="shortcut1_disabled">Reboot disabled</string>
 
     <string name="shortcut2">Slot A</string>
     <string name="shortcut2_long">Reboot to Slot A</string>
-    <string name="shortcut2_disabled">Disabled shortcut 2</string>
+    <string name="shortcut2_disabled">Reboot disabled</string>
+
+    <string name="shortcut3">Recovery B</string>
+    <string name="shortcut3_long">Reboot to Recovery B</string>
+    <string name="shortcut3_disabled">Reboot disabled</string>
+
+    <string name="shortcut4">Recovery A</string>
+    <string name="shortcut4_long">Reboot to Recovery A</string>
+    <string name="shortcut4_disabled">Reboot disabled</string>
+
     <string name="getpropfailed">GetProp Failed</string>
     <string name="root_failed">Root Failed</string>
-    <string name="Active_Slot">Active Slot: </string>
+    <string name="Active_Slot">\nFound A/B device!\nActive Slot: </string>
     <string name="initStr">Orangefox DualBoot Project reborn\n Based on Zackptg dualboot\n .-=Invernomuto=-.</string>
     <string name="root_perm">Root Permission: </string>
+    <string name="dialog_confirmation">Do you want to reboot, are you sure?</string>
 
     <!--
     <string name="shortcut3">-</string>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
-
     <shortcut
         android:shortcutId="shortcut1"
         android:enabled="true"
@@ -27,11 +26,10 @@
             android:targetClass="com.invernomuto.DualBoot.MainActivity" />
     </shortcut>
 
-    <!--
     <shortcut
         android:shortcutId="shortcut3"
         android:enabled="true"
-        android:icon="@drawable/ic_rowing_black_24dp"
+        android:icon="@drawable/rb"
         android:shortcutShortLabel="@string/shortcut3"
         android:shortcutLongLabel="@string/shortcut3_long"
         android:shortcutDisabledMessage="@string/shortcut3_disabled">
@@ -40,5 +38,17 @@
             android:targetPackage="com.invernomuto.DualBoot"
             android:targetClass="com.invernomuto.DualBoot.MainActivity" />
     </shortcut>
--->
+
+    <shortcut
+        android:shortcutId="shortcut4"
+        android:enabled="true"
+        android:icon="@drawable/ra"
+        android:shortcutShortLabel="@string/shortcut4"
+        android:shortcutLongLabel="@string/shortcut4_long"
+        android:shortcutDisabledMessage="@string/shortcut4_disabled">
+        <intent
+            android:action="action4"
+            android:targetPackage="com.invernomuto.DualBoot"
+            android:targetClass="com.invernomuto.DualBoot.MainActivity" />
+    </shortcut>
 </shortcuts>

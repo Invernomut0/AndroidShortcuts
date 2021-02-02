@@ -11,6 +11,9 @@ android {
         versionName "1.0"
         //testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
+    dependencies {
+        implementation 'com.nambimobile.widgets:expandable-fab:1.0.2'
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -22,6 +25,7 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     androidTestCompile('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

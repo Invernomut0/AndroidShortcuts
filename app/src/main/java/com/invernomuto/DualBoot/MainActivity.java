@@ -1,38 +1,16 @@
 package com.invernomuto.DualBoot;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.hanks.htextview.base.AnimationListener;
-import com.hanks.htextview.base.HTextView;
-import com.hanks.htextview.line.LineTextView;
-import com.invernomuto.DualBoot.R;
-
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.nambimobile.widgets.efab.ExpandableFab;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-
-class ExecAsRoot extends ExecuteAsRootBase {
-    ArrayList<String> cmds = new ArrayList<String>();
-    String _runcmd;
-    ExecAsRoot(String runcmd){
-        _runcmd=runcmd;
-    }
-    @Override
-    protected ArrayList<String> getCommandsToExecute() {
-        cmds.add(_runcmd);
-        return cmds;
-    }
-}
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,99 +19,75 @@ public class MainActivity extends AppCompatActivity {
     private final static String ACTION_1 = "action1";
     private final static String ACTION_2 = "action2";
     private final static String ACTION_3 = "action3";
+    private final static String ACTION_4 = "action4";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         String cmd;
+        ExpandableFab ef = findViewById(R.id.expandable_fab);
+        ef.setSize(FloatingActionButton.SIZE_NORMAL);
         TextView textView = (TextView) findViewById(R.id.textview);
         textView.setText(textView.getText() + "Checking Partitions\n");
-        //getprop ro.boot.slot_suffix
-
         String[] cmdline = new String[] {"sh", "-c", "getprop ro.boot.slot_suffix"};
         active_slot = exec_command(cmdline);
-
         if (!active_slot.startsWith("\n")) {
             textView.setText(textView.getText() + getString(R.string.Active_Slot) + active_slot);
         }
         else
         {
-            textView.setText(textView.getText() + "Device not compatible.\nA/B partition not found.");
+            textView.setText(textView.getText() + "Device not compatible.\nA/B partition not found.\n\nSorry, nothing to do here...\n");
             dualboot=false;
+            ef.setEfabEnabled(false);
         }
-        /*reboot = new Reboot();
-        reboot.getCommandsToExecute();
-        reboot.execute();
-        */
-        ExecAsRoot ear;
         switch (getIntent().getAction()){
             case ACTION_1:
-                textView.setText(textView.getText() + "\nReboot to Slot B!");
-                cmd="su -c bootctl set-active-boot-slot 1";
-                ear = new ExecAsRoot(cmd);
-                ear.execute();
-                cmd="su -c am start -a android.intent.action.REBOOT";
-                ear = new ExecAsRoot(cmd);
-                ear.execute();
+                switchSlot(this, "_a",0);
                 break;
             case ACTION_2:
-                textView.setText(textView.getText() + "\nReboot to Slot A!");
-                cmd="su -c bootctl set-active-boot-slot 0";
-                ear = new ExecAsRoot(cmd);
-                ear.execute();
-                cmd="su -c am start -a android.intent.action.REBOOT";
-                ear = new ExecAsRoot(cmd);
-                ear.execute();
-               // cmdline = new String[] {"sh", "-c", "am start -a android.intent.action.REBOOT"};
+                switchSlot(this, "_b",0);
                 break;
             case ACTION_3:
-                textView.setText(ACTION_3);
+                switchSlot(this, "_b",1);
+                break;
+            case ACTION_4:
+                switchSlot(this, "_b",1);
                 break;
             default:
                 break;
         }
     }
-    public void slotb_click(View view) {
-        TextView textView = (TextView) findViewById(R.id.textview);
-        textView.setText(textView.getText() + "\nReboot to Slot B!");
-        String cmd="su -c bootctl set-active-boot-slot 1";
-        ExecAsRoot ear = new ExecAsRoot(cmd);
-        ear.execute();
-        cmd="su -c am start -a android.intent.action.REBOOT";
-        ear = new ExecAsRoot(cmd);
-        new AlertDialog.Builder(this)
-                .setTitle("Title")
-                .setMessage("Do you really want to whatever?")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        Toast.makeText(MainActivity.this, "Yaay", Toast.LENGTH_SHORT).show();
-                    }})
-                .setNegativeButton(android.R.string.no, null).show();
-        //ear.execute();
-    }
+    public void switchSlot(MainActivity view, final String currentSlot, final int recovery) {
+        //Toast.makeText(this, getString(R.string.error_ab_device), Toast.LENGTH_LONG).show(); //This is not an A/B device!
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(android.R.string.dialog_alert_title);
+        builder.setMessage(getString(R.string.dialog_confirmation));
+        builder.setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try {
+                    TextView textView = (TextView) findViewById(R.id.textview);
+                    if (currentSlot.contains("_b")) {
+                        Runtime.getRuntime().exec("su -c /data/adb/DualBoot/bootctl set-active-boot-slot 0");
+                    } if (currentSlot.contains("_a")) {
+                        Runtime.getRuntime().exec("su -c /data/adb/DualBoot/bootctl set-active-boot-slot 1");
+                    }
+                    if (recovery == 0 )
+                    {Runtime.getRuntime().exec("su -c reboot");}
+                    else
+                    {Runtime.getRuntime().exec("su -c reboot recovery");}
 
-    public void slota_click(View view) {
-        TextView textView = (TextView) findViewById(R.id.textview);
-        textView.setText(textView.getText() + "\nReboot to Slot A!");
-        String cmd="su -c bootctl set-active-boot-slot 0";
-        ExecAsRoot ear = new ExecAsRoot(cmd);
-        ear.execute();
-        cmd="su -c am start -a android.intent.action.REBOOT";
-        ear = new ExecAsRoot(cmd);
-        new AlertDialog.Builder(this)
-                .setTitle("Title")
-                .setMessage("Do you really want to whatever?")
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        Toast.makeText(MainActivity.this, "Yaay", Toast.LENGTH_SHORT).show();
-                    }})
-                .setNegativeButton(android.R.string.no, null).show();
-        //ear.execute();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        builder.setNegativeButton(getString(android.R.string.no), null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
     public String exec_command(String[] cmd) {
 
@@ -153,7 +107,6 @@ public class MainActivity extends AppCompatActivity {
                 output.append(buffer, 0, read);
             }
             reader.close();
-
             // Waits for the command to finish.
             process.waitFor();
 
@@ -163,5 +116,20 @@ public class MainActivity extends AppCompatActivity {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void onClickRebootA(View view) {
+         switchSlot(this, "_b", 0);
+    }
+
+    public void onClickRebootB(View view) {
+         switchSlot(this, "_a", 0);
+    }
+    public void onClickRRebootA(View view) {
+        switchSlot(this, "_b", 1);
+    }
+
+    public void onClickRRebootB(View view) {
+        switchSlot(this, "_a", 1);
     }
 }

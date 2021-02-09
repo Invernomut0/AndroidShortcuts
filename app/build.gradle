@@ -1,16 +1,20 @@
 apply plugin: 'com.android.application'
 
+
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
     defaultConfig {
         applicationId "com.invernomuto.DualBoot"
-        minSdkVersion 29
-        targetSdkVersion 29
+        minSdkVersion 27
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
         //testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
+
+// as 3.0 use implementation
+
     dependencies {
         implementation 'com.nambimobile.widgets:expandable-fab:1.0.2'
     }
@@ -26,14 +30,30 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.navigation:navigation-fragment:2.2.2'
+    implementation 'androidx.navigation:navigation-ui:2.2.2'
     androidTestCompile('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    repositories {
+        maven { url "https://jitpack.io" }
+    }
+//...
+    dependencies {
+        //...
+        implementation 'com.github.elevenetc:textsurface:0.9.1'
+    }
     def htextview_version = "0.1.6"
-    // as 3.0 use implementation
+// as 3.0 use implementation
     implementation "com.hanks:htextview-base:$htextview_version"        // base library
+    implementation "com.hanks:htextview-fade:$htextview_version"        // optional
     implementation "com.hanks:htextview-line:$htextview_version"        // optional
+    implementation "com.hanks:htextview-rainbow:$htextview_version"     // optional
+    implementation "com.hanks:htextview-typer:$htextview_version"       // optional
+
     implementation "com.hanks:htextview-scale:$htextview_version"       // optional
+    implementation "com.hanks:htextview-evaporate:$htextview_version"   // optional
+    implementation "com.hanks:htextview-fall:$htextview_version"        // optional
     //implementation 'com.rom4ek:arcnavigationview:2.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.0'
     testImplementation 'junit:junit:4.12'

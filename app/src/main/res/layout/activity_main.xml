@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:foregroundTint="@color/colorAccent"
     android:keyboardNavigationCluster="true"
@@ -24,9 +24,9 @@
         <TextView
             android:id="@+id/tv"
             style="@android:style/Widget.Material.Light.TextView"
-            android:layout_below="@id/imageView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/imageView"
             android:fontFamily="@font/lato_bold"
             android:lineSpacingExtra="10sp"
             android:padding="10sp"
@@ -36,26 +36,205 @@
             android:textSize="18sp"
             android:typeface="normal" />
 
-        <TextView
+        <!--   <TextView
             android:id="@+id/textview"
             style="@android:style/Widget.Material.TextView"
-            android:layout_below="@id/tv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/tv"
             android:layout_gravity="top"
-            android:fontFamily="@font/lato_thin"
+            android:fontFamily="@font/duru_sans"
             android:foregroundTint="@color/colorAccent"
             android:padding="10sp"
             android:paddingTop="20sp"
             android:textColor="@color/colorAccent"
-            android:textSize="20dp" />
+            android:textSize="12dp"
+            android:textStyle="italic" />
 
-        <!-- This is NOT a root view, but should be a child of whatever root view you choose (CoordinatorLayout, ConstraintLayout, etc) -->
+        <com.hanks.htextview.typer.TyperTextView
+            android:id="@+id/textview"
+            style="@android:style/Widget.Material.TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv"
+            android:layout_gravity="start"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:textStyle="italic"
+            app:charIncrease="3"
+            app:typerSpeed="20" /> -->
+
+        <TextView
+            android:id="@+id/tBootctl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv"
+            android:paddingLeft="8dp"
+            android:text="TextView"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tDevice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tBootctl"
+            android:paddingLeft="8dp"
+            android:text="TextView"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tLog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tDevice"
+            android:paddingLeft="8dp" />
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/tLog"
+            android:gravity="bottom">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#2196F3"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:onClick="onClickRRebootA"
+                    android:text="@string/reboot_to_recovery"
+                    android:textColor="#FFFFFF"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/ra"
+                    app:iconTint="#00FFFFFF"
+                    app:iconTintMode="add" />
+
+                <Button
+                    android:id="@+id/button2"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#2196F3"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:onClick="onClickRRebootB"
+                    android:text="@string/reboot_to_recovery"
+                    android:textColor="#FFFFFF"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/rb"
+                    app:iconTint="#00FFFFFF"
+                    app:iconTintMode="add" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button3"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#2196F3"
+                    android:ellipsize="end"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:onClick="onClickRebootA"
+                    android:text="@string/reboot_to_system"
+                    android:textColor="#FFFFFF"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/a"
+                    app:iconTint="#00FFFFFF"
+                    app:iconTintMode="add" />
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#2196F3"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:onClick="onClickRebootB"
+                    android:text="@string/reboot_to_system"
+                    android:textColor="#FFFFFF"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/b"
+                    app:iconTint="#00FFFFFF"
+                    app:iconTintMode="add" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1">
+
+                <Button
+                    android:id="@+id/button5"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#2196F3"
+                    android:ellipsize="end"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/delete_npassword"
+                    android:textColor="#FFFFFF"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/rap"
+                    app:iconTint="#00FFFFFF"
+                    app:iconTintMode="add" />
+
+                <Button
+                    android:id="@+id/button6"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_margin="2dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="#2196F3"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/delete_npassword"
+                    android:textColor="#FFFFFF"
+                    app:cornerRadius="10dp"
+                    app:icon="@drawable/rbp"
+                    app:iconTint="#00FFFFFF"
+                    app:iconTintMode="add" />
+            </TableRow>
+
+        </TableLayout>
+
+        <ImageButton
+            android:id="@+id/imageButton4"
+            style="@android:style/Widget.Material.ImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="0dp"
+            android:backgroundTint="#2196F3"
+            android:onClick="onClickInfo"
+            app:cornerRadius="10dp"
+            app:srcCompat="@drawable/info" />
+
+
+        <!-- This is NOT a root view, but should be a child of whatever root view you choose (CoordinatorLayout, ConstraintLayout, etc)
         <com.nambimobile.widgets.efab.ExpandableFabLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!-- The next 3 Views will only display in portrait orientation -->
             <com.nambimobile.widgets.efab.Overlay
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -113,27 +292,7 @@
                 app:label_text="Reboot to Recovery Slot B"
                 android:onClick="onClickRRebootB"/>
 
-            <!-- The next 3 Views will only display in landscape orientation
-            <com.nambimobile.widgets.efab.Overlay
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:overlay_orientation="landscape"/>
-            <com.nambimobile.widgets.efab.ExpandableFab
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_marginBottom="@dimen/ui_margin_medium"
-                android:layout_marginEnd="@dimen/ui_margin_medium"
-                android:layout_marginRight="@dimen/ui_margin_medium"
-                app:efab_orientation="landscape"/>
-            <com.nambimobile.widgets.efab.FabOption
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:fab_orientation="landscape"
-                app:label_text="Landscape Option 1"
-                android:onClick="onClickRebootA"/>
--->
-        </com.nambimobile.widgets.efab.ExpandableFabLayout>
+        </com.nambimobile.widgets.efab.ExpandableFabLayout> -->
     </RelativeLayout>
 
 </FrameLayout>

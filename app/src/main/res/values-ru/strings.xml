@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="shortcut1">" Слот B"</string>
+    <string name="shortcut1_long">" Перезагрузитесь в слот B"</string>
+    <string name="shortcut1_disabled">" Перезагрузка отключена"</string>
+    <string name="shortcut2">" Слот B"</string>
+    <string name="shortcut2_long">" Перезагрузитесь в слот A"</string>
+    <string name="shortcut2_disabled">" Перезагрузка отключена"</string>
+    <string name="shortcut3_disabled">" Перезагрузка отключена"</string>
+    <string name="shortcut3">" Восстановление B"</string>
+    <string name="shortcut4">" Восстановление A"</string>
+    <string name="shortcut3_long">" Перезагрузитесь в Recovery B"</string>
+    <string name="shortcut4_long">" Перезагрузитесь в Recovery A"</string>
+    <string name="shortcut4_disabled">" Перезагрузка отключена"</string>
+    <string name="getpropfailed">" GetProp не удалось"</string>
+    <string name="root_failed">" Ошибка рута"</string>
+    <string name="Active_Slot">" Нашли А / Б устройство! Активный слот:"</string>
+    <string name="root_perm">" Разрешение root:"</string>
+    <string name="AB_partition_not_found">" Устройство несовместимо. Раздел A / B не найден"</string>
+    <string name="dialog_confirmation">" Вы уверены, что хотите перезагрузиться?"</string>
+    <string name="bootctl_not_found">" bootctl не найден! Пожалуйста, прошейте DualBoot zip."</string>
+    <string name="bootctl_found">" bootctl найден."</string>
+    <string name="initStr">Orangefox DualBoot Project возрождается на основе Zackptg dualboot</string>
+    <string name="reboot_to_recovery">Перезагрузитесь\nв Восстановление</string>
+    <string name="reboot_to_system">" Перезагрузитесь\nв Система"</string>
+    <string name="delete_npassword">Удалить\nпароль</string>
+    <string name="title_activity_info">About</string>
+</resources>

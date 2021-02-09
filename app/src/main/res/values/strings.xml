@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DualBoot Companion App</string>
+    <string name="app_name" translatable="false">DualBoot Companion App</string>
 
     <string name="shortcut1">Slot B</string>
     <string name="shortcut1_long">Reboot to Slot B</string>
@@ -19,11 +19,24 @@
 
     <string name="getpropfailed">GetProp Failed</string>
     <string name="root_failed">Root Failed</string>
-    <string name="Active_Slot">\nFound A/B device!\nActive Slot: </string>
+    <string name="Active_Slot">Found A/B device! Active Slot: </string>
     <string name="initStr">Orangefox DualBoot Project reborn\n Based on Zackptg dualboot\n .-=Invernomuto=-.</string>
     <string name="root_perm">Root Permission: </string>
     <string name="dialog_confirmation">Do you want to reboot, are you sure?</string>
+    <string name="AB_partition_not_found">Device not compatible. A/B partition not found</string>
+    <string name="bootctl_not_found">bootctl not found! Please flash DualBoot zip.</string>
+    <string name="bootctl_found">bootctl found.</string>
+    <string name="reboot_to_recovery">Reboot to Recovery</string>
+    <string name="reboot_to_system">Reboot to System</string>
+    <string name="delete_npassword">Delete password</string>
+    <string name="title_activity_info">About</string>
+    <!-- Strings used for fragments for navigation -->
 
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="linkxda" translatable="false">Information:&lt;br>&lt;br>&lt;a href=https://forum.xda-developers.com/t/recovery-dualboot-unified-a10-a11-oos11-orangefox-dualboot-unified-reborn-06-02-2021.4177865/>Xda DualBoot Thread&lt;/a>&lt;br>&lt;br>&lt;a href=https://forum.xda-developers.com/t/recovery-dualboot-unified-a10-a11-oos11-orangefox-dualboot-unified-reborn-06-02-2021.4177865/>GitHub DualBoot Thread&lt;/a>&lt;br>&lt;br>&lt;a href=https://t.me/OrangeFoxDualBootRebornOnePlus7>Telegram Support chat&lt;/a></string>
     <!--
     <string name="shortcut3">-</string>
     <string name="shortcut3_long">Long shortcut 3</string>

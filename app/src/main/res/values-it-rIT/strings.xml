@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="shortcut1">Slot B</string>
+    <string name="shortcut1_long">Riavvia nello Slot B</string>
+    <string name="shortcut1_disabled">Riavvio disabilitato</string>
+    <string name="shortcut2">Slot A</string>
+    <string name="shortcut2_long">Riavvia nello Slot A</string>
+    <string name="shortcut2_disabled">Riavvio disabilitato</string>
+    <string name="shortcut3_disabled">Riavvio disabilitato</string>
+    <string name="shortcut4_disabled">Riavvio disabilitato</string>
+    <string name="shortcut3">Recovery B</string>
+    <string name="shortcut3_long">Riavvia in Recovery B</string>
+    <string name="shortcut4">Recovery A</string>
+    <string name="shortcut4_long">Riavvia in Recovery A</string>
+    <string name="getpropfailed">Fallito GetProp</string>
+    <string name="root_failed">Root fallito</string>
+    <string name="initStr">Orangefox DualBoot Project reborn  Based on Zackptg dualboot  .-=Invernomuto=-.</string>
+    <string name="root_perm">Permessi di root:</string>
+    <string name="dialog_confirmation">Vuoi davvero riavviare, sei sicuro?</string>
+    <string name="AB_partition_not_found">Il dispositivo non è compatibile. Le partizioni A/B non sono state trovate.</string>
+    <string name="bootctl_not_found">bootctl non trovato.</string>
+    <string name="bootctl_found">bootctl trovato.</string>
+    <string name="reboot_to_recovery">Riavvia\nrecovery</string>
+    <string name="reboot_to_system">Riavvia\nsistema</string>
+    <string name="delete_npassword">Cancella\npassword</string>
+    <string name="Active_Slot">"Dispositivo A/B. Slot Attivo: "</string>
+    <string name="title_activity_info">About</string>
+</resources>

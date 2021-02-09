@@ -1,16 +1,36 @@
 package com.invernomuto.DualBoot;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.hanks.htextview.base.AnimationListener;
+import com.hanks.htextview.base.HTextView;
 import com.nambimobile.widgets.efab.ExpandableFab;
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+
+import com.hanks.htextview.base.HTextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,39 +41,84 @@ public class MainActivity extends AppCompatActivity {
     private final static String ACTION_3 = "action3";
     private final static String ACTION_4 = "action4";
 
-
+    //@SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         String cmd;
-        ExpandableFab ef = findViewById(R.id.expandable_fab);
-        ef.setSize(FloatingActionButton.SIZE_NORMAL);
-        TextView textView = (TextView) findViewById(R.id.textview);
-        textView.setText(textView.getText() + "Checking Partitions\n");
-        String[] cmdline = new String[] {"sh", "-c", "getprop ro.boot.slot_suffix"};
+
+        TextView tBoot = (TextView) findViewById(R.id.tBootctl);
+        TextView tDev = (TextView) findViewById(R.id.tDevice);
+        Button bRA = (Button) findViewById(R.id.button);
+        Button bRB = (Button) findViewById(R.id.button2);
+        Button bSA = (Button) findViewById(R.id.button3);
+        Button bSB = (Button) findViewById(R.id.button4);
+        Button bPA = (Button) findViewById(R.id.button5);
+        Button bPB = (Button) findViewById(R.id.button6);
+        ImageView iDB = (ImageView) findViewById(R.id.imageView);
+
+        String os = Build.FINGERPRINT;
+        ImageView iv = (ImageView) findViewById(R.id.imageView);
+        String[] cmdline1 = new String[]{"su", "-c", "/data/adb/DualBoot/bootctl hal-info"};
+        String res = exec_command(cmdline1);
+        if (res.startsWith("HAL")) {
+            tBoot.setText(res);
+        } else {
+            tBoot.setText(R.string.bootctl_not_found);
+            dualboot = false;
+
+            bRA.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+            bRB.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+            bSA.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+            bSB.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+
+            bRA.setEnabled(false);
+            bRB.setEnabled(false);
+            bSA.setEnabled(false);
+            bSB.setEnabled(false);
+            iDB.setColorFilter(getResources().getColor(R.color.efab_disabled), PorterDuff.Mode.MULTIPLY);
+            //ef.setEfabEnabled(false);
+        }
+        String[] cmdline = new String[]{"sh", "-c", "getprop ro.boot.slot_suffix"};
         active_slot = exec_command(cmdline);
         if (!active_slot.startsWith("\n")) {
-            textView.setText(textView.getText() + getString(R.string.Active_Slot) + active_slot);
+            tDev.setText(getString(R.string.Active_Slot) + active_slot);
+
+            if (active_slot.contains("a")) {
+                iv.setImageResource(R.drawable.logo_resized_a);
+            }
+            if (active_slot.contains("b")) {
+                iv.setImageResource(R.drawable.logo_resized_b);
+            }
+        } else {
+            tDev.setText(R.string.AB_partition_not_found);
+            dualboot = false;
+
+            bRA.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+            bRB.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+            bSA.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+            bSB.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+
+            bRA.setEnabled(false);
+            bRB.setEnabled(false);
+            bSA.setEnabled(false);
+            bSB.setEnabled(false);
+            //ef.setEfabEnabled(false);
         }
-        else
-        {
-            textView.setText(textView.getText() + "Device not compatible.\nA/B partition not found.\n\nSorry, nothing to do here...\n");
-            dualboot=false;
-            ef.setEfabEnabled(false);
-        }
-        switch (getIntent().getAction()){
+        //textView.animateText(tLog);
+        switch (getIntent().getAction()) {
             case ACTION_1:
-                switchSlot(this, "_a",0);
+                switchSlot(this, "_a", 0);
                 break;
             case ACTION_2:
-                switchSlot(this, "_b",0);
+                switchSlot(this, "_b", 0);
                 break;
             case ACTION_3:
-                switchSlot(this, "_b",1);
+                switchSlot(this, "_b", 1);
                 break;
             case ACTION_4:
-                switchSlot(this, "_b",1);
+                switchSlot(this, "_b", 1);
                 break;
             default:
                 break;
@@ -69,16 +134,18 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
-                    TextView textView = (TextView) findViewById(R.id.textview);
+                    //TextView textView = (TextView) findViewById(R.id.textview);
                     if (currentSlot.contains("_b")) {
                         Runtime.getRuntime().exec("su -c /data/adb/DualBoot/bootctl set-active-boot-slot 0");
-                    } if (currentSlot.contains("_a")) {
+                    }
+                    if (currentSlot.contains("_a")) {
                         Runtime.getRuntime().exec("su -c /data/adb/DualBoot/bootctl set-active-boot-slot 1");
                     }
-                    if (recovery == 0 )
-                    {Runtime.getRuntime().exec("su -c reboot");}
-                    else
-                    {Runtime.getRuntime().exec("su -c reboot recovery");}
+                    if (recovery == 0) {
+                        Runtime.getRuntime().exec("su -c reboot");
+                    } else {
+                        Runtime.getRuntime().exec("su -c reboot recovery");
+                    }
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -89,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
     public String exec_command(String[] cmd) {
 
         try {
@@ -118,13 +186,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //
+    public void onClickInfo(View view) {
+        // definisco l'intenzione di aprire l'Activity "Page1.java"
+        Intent InfoPage = new Intent(MainActivity.this,Info.class);
+        // passo all'attivazione dell'activity page1.java
+        startActivity(InfoPage);
+    }
+
+
     public void onClickRebootA(View view) {
-         switchSlot(this, "_b", 0);
+        switchSlot(this, "_b", 0);
     }
 
     public void onClickRebootB(View view) {
-         switchSlot(this, "_a", 0);
+        switchSlot(this, "_a", 0);
     }
+
     public void onClickRRebootA(View view) {
         switchSlot(this, "_b", 1);
     }

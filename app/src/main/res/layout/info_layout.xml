@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:onClick="onClickInfo"
+    android:padding="@dimen/box_inset_layout_padding"
+    tools:context="com.invernomuto.DualBoot.Info">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom">
+
+                <su.levenetc.android.textsurface.TextSurface
+                    android:id="@+id/text_surface"
+                    android:layout_width="match_parent"
+                    android:layout_height="fill_parent" />
+
+                <TextView
+                    android:id="@+id/tLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="160dp"
+                    android:layout_below="@id/text_surface"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:fontFamily="@font/duru_sans"
+                    android:gravity="bottom"
+                    android:text="@string/linkxda"
+                    android:textColorLink="#2196F3"
+                    android:textSize="18dp" />
+        </RelativeLayout>
+</FrameLayout>

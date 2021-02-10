@@ -17,10 +17,9 @@
     <string name="shortcut4_long">Reboot to Recovery A</string>
     <string name="shortcut4_disabled">Reboot disabled</string>
 
-    <string name="getpropfailed">GetProp Failed</string>
     <string name="root_failed">Root Failed</string>
-    <string name="Active_Slot">Found A/B device! Active Slot: </string>
-    <string name="initStr">Orangefox DualBoot Project reborn\n Based on Zackptg dualboot\n .-=Invernomuto=-.</string>
+    <string name="Active_Slot">Found A/B device!\nActive Slot: </string>
+    <string name="initStr">Orangefox DualBoot Project reborn\n Based on Zackptg5 dualboot\n .-=Invernomuto=-.</string>
     <string name="root_perm">Root Permission: </string>
     <string name="dialog_confirmation">Do you want to reboot, are you sure?</string>
     <string name="AB_partition_not_found">Device not compatible. A/B partition not found</string>
@@ -37,6 +36,16 @@
     values-round/strings.xml for round devices.
     -->
     <string name="linkxda" translatable="false">Information:&lt;br>&lt;br>&lt;a href=https://forum.xda-developers.com/t/recovery-dualboot-unified-a10-a11-oos11-orangefox-dualboot-unified-reborn-06-02-2021.4177865/>Xda DualBoot Thread&lt;/a>&lt;br>&lt;br>&lt;a href=https://forum.xda-developers.com/t/recovery-dualboot-unified-a10-a11-oos11-orangefox-dualboot-unified-reborn-06-02-2021.4177865/>GitHub DualBoot Thread&lt;/a>&lt;br>&lt;br>&lt;a href=https://t.me/OrangeFoxDualBootRebornOnePlus7>Telegram Support chat&lt;/a></string>
+    <string name="orangefox_dualboot" translatable="false">Orangefox DualBoot Reborn</string>
+    <string name="options">Options</string>
+    <string name="clear_password_when_reboot_to_other_system_slot">Clear password when Reboot to the NOT ACTIVE system slot</string>
+    <string name="AppStarted">Application Started</string>
+    <string name="reading_options">- Reading options</string>
+    <string name="reboot_whitout_confirmation">Reboot whitout confirmation</string>
+    <string name="P_ErasPWD" translatable="false">-PREF- ErasePWD -></string>
+    <string name="P_NoWarn" translatable="false">"-PREF- NoWarn -> "</string>
+    <string name="Android_signature">"- Android Signature: "</string>
+    <string name="console_log">Console Log</string>
     <!--
     <string name="shortcut3">-</string>
     <string name="shortcut3_long">Long shortcut 3</string>

@@ -36,8 +36,7 @@ public class Info extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //mExplosionField = ExplosionField.attach2Window(this);
-        setContentView(R.layout.info_layout);
-        //final Typeface robotoBlack = Typeface.createFromAsset;
+        setContentView(R.layout.info_layout);   //final Typeface robotoBlack = Typeface.createFromAsset;
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));

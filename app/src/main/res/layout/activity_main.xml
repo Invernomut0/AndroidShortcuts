@@ -3,34 +3,70 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_alignParentBottom="true"
+    android:background="@color/guillotine_background_dark"
     android:foregroundTint="@color/colorAccent"
     android:keyboardNavigationCluster="true"
     tools:context="com.invernomuto.DualBoot.MainActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark">
+        android:orientation="vertical">
 
+        <Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@color/guillotine_background"
+            app:contentInsetStart="0dp">
+
+            <ImageView
+                android:id="@+id/content_hamburger"
+                style="@style/ImageView.Hamburger"
+                android:src="@drawable/ic_menu" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/orangefox_dualboot"
+                android:textSize="@dimen/guillotine_item_text_size" />
+
+            <ImageView
+                android:id="@+id/info"
+                style="@style/ImageView.Info"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:onClick="onClickInfo"
+                android:src="@drawable/info"
+                app:tint="#FFFFFF" />
+        </Toolbar>
+
+        <!-- <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="8dp"
+            app:srcCompat="@android:drawable/ic_menu_help" />
+            -->
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="320dp"
+            android:layout_height="0dp"
+            android:layout_weight=".3"
             android:src="@drawable/logo_resized" />
 
         <TextView
             android:id="@+id/tv"
             style="@android:style/Widget.Material.Light.TextView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/imageView"
+            android:layout_height="30dp"
             android:fontFamily="@font/lato_bold"
-            android:lineSpacingExtra="10sp"
-            android:padding="10sp"
-            android:text="OrangeFox DualBoot Reborn\nBased on original Zackptg5 Dualboot Project\n.-=by Invernomuto=-."
+            android:text="@string/console_log"
             android:textAlignment="center"
             android:textColor="@color/colorAccent"
             android:textSize="18sp"
@@ -65,34 +101,21 @@
             app:typerSpeed="20" /> -->
 
         <TextView
-            android:id="@+id/tBootctl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tv"
-            android:paddingLeft="8dp"
-            android:text="TextView"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/tDevice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tBootctl"
-            android:paddingLeft="8dp"
-            android:text="TextView"
-            android:textSize="12sp" />
-
-        <TextView
             android:id="@+id/tLog"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/tDevice"
-            android:paddingLeft="8dp" />
+            android:layout_height="0dp"
+            android:layout_margin="4dp"
+            android:layout_weight=".3"
+            android:background="@drawable/border"
+            android:fadeScrollbars="true"
+            android:padding="8dp"
+            android:scrollIndicators="end"
+            android:scrollbars="vertical" />
 
         <TableLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/tLog"
+            android:layout_height="0dp"
+            android:layout_weight=".3"
             android:gravity="bottom">
 
             <TableRow
@@ -106,14 +129,13 @@
                     android:layout_height="match_parent"
                     android:layout_margin="2dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#2196F3"
+                    android:backgroundTint="@color/invernomuto_400"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:onClick="onClickRRebootA"
                     android:text="@string/reboot_to_recovery"
                     android:textColor="#FFFFFF"
                     app:cornerRadius="10dp"
-                    app:icon="@drawable/ra"
                     app:iconTint="#00FFFFFF"
                     app:iconTintMode="add" />
 
@@ -123,14 +145,13 @@
                     android:layout_height="fill_parent"
                     android:layout_margin="2dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#2196F3"
+                    android:backgroundTint="@color/invernomuto_400"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:onClick="onClickRRebootB"
                     android:text="@string/reboot_to_recovery"
                     android:textColor="#FFFFFF"
                     app:cornerRadius="10dp"
-                    app:icon="@drawable/rb"
                     app:iconTint="#00FFFFFF"
                     app:iconTintMode="add" />
             </TableRow>
@@ -146,7 +167,7 @@
                     android:layout_height="fill_parent"
                     android:layout_margin="2dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#2196F3"
+                    android:backgroundTint="@color/invernomuto_400"
                     android:ellipsize="end"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
@@ -154,7 +175,6 @@
                     android:text="@string/reboot_to_system"
                     android:textColor="#FFFFFF"
                     app:cornerRadius="10dp"
-                    app:icon="@drawable/a"
                     app:iconTint="#00FFFFFF"
                     app:iconTintMode="add" />
 
@@ -164,14 +184,13 @@
                     android:layout_height="fill_parent"
                     android:layout_margin="2dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#2196F3"
+                    android:backgroundTint="@color/invernomuto_400"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:onClick="onClickRebootB"
                     android:text="@string/reboot_to_system"
                     android:textColor="#FFFFFF"
                     app:cornerRadius="10dp"
-                    app:icon="@drawable/b"
                     app:iconTint="#00FFFFFF"
                     app:iconTintMode="add" />
             </TableRow>
@@ -187,14 +206,14 @@
                     android:layout_height="fill_parent"
                     android:layout_margin="2dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#2196F3"
+                    android:backgroundTint="@color/invernomuto_400"
                     android:ellipsize="end"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
+                    android:onClick="onClickErasePwdA"
                     android:text="@string/delete_npassword"
                     android:textColor="#FFFFFF"
                     app:cornerRadius="10dp"
-                    app:icon="@drawable/rap"
                     app:iconTint="#00FFFFFF"
                     app:iconTintMode="add" />
 
@@ -204,31 +223,18 @@
                     android:layout_height="fill_parent"
                     android:layout_margin="2dp"
                     android:layout_weight="1"
-                    android:backgroundTint="#2196F3"
+                    android:backgroundTint="@color/invernomuto_400"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
+                    android:onClick="onClickErasePwdB"
                     android:text="@string/delete_npassword"
                     android:textColor="#FFFFFF"
                     app:cornerRadius="10dp"
-                    app:icon="@drawable/rbp"
                     app:iconTint="#00FFFFFF"
                     app:iconTintMode="add" />
             </TableRow>
 
         </TableLayout>
-
-        <ImageButton
-            android:id="@+id/imageButton4"
-            style="@android:style/Widget.Material.ImageButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="0dp"
-            android:backgroundTint="#2196F3"
-            android:onClick="onClickInfo"
-            app:cornerRadius="10dp"
-            app:srcCompat="@drawable/info" />
-
 
         <!-- This is NOT a root view, but should be a child of whatever root view you choose (CoordinatorLayout, ConstraintLayout, etc)
         <com.nambimobile.widgets.efab.ExpandableFabLayout
@@ -293,6 +299,6 @@
                 android:onClick="onClickRRebootB"/>
 
         </com.nambimobile.widgets.efab.ExpandableFabLayout> -->
-    </RelativeLayout>
+    </LinearLayout>
 
 </FrameLayout>

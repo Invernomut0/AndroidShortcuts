@@ -12,7 +12,6 @@
     <string name="shortcut3_long">Riavvia in Recovery B</string>
     <string name="shortcut4">Recovery A</string>
     <string name="shortcut4_long">Riavvia in Recovery A</string>
-    <string name="getpropfailed">Fallito GetProp</string>
     <string name="root_failed">Root fallito</string>
     <string name="initStr">Orangefox DualBoot Project reborn  Based on Zackptg dualboot  .-=Invernomuto=-.</string>
     <string name="root_perm">Permessi di root:</string>
@@ -24,5 +23,12 @@
     <string name="reboot_to_system">Riavvia\nsistema</string>
     <string name="delete_npassword">Cancella\npassword</string>
     <string name="Active_Slot">"Dispositivo A/B. Slot Attivo: "</string>
-    <string name="title_activity_info">About</string>
+    <string name="title_activity_info">Info</string>
+    <string name="options">Opzioni</string>
+    <string name="clear_password_when_reboot_to_other_system_slot">Elimina la password quando riavvi in uno slot differente</string>
+    <string name="AppStarted">Applicazione inizializzata</string>
+    <string name="reading_options">- Lettura configurazione</string>
+    <string name="reboot_whitout_confirmation">Riavvio senza conferma</string>
+    <string name="Android_signature">"- Android Signature: "</string>
+    <string name="console_log">Console Log</string>
 </resources>

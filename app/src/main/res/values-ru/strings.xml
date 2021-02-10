@@ -12,7 +12,6 @@
     <string name="shortcut3_long">" Перезагрузитесь в Recovery B"</string>
     <string name="shortcut4_long">" Перезагрузитесь в Recovery A"</string>
     <string name="shortcut4_disabled">" Перезагрузка отключена"</string>
-    <string name="getpropfailed">" GetProp не удалось"</string>
     <string name="root_failed">" Ошибка рута"</string>
     <string name="Active_Slot">" Нашли А / Б устройство! Активный слот:"</string>
     <string name="root_perm">" Разрешение root:"</string>
@@ -24,5 +23,12 @@
     <string name="reboot_to_recovery">Перезагрузитесь\nв Восстановление</string>
     <string name="reboot_to_system">" Перезагрузитесь\nв Система"</string>
     <string name="delete_npassword">Удалить\nпароль</string>
-    <string name="title_activity_info">About</string>
+    <string name="title_activity_info">Около</string>
+    <string name="options">Опции</string>
+    <string name="clear_password_when_reboot_to_other_system_slot">" Очистить пароль при перезагрузке в НЕАКТИВНЫЙ системный слот"</string>
+    <string name="AppStarted">Приложение запущено</string>
+    <string name="reading_options">" - Варианты чтения"</string>
+    <string name="reboot_whitout_confirmation">" Подтверждение перезагрузки без подтверждения"</string>
+    <string name="Android_signature">" - Подпись Android:"</string>
+    <string name="console_log">" Журнал консоли"</string>
 </resources>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:onClick="onClickInfo"
+    android:background="@color/guillotine_background_dark"
     android:padding="@dimen/box_inset_layout_padding"
     tools:context="com.invernomuto.DualBoot.Info">
 

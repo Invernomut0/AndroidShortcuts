@@ -32,6 +32,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.navigation:navigation-fragment:2.2.2'
     implementation 'androidx.navigation:navigation-ui:2.2.2'
+    implementation 'com.github.Yalantis:GuillotineMenu-Android:1.2'
+
     androidTestCompile('androidx.test.espresso:espresso-core:3.1.0', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -43,17 +45,7 @@ dependencies {
         //...
         implementation 'com.github.elevenetc:textsurface:0.9.1'
     }
-    def htextview_version = "0.1.6"
-// as 3.0 use implementation
-    implementation "com.hanks:htextview-base:$htextview_version"        // base library
-    implementation "com.hanks:htextview-fade:$htextview_version"        // optional
-    implementation "com.hanks:htextview-line:$htextview_version"        // optional
-    implementation "com.hanks:htextview-rainbow:$htextview_version"     // optional
-    implementation "com.hanks:htextview-typer:$htextview_version"       // optional
 
-    implementation "com.hanks:htextview-scale:$htextview_version"       // optional
-    implementation "com.hanks:htextview-evaporate:$htextview_version"   // optional
-    implementation "com.hanks:htextview-fall:$htextview_version"        // optional
     //implementation 'com.rom4ek:arcnavigationview:2.0.0'
     implementation 'androidx.appcompat:appcompat:1.0.0'
     testImplementation 'junit:junit:4.12'

@@ -1,6 +1,7 @@
 package com.invernomuto.DualBoot;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,29 +12,41 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+import com.topjohnwu.superuser.Shell;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
+
     private static final long RIPPLE_DURATION = 250;
-
-
     private boolean dualboot = true;
     private String active_slot = "0";
     private final static String ACTION_1 = "action1";
@@ -126,15 +139,26 @@ public class MainActivity extends AppCompatActivity {
         bRB.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rb, 0, 0, 0);
         bSA.setCompoundDrawablesWithIntrinsicBounds(R.drawable.a, 0, 0, 0);
         bSB.setCompoundDrawablesWithIntrinsicBounds(R.drawable.b, 0, 0, 0);
-        bPA.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rap, 0, 0, 0);
-        bPB.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rbp, 0, 0, 0);
+        bPA.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_outline_lock_open_47, 0, 0, 0);
+        bPB.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_round_android_47, 0, 0, 0);
 
-        //PASSWORD DISABLED - TODO
-        disableButton(bPA,"A");
-        disableButton(bPB,"B");
-        pwd.setEnabled(false);
+        //PASSWORD DISABLED -
+        //disableButton(bPA,"A");
+        //disableButton(bPB,"B");
+        //pwd.setEnabled(false);
+
+        //Swap button if active slot is A
+        if (active_slot.contains("a")) {
+            ViewGroup layout = (ViewGroup) bPA.getParent();
+            if (null != layout) //for safety only  as you are doing onClick
+                layout.removeView(bPA);
+
+            layout.addView((View) bPA);
+        }
         //END
-
+        //LinearLayout ln = (LinearLayout) findViewById(R.id.main);
+        //int index = ln.indexOfChild((View) bPB);
+        //ln.removeViewAt(index);
 
         ImageView iDB = (ImageView) findViewById(R.id.imageView);
 
@@ -160,10 +184,16 @@ public class MainActivity extends AppCompatActivity {
         } else {
             log(getString(R.string.bootctl_not_found));
             dualboot = false;
-            disableButton(bRA,"A");
-            disableButton(bRB,"B");
-            disableButton(bSA,"A");
-            disableButton(bSB,"B");
+            if(active_slot.contains("a"))
+            {
+                disableButton(bRB,"B");
+                disableButton(bSB,"B");
+            }
+            else
+            {
+                disableButton(bRA,"A");
+                disableButton(bSA,"A");
+            }
 
             iDB.setColorFilter(getResources().getColor(R.color.efab_disabled), PorterDuff.Mode.MULTIPLY);
             //ef.setEfabEnabled(false);
@@ -186,10 +216,18 @@ public class MainActivity extends AppCompatActivity {
         else
             { log(getString(R.string.AB_partition_not_found));
             dualboot = false;
-            disableButton(bRA,"A");
-            disableButton(bRB,"B");
-            disableButton(bSA,"A");
-            disableButton(bSB,"B");
+            if(active_slot.contains("a"))
+            {
+                disableButton(bRB,"B");
+                disableButton(bSB,"B");
+            }
+            else
+            {
+                disableButton(bRA,"A");
+                disableButton(bSA,"A");
+            }
+
+
         }
         //textView.animateText(tLog);
         switch (getIntent().getAction()) {
@@ -211,6 +249,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void switchSlot(MainActivity view, final String currentSlot, final int recovery) {
+
+        Boolean deletepwd = false;
+        if(bPwd && !currentSlot.contains(active_slot))
+        {
+            deletepwd=true;
+        }
+
         //Toast.makeText(this, getString(R.string.error_ab_device), Toast.LENGTH_LONG).show(); //This is not an A/B device!
         if(!bNoWarn)
         {
@@ -318,13 +363,103 @@ public class MainActivity extends AppCompatActivity {
     public void onClickRRebootB(View view) {
         switchSlot(this, "_a", 1);
     }
+
     public void onClickErasePwdA(View view) {
         //log("Erase PWD A");
-    }
-    public void onClickErasePwdB(View view) {
-        //log("Erase PWD B");
-    }
+        Shell.Result result;
+        log(getString(R.string.Reading_partition));
+        // Execute commands synchronously
+        Shell sh = Shell.getShell();
+        Boolean root = sh.isRoot();
+        List<String> out = new ArrayList<String>();
+        String partition = "";
 
+        if (active_slot.contains("a"))
+        {
+            //Mount system_b
+            /*out = Shell.su("ls -la /dev/block/by-name/ | grep system_b").exec().getOut();
+            partition = matcher_partitions(out.toString());
+            log("Mount system_b: /dev/block/" + partition);
+            out =  Shell.su("mount -t ext4 /dev/block/"+ partition + " /data/adb/DualBoot/system_").exec().getOut();
+            */
+            //Mount userdata_b
+            out = Shell.su("ls -la /dev/block/by-name/ | grep userdata_b").exec().getOut();
+            partition = matcher_partitions(out.toString());
+            out = Shell.su("umount /dev/block/" + partition).exec().getOut();
+            log("Mount userdata_b: /dev/block/" + partition);
+            out =  Shell.su("mount -t ext4 /dev/block/" + partition + " /data/adb/DualBoot/data_").exec().getOut();
+        }
+        else if(active_slot.contains("b"))
+        {
+            //Mount system_a
+            /*out = Shell.su("ls -la /dev/block/by-name/ | grep system_a").exec().getOut();
+            partition = matcher_partitions(out.toString());
+            log("Mount system_a: /dev/block/" + partition);
+            out =  Shell.su("mount -t ext4 /dev/block/"+ partition + " /data/adb/DualBoot/system_").exec().getOut();
+            */
+            //Mount userdata_b
+            out = Shell.su("ls -la /dev/block/by-name/ | grep userdata_a").exec().getOut();
+            partition = matcher_partitions(out.toString());
+            out = Shell.su("umount /dev/block/" + partition).exec().getOut();
+            log("Mount userdata_a: /dev/block/" + partition);
+            out =  Shell.su("mount -t ext4 /dev/block/"+ partition + " /data/adb/DualBoot/data_").exec().getOut();
+            log("mount res: " + out.toString());
+        }
+        else return;
+        out = Shell.su("ls -la /data/adb/DualBoot/data_/system/lock_settings.db").exec().getOut();
+        log("lock: " + out.toString());
+        if(out.toString().contains("locksettings.db"))
+        {
+            log(getString(R.string.remove_locksettings));
+            out = Shell.su("rm -f /data/adb/DualBoot/data_/system/locksettings.db").exec().getOut();
+            log("res: " + out);
+        }
+        else {
+            log(getString(R.string.locksettings_not_found));
+        }
+    }
+    public void onClickBootloader(View view)
+    {
+        if(!bNoWarn)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(android.R.string.dialog_alert_title);
+            builder.setMessage(getString(R.string.dialog_confirmation));
+            builder.setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        Runtime.getRuntime().exec("su -c reboot bootloader");
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            builder.setNegativeButton(getString(android.R.string.no), null);
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
+        else
+        {
+            try {
+                Runtime.getRuntime().exec("su -c reboot bootloader");
+            }
+            catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public String matcher_partitions(String s)
+    {
+        Pattern p = Pattern.compile(".*/([a-z]..[0-9].).*");
+        Matcher m = p.matcher(s);
+        String sa;
+        if(m.matches())
+            return m.group(1);
+        else
+            return "NOT_FOUND";
+    }
     public void log(String s)
     {
         TextView tLog = (TextView) findViewById(R.id.tLog);
@@ -344,5 +479,31 @@ public class MainActivity extends AppCompatActivity {
         if (slot.contains("A")) btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.disable_a, 0, 0, 0);
         else btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.disable_b, 0, 0, 0);
         btn.setTextColor(Color.DKGRAY);
+    }
+}
+class SplashActivity extends MainActivity {
+
+    static {
+        // Set settings before the main shell can be created
+        Shell.enableVerboseLogging = BuildConfig.DEBUG;
+        Shell.setDefaultBuilder(Shell.Builder.create()
+                .setFlags(Shell.FLAG_REDIRECT_STDERR)
+                .setTimeout(10)
+        );
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // Preheat the main root shell in the splash screen
+        // so the app can use it afterwards without interrupting
+        // application flow (e.g. root permission prompt)
+        Shell.getShell(shell -> {
+            // The main shell is now constructed and cached
+            // Exit splash screen and enter main activity
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
     }
 }

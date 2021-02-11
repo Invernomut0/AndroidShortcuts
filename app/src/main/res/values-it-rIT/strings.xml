@@ -19,9 +19,8 @@
     <string name="AB_partition_not_found">Il dispositivo non è compatibile. Le partizioni A/B non sono state trovate.</string>
     <string name="bootctl_not_found">bootctl non trovato.</string>
     <string name="bootctl_found">bootctl trovato.</string>
-    <string name="reboot_to_recovery">Riavvia\nrecovery</string>
-    <string name="reboot_to_system">Riavvia\nsistema</string>
-    <string name="delete_npassword">Cancella\npassword</string>
+    <string name="reboot_to_system">Riavvia Sistema</string>
+    <string name="delete_npassword">Cancella password slot inattivo</string>
     <string name="Active_Slot">"Dispositivo A/B. Slot Attivo: "</string>
     <string name="title_activity_info">Info</string>
     <string name="options">Opzioni</string>
@@ -31,4 +30,14 @@
     <string name="reboot_whitout_confirmation">Riavvio senza conferma</string>
     <string name="Android_signature">"- Android Signature: "</string>
     <string name="console_log">Console Log</string>
+    <string name="reboot_to_recovery">Riavvia Recovery</string>
+    <string name="reboot_bootloader">Riavvia in Bootloader</string>
+    <string name="active_slot">"- Slot Attivo: "</string>
+    <string name="not_found" translatable="false">NON TROVATO</string>
+    <string name="Ready" translatable="false">Pronto</string>
+    <string name="Recovery">Ripristino</string>
+    <string name="System">Sistema</string>
+    <string name="remove_locksettings">Rimuovo locksettings.db</string>
+    <string name="Reading_partition">Leggo le partizioni...</string>
+    <string name="locksettings_not_found">locksettings.db non trovato!</string>
 </resources>

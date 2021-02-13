@@ -22,10 +22,10 @@
     <string name="initStr">Orangefox DualBoot Project Основано на Zackptg dualboot</string>
     <string name="reboot_to_recovery">Перезагрузка в Recovery</string>
     <string name="reboot_to_system">" Перезагрузка в систему "</string>
-    <string name="delete_npassword">Удалить пароль</string>
+    <string name="delete_npassword">Удалить пароль в НЕАКТИВНОМ слоте</string>
     <string name="title_activity_info">Около</string>
     <string name="options">Опции</string>
-    <string name="clear_password_when_reboot_to_other_system_slot">" Очистить пароль при перезагрузке в НЕАКТИВНЫЙ системный слот"</string>
+    <string name="clear_password_when_reboot_to_other_system_slot">" Автоматически удалять пароль при перезагрузке в НЕАКТИВНЫЙ системный слот"</string>
     <string name="AppStarted">Приложение запущено</string>
     <string name="reading_options">" - Информация "</string>
     <string name="reboot_whitout_confirmation">" Отключить подтверждение перезагрузки"</string>

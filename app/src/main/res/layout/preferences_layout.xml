@@ -86,4 +86,97 @@
 
                 </LinearLayout>
 
-        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/Secpatch"
+        style="@style/LinearLayout.GuillotineItem"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="4dp">
+
+        <TextView
+            android:id="@+id/patch"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:layout_weight="1"
+            android:fontFamily="@font/duru_sans"
+            android:text="@string/Android_information"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:layout_margin="12dp"
+        >
+        <TableRow
+            android:layout_weight=".5"
+            android:layout_width="fill_parent"
+
+            android:layout_height="match_parent" >
+            <TextView
+                android:id="@+id/slotatitle"
+                android:textAllCaps="true"
+                android:paddingTop="12dp"
+                android:textStyle="bold"
+                android:layout_weight=".5"
+                android:textAlignment="textStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="TextView" />
+        </TableRow>
+        <TableRow
+            android:layout_weight=".5"
+            android:layout_width="fill_parent"
+            android:layout_marginBottom="24dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/slota"
+                android:layout_weight=".5"
+                android:textAlignment="textStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="TextView" />
+        </TableRow>
+        <TableRow
+            android:layout_weight=".5"
+            android:layout_width="fill_parent"
+
+            android:layout_height="match_parent" >
+            <TextView
+                android:id="@+id/slotbtitle"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:layout_weight=".5"
+                android:textAlignment="textStart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="TextView" />
+        </TableRow>
+        <TableRow
+            android:layout_weight=".5"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" >
+
+            <TextView
+                android:id="@+id/slotb"
+                android:layout_marginLeft="12dp"
+                android:textAlignment="textStart"
+                android:layout_weight=".5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:paddingBottom="12dp"/>
+        </TableRow>
+
+
+    </TableLayout>
+
+</LinearLayout>

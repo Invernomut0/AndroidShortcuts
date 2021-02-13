@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         String cmd;
+        ImageView iv = (ImageView) findViewById(R.id.imageView);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("DualBoot_prefs", 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
         FrameLayout root = (FrameLayout) findViewById(R.id.activity_main);
@@ -101,10 +103,10 @@ public class MainActivity extends AppCompatActivity {
                 editor.putBoolean("ErasePwd", bPwd);
                 editor.commit();
 
-                log("Saving preferences: ErasePWD -> " + bPwd.toString());
+                //log("Saving preferences: ErasePWD -> " + bPwd.toString());
             }
         });
-
+        log(getString(R.string.AppStarted));
         NoWarn = (Switch) findViewById(R.id.NoWarn);
         NoWarn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
@@ -135,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
         Button bPA = (Button) findViewById(R.id.button5);
         Button bPB = (Button) findViewById(R.id.button6);
 
+
         bRA.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ra, 0, 0, 0);
         bRB.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rb, 0, 0, 0);
         bSA.setCompoundDrawablesWithIntrinsicBounds(R.drawable.a, 0, 0, 0);
@@ -146,6 +149,38 @@ public class MainActivity extends AppCompatActivity {
         //disableButton(bPA,"A");
         //disableButton(bPB,"B");
         //pwd.setEnabled(false);
+
+        String[] cmdline = new String[]{"sh", "-c", "getprop ro.boot.slot_suffix"};
+        active_slot = exec_command(cmdline);
+        if (!active_slot.startsWith("\n")) {
+
+
+            if (active_slot.contains("a")) {
+                log(getString(R.string.Active_Slot) + "A");
+                iv.setImageResource(R.drawable.logo_resized_a);
+            }
+            if (active_slot.contains("b")) {
+                log(getString(R.string.Active_Slot) + "B");
+                iv.setImageResource(R.drawable.logo_resized_b);
+            }
+
+        }
+        else
+        { log(getString(R.string.AB_partition_not_found));
+            dualboot = false;
+            if(active_slot.contains("a"))
+            {
+                disableButton(bRB,"B");
+                disableButton(bSB,"B");
+            }
+            else
+            {
+                disableButton(bRA,"A");
+                disableButton(bSA,"A");
+            }
+
+
+        }
 
         //Swap button if active slot is A
         if (active_slot.contains("a")) {
@@ -163,18 +198,16 @@ public class MainActivity extends AppCompatActivity {
         ImageView iDB = (ImageView) findViewById(R.id.imageView);
 
         String os = Build.FINGERPRINT;
-        ImageView iv = (ImageView) findViewById(R.id.imageView);
-        log(getString(R.string.AppStarted));
 
         log(getString(R.string.reading_options));
         if (pref.contains("ErasePwd")) {
             Boolean ErasePwd = pref.getBoolean("ErasePwd", false);
-            log(getString(R.string.P_ErasPWD) + ErasePwd.toString());
+            //log(getString(R.string.P_ErasPWD) + ErasePwd.toString());
             pwd.setChecked(ErasePwd);
         }
         if (pref.contains("NoWarn")) {
             Boolean bNoWarn = pref.getBoolean("NoWarn", false);
-            log(getString(R.string.P_NoWarn) + bNoWarn.toString());
+            //log(getString(R.string.P_NoWarn) + bNoWarn.toString());
             NoWarn.setChecked(bNoWarn);
         }
         String[] cmdline1 = new String[]{"su", "-c", "/data/adb/DualBoot/bootctl hal-info"};
@@ -196,39 +229,85 @@ public class MainActivity extends AppCompatActivity {
             }
 
             iDB.setColorFilter(getResources().getColor(R.color.efab_disabled), PorterDuff.Mode.MULTIPLY);
-            //ef.setEfabEnabled(false);
-        }
-        String[] cmdline = new String[]{"sh", "-c", "getprop ro.boot.slot_suffix"};
-        active_slot = exec_command(cmdline);
-        if (!active_slot.startsWith("\n")) {
-
-
-            if (active_slot.contains("a")) {
-                log(getString(R.string.Active_Slot) + "A");
-                iv.setImageResource(R.drawable.logo_resized_a);
-            }
-            if (active_slot.contains("b")) {
-                log(getString(R.string.Active_Slot) + "B");
-                iv.setImageResource(R.drawable.logo_resized_b);
-            }
 
         }
-        else
-            { log(getString(R.string.AB_partition_not_found));
-            dualboot = false;
-            if(active_slot.contains("a"))
+
+                /* ANDROID INFO */
+        TextView tSlotAtitle = (TextView) findViewById(R.id.slotatitle);
+        TextView tSlotBtitle = (TextView) findViewById(R.id.slotbtitle);
+        TextView tSlotA = (TextView) findViewById(R.id.slota);
+        TextView tSlotB = (TextView) findViewById(R.id.slotb);
+        String sAndroidInfoA = getString(R.string.slota);
+        String sAndroidInfoB = getString(R.string.slotb);
+        List<String> out = new ArrayList<String>();
+        String partition="";
+        Shell.Result result;
+        result = Shell.su("mkdir /data/adb/DualBoot/system_").exec();
+        result = Shell.su("mkdir /data/adb/DualBoot/data_").exec();
+        //log("\nRoot permission: " + Shell.getShell().isRoot());
+        if (active_slot.contains("a")) {
+            //Mount system_b
+            //out = Shell.su("ls -la /dev/block/by-name/ | grep system_b").exec().getOut();
+            //partition = matcher_partitions(out.toString());
+            //log("Mount system_b: /dev/block/" + partition);
+            result = Shell.su("blkid /dev/block/by-name/system_b").exec();
+            //log("System_b info: " + result.getOut().toString() + "\nError Code: " + result.getErr().toString());
+            result = Shell.su("umount /dev/block/by-name/system_b").exec();
+            result = Shell.su("mount -t ext4 /dev/block/by-name/system_b /data/adb/DualBoot/system_").exec();
+
+            if (!result.isSuccess())
             {
-                disableButton(bRB,"B");
-                disableButton(bSB,"B");
+                log("Mount System_b failed: " + result.getOut().toString() + "\nError Code: " + result.getErr().toString());
             }
-            else
-            {
-                disableButton(bRA,"A");
-                disableButton(bSA,"A");
-            }
-
+            tSlotAtitle.setText("Slot A");
+            tSlotBtitle.setText("Slot B");
 
         }
+        else if (active_slot.contains("b")) {
+            //Mount system_b
+            result = Shell.su("blkid /dev/block/by-name/system_a").exec();
+           // log("System_a info: " + result.getOut().toString() + "\nError Code: " + result.getErr().toString());
+            result = Shell.su("umount /dev/block/by-name/system_a").exec();
+
+            result = Shell.su("mount -t ext4 /dev/block/by-name/system_a /data/adb/DualBoot/system_").exec();
+
+            if (!result.isSuccess())
+            {
+                log("Mount System_a failed: " + result.getOut().toString() + "\nError Code: " + result.getErr().toString());
+            }
+            tSlotBtitle.setText("Slot A");
+            tSlotAtitle.setText("Slot B");
+
+        }
+        tSlotA.setText("");
+        tSlotB.setText("");
+
+        out = Shell.su("cat /system/build.prop").exec().getOut();
+        for (int i = 0; i < out.size(); i++)
+        {
+            if (out.get(i).contains("ro.build.version.security_patch=")) tSlotA.append("\n" + getString(R.string.security_patch) + out.get(i).split("(?<==)")[1]);
+            else if (out.get(i).contains("ro.system.build.version.release=")) tSlotA.append("\n" + getString(R.string.Release_version) + out.get(i).split("(?<==)")[1]);
+            else if (out.get(i).contains("ro.build.tags=release-keys=")) tSlotA.append("\n" + getString(R.string.Release_key) + out.get(i).split("(?<==)")[1]);
+            else if (out.get(i).contains("ro.system.build.date=")) tSlotA.append("\n"+getString(R.string.build) + out.get(i).split("(?<==)")[1]);
+            else if (out.get(i).contains("ro.system.build.id=")) tSlotA.append("\n" + getString(R.string.build_id) + out.get(i).split("(?<==)")[1]);
+            else if (out.get(i).contains("ro.build.flavor=")) tSlotA.append("\n" + getString(R.string.Build_flavor) + (out.get(i).split("(?<==)")[1]));
+        }
+        out = Shell.su("cat /data/adb/DualBoot/system_/system/build.prop").exec().getOut();
+        for (int i = 0; i < out.size(); i++)
+        {
+            if (out.get(i).contains("ro.build.version.security_patch=")) tSlotB.append("\n" + getString(R.string.security_patch) + out.get(i).split("(?<==)")[1]);
+            else if (out.get(i).contains("ro.system.build.version.release=")) tSlotB.append("\n" + getString(R.string.Release_version) + out.get(i).split("(?<==)")[1]);
+            else if (out.get(i).contains("ro.build.tags=release-keys=")) tSlotB.append("\n" + getString(R.string.Release_key) + out.get(i).split("(?<==)")[1]);
+            else if (out.get(i).contains("ro.system.build.date=")) tSlotB.append("\n"+getString(R.string.build) + out.get(i).split("(?<==)")[1]);
+            else if (out.get(i).contains("ro.system.build.id=")) tSlotB.append("\n" + getString(R.string.build_id) + out.get(i).split("(?<==)")[1]);
+            else if (out.get(i).contains("ro.build.flavor=")) tSlotB.append("\n" + getString(R.string.Build_flavor) + out.get(i).split("(?<==)")[1]);
+        }
+
+        //log("OK");
+
+        /*END ANDROID INFO */
+
+
         //textView.animateText(tLog);
         switch (getIntent().getAction()) {
             case ACTION_1:
@@ -253,9 +332,9 @@ public class MainActivity extends AppCompatActivity {
         Boolean deletepwd = false;
         if(bPwd && !currentSlot.contains(active_slot))
         {
-            deletepwd=true;
+            log("1");
+            //onClickErasePwdA((View) new View.TEXT_ALIGNMENT_CENTER);
         }
-
         //Toast.makeText(this, getString(R.string.error_ab_device), Toast.LENGTH_LONG).show(); //This is not an A/B device!
         if(!bNoWarn)
         {
@@ -373,50 +452,77 @@ public class MainActivity extends AppCompatActivity {
         Boolean root = sh.isRoot();
         List<String> out = new ArrayList<String>();
         String partition = "";
-
+        Shell.Result res;
+        String formato = "";
         if (active_slot.contains("a"))
         {
-            //Mount system_b
-            /*out = Shell.su("ls -la /dev/block/by-name/ | grep system_b").exec().getOut();
-            partition = matcher_partitions(out.toString());
-            log("Mount system_b: /dev/block/" + partition);
-            out =  Shell.su("mount -t ext4 /dev/block/"+ partition + " /data/adb/DualBoot/system_").exec().getOut();
-            */
-            //Mount userdata_b
-            out = Shell.su("ls -la /dev/block/by-name/ | grep userdata_b").exec().getOut();
-            partition = matcher_partitions(out.toString());
-            out = Shell.su("umount /dev/block/" + partition).exec().getOut();
-            log("Mount userdata_b: /dev/block/" + partition);
-            out =  Shell.su("mount -t ext4 /dev/block/" + partition + " /data/adb/DualBoot/data_").exec().getOut();
+            //Mount userdata_a
+            res = Shell.su("blkid /dev/block/by-name/userdata_b").exec();
+            if(res.getOut().toString().contains("ext4"))
+            {
+                formato="ext4";
+            }
+            else if(res.getOut().toString().contains("f2fs"))
+            {
+                formato="f2fs";
+            }
+            else
+            {
+                log(getString(R.string.error_userdata_b));
+                return;
+            }
+            out = Shell.su("umount /dev/block/by-name/userdata_b" + partition).exec().getOut();
+            log("Mount userdata_b: /dev/block/by-name/userdata_b");
+            out =  Shell.su("mount -t " + formato + " /dev/block/by-name/userdata_b /data/adb/DualBoot/data_").exec().getOut();
         }
         else if(active_slot.contains("b"))
         {
-            //Mount system_a
-            /*out = Shell.su("ls -la /dev/block/by-name/ | grep system_a").exec().getOut();
-            partition = matcher_partitions(out.toString());
-            log("Mount system_a: /dev/block/" + partition);
-            out =  Shell.su("mount -t ext4 /dev/block/"+ partition + " /data/adb/DualBoot/system_").exec().getOut();
-            */
             //Mount userdata_b
-            out = Shell.su("ls -la /dev/block/by-name/ | grep userdata_a").exec().getOut();
-            partition = matcher_partitions(out.toString());
-            out = Shell.su("umount /dev/block/" + partition).exec().getOut();
-            log("Mount userdata_a: /dev/block/" + partition);
-            out =  Shell.su("mount -t ext4 /dev/block/"+ partition + " /data/adb/DualBoot/data_").exec().getOut();
-            log("mount res: " + out.toString());
+            res = Shell.su("blkid /dev/block/by-name/userdata_a").exec();
+            if(res.getOut().toString().contains("ext4"))
+            {
+                formato="ext4";
+            }
+            else if(res.getOut().toString().contains("f2fs"))
+            {
+                formato="f2fs";
+            }
+            else
+            {
+                log(getString(R.string.error_userdata_a));
+                return;
+            }
+            out = Shell.su("umount /dev/block//by-name/userdata_a").exec().getOut();
+            log("Mount userdata_a: /dev/block/by-name/userdata_a");
+            out =  Shell.su("mount -t " + formato + " /dev/block//by-name/userdata_a /data/adb/DualBoot/data_").exec().getOut();
+            //log("mount res: " + out.toString());
         }
         else return;
+
+        res = Shell.su("test -f /data/adb/DualBoot/data_/system/locksettings.db").exec();
+        if (res.isSuccess())
+        {
+            res = Shell.su("rm -f /data/adb/DualBoot/data_/system/locksettings.db").exec();
+            log(getText(R.string.remove_locksettings).toString());
+        }
+        else
+        {
+            log(getText(R.string.locksettings_not_found).toString());
+        }
+
+        /*
         out = Shell.su("ls -la /data/adb/DualBoot/data_/system/lock_settings.db").exec().getOut();
-        log("lock: " + out.toString());
+        //log("lock: " + out.toString());
         if(out.toString().contains("locksettings.db"))
         {
             log(getString(R.string.remove_locksettings));
             out = Shell.su("rm -f /data/adb/DualBoot/data_/system/locksettings.db").exec().getOut();
-            log("res: " + out);
+            //log("res: " + out);
         }
         else {
             log(getString(R.string.locksettings_not_found));
         }
+        */
     }
     public void onClickBootloader(View view)
     {
@@ -454,6 +560,7 @@ public class MainActivity extends AppCompatActivity {
     {
         Pattern p = Pattern.compile(".*/([a-z]..[0-9].).*");
         Matcher m = p.matcher(s);
+
         String sa;
         if(m.matches())
             return m.group(1);

@@ -252,7 +252,7 @@ public class DBService extends ControlsProviderService {
         else if (controlId.contains("REBOOT-RB"))
         {
             out = Shell.su("/data/adb/DualBoot/bootctl set-active-boot-slot 1").exec().getOut();
-            out = Shell.su("reboot").exec().getOut();
+            out = Shell.su("reboot recovery").exec().getOut();
         }
 
         /*

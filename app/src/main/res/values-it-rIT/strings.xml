@@ -40,4 +40,13 @@
     <string name="remove_locksettings">Rimuovo locksettings.db</string>
     <string name="Reading_partition">Leggo le partizioni...</string>
     <string name="locksettings_not_found">locksettings.db non trovato!</string>
+    <string name="slota">Slot A</string>
+    <string name="slotb">Slot B</string>
+    <string name="Android_information">Informazioni su Android</string>
+    <string name="security_patch">"Patch di sicurezza: "</string>
+    <string name="Release_version">"Versione della Release: "</string>
+    <string name="Release_key">"Release Key: "</string>
+    <string name="build">"Build: "</string>
+    <string name="build_id">"Build Id: "</string>
+    <string name="Build_flavor">"Build Flavor: "</string>
 </resources>

@@ -37,9 +37,9 @@
     values-round/strings.xml for round devices.
     -->
     <string name="linkxda" translatable="false">Information:&lt;br>&lt;br>&lt;a href=https://forum.xda-developers.com/t/recovery-dualboot-unified-a10-a11-oos11-orangefox-dualboot-unified-reborn-06-02-2021.4177865/>Xda DualBoot Thread&lt;/a>&lt;br>&lt;br>&lt;a href=https://github.com/Invernomut0?tab=repositories>GitHub DualBoot Thread&lt;/a>&lt;br>&lt;br>&lt;a href=https://t.me/OrangeFoxDualBootRebornOnePlus7>Telegram Support chat&lt;/a></string>
-    <string name="orangefox_dualboot" translatable="false">Orangefox DualBoot Reborn</string>
+    <string name="orangefox_dualboot" translatable="false">Orangefox DualBoot</string>
     <string name="options">Options</string>
-    <string name="clear_password_when_reboot_to_other_system_slot">Clear password when Reboot to the NOT ACTIVE system slot</string>
+    <string name="clear_password_when_reboot_to_other_system_slot">Clear password when Reboot to INACTIVE system slot</string>
     <string name="AppStarted">Application Started</string>
     <string name="reading_options">- Reading options</string>
     <string name="reboot_whitout_confirmation">Reboot whitout confirmation</string>
@@ -56,8 +56,17 @@
     <string name="not_found">NOT FOUND</string>
     <string name="DualBoot" translatable="false">DualBoot</string>
     <string name="active_slot">" - Active slot: "</string>
-    <string name="slota" translatable="false">Slot A</string>
-    <string name="slotb" translatable="false">Slot B</string>
+    <string name="slota">Slot A</string>
+    <string name="slotb">Slot B</string>
+    <string name="Android_information">Android Information</string>
+    <string name="security_patch">"Security Patch: "</string>
+    <string name="Release_version">"Release Version: "</string>
+    <string name="Release_key">"Release Key: "</string>
+    <string name="build">"Build: "</string>
+    <string name="build_id">"Build Id: "</string>
+    <string name="Build_flavor">"Build Flavor: "</string>
+    <string name="error_userdata_b">\nError in mounting Userdata_b - filesystem unknown</string>
+    <string name="error_userdata_a" >\nError in mounting Userdata_b - filesystem unknown</string>
     <!--
     <string name="shortcut3">-</string>
     <string name="shortcut3_long">Long shortcut 3</string>

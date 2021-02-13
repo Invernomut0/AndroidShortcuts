@@ -103,7 +103,7 @@ public class DBService extends ControlsProviderService {
                 .setTitle(getText(R.string.reboot_to_recovery))
                 // Required: Usually the room where the control is located
                 .setSubtitle(getText(R.string.slotb))
-                .setCustomIcon(Icon.createWithResource(this, R.drawable.ra))
+                .setCustomIcon(Icon.createWithResource(this, R.drawable.rb))
                 // Optional: Structure where the control is located, an example would be a house
                 .setStructure(getString(R.string.DualBoot) + getString(R.string.active_slot) + activeslot)
                 // Required: Type of device, i.e., thermostat, light, switch
@@ -132,7 +132,6 @@ public class DBService extends ControlsProviderService {
          * accordingly to fit a more limited space (about 2/3 screen height).
          */
 
-        Toast.makeText(this, "Publishing", Toast.LENGTH_LONG).show();
         Intent i = new Intent();
         PendingIntent pi = PendingIntent.getActivity(context, 1, i, PendingIntent.FLAG_UPDATE_CURRENT);
 

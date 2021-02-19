@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        String versionName = BuildConfig.VERSION_NAME;
         String cmd;
         List<String> out = new ArrayList<String>();
         ImageView iv = findViewById(R.id.iv);
@@ -86,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
         root.addView(guillotineMenu);
         TextView tLog = findViewById(R.id.tLog);
         //tLog.setMovementMethod(new ScrollingMovementMethod());
-
+        TextView tversion = findViewById(R.id.tVersion);
+        tversion.setText("Version: " + versionName);
         new GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.guillotine_hamburger), contentHamburger)
                 .setStartDelay(RIPPLE_DURATION)
                 .setActionBarViewForAnimation(toolbar)

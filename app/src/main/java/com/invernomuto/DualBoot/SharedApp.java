@@ -1,17 +1,19 @@
 package com.invernomuto.DualBoot;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -20,45 +22,68 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.topjohnwu.superuser.Shell;
-
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
+
 
 
 public class SharedApp extends AppCompatActivity {
 
     String datacommon = "/datacommon/SharedData/";
     String datamount = "datamount.conf";
+    String selapplist = "selapplist.conf";
     Button btn;
     ImageView lvSave;
-    SharedPreferences sharedPreferences;
+    //SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Window window = this.getWindow();
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.setStatusBarColor(ContextCompat.getColor(this,R.color.guillotine_background_dark));
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.guillotine_background_dark));
+        }
         //mExplosionField = ExplosionField.attach2Window(this);
-        sharedPreferences = getApplicationContext().getSharedPreferences("DualBoot_prefs", 0);
+        //sharedPreferences = getApplicationContext().getSharedPreferences("DualBoot_prefs", 0);
         setContentView(R.layout.shared_app);
-        btn = (Button) findViewById(R.id.bShareApp);
+        btn = findViewById(R.id.bShareApp);
         ArrayList<sApp> appList = new ArrayList<sApp>();
         //ImageView im = (ImageView) findViewById(R.id.SaveApp)
-        lvSave = (ImageView) findViewById(R.id.bSaveApp);
-        SharedPreferences pref = getApplicationContext().getSharedPreferences("DualBoot_prefs", 0); // 0 - for private mode
+        lvSave = findViewById(R.id.bSaveApp);
+        //SharedPreferences pref = getApplicationContext().getSharedPreferences("DualBoot_prefs", 0); // 0 - for private mode
         PackageManager pm = getPackageManager();
         List<ApplicationInfo> apps = pm.getInstalledApplications(0);
-
         List<ApplicationInfo> installedApps = new ArrayList<ApplicationInfo>();
-        ListView listView = (ListView) findViewById(R.id.listapp);
+        ListView listView = findViewById(R.id.listapp);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+
+        List<String> list = new ArrayList<String>();
+        list = Shell.su("cat " + datacommon + selapplist).exec().getOut();
+
+        /*BufferedReader reader;
+        try {
+            reader = new BufferedReader(new FileReader(datacommon + selapplist));
+            String line = reader.readLine();
+            while (line != null) {
+                list.add(line);
+                // read next line
+                line = reader.readLine();
+            }
+            reader.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
 
         int i=0;
         for (ApplicationInfo app : apps) {
@@ -68,10 +93,10 @@ public class SharedApp extends AppCompatActivity {
             } else if ((app.flags & ApplicationInfo.FLAG_SYSTEM)== 0) {
                 String label = (String) pm.getApplicationLabel(app);
                 Drawable icon = pm.getApplicationIcon(app);
-                Set<String> checkedItemsSource = sharedPreferences.getStringSet("checked_items", new HashSet<String>());
+
+                //Set<String> checkedItemsSource = sharedPreferences.getStringSet("checked_items", new HashSet<String>());
                 //SparseBooleanArray checkedItems = convertToCheckedItems(checkedItemsSource);
                 Boolean checked = false;
-                List<String> list = new ArrayList<String>(checkedItemsSource);
 
                 for (int ix = 0; ix < list.size(); ix++) {
                     String p = list.get(ix);
@@ -79,7 +104,6 @@ public class SharedApp extends AppCompatActivity {
                     {
                         checked = true;
                     }
-
                 }
                 i++;
                 if(!label.contains("DualBoot"))
@@ -95,6 +119,8 @@ public class SharedApp extends AppCompatActivity {
                 //installedApps.add(app);
             }
         }
+        Collections.sort(appList, new SampleComparator());
+
         //create an ArrayAdaptar from the String Array
         AppAdapter adapter = new AppAdapter(this, R.layout.application_detail, appList);
         listView.setAdapter(adapter);
@@ -103,8 +129,10 @@ public class SharedApp extends AppCompatActivity {
             public void onClick(View v) {
 
                 Shell.Result result = Shell.su("rm -f " + datacommon + datamount).exec();
+                result = Shell.su("rm -f " + datacommon + selapplist).exec();
                 Set<String> stringSet = new HashSet<>();
                 Shell.su("mkdir " + datacommon).exec();
+                Shell.su("chown 1023:1023 " + datacommon);
                 for (int i=0; i<listView.getCount(); i++) {
                     sApp s = (sApp) listView.getItemAtPosition(i);
                     if(s.Selected)
@@ -114,20 +142,21 @@ public class SharedApp extends AppCompatActivity {
                         doTheMagic(s);
                     }
                 }
-                //SparseBooleanArray checkedItems = listView.getCheckedItemPositions();
-                //Set<String> stringSet = convertToStringSet(checkedItems);
-                sharedPreferences.edit()
+                /*sharedPreferences.edit()
                         .putStringSet("checked_items", stringSet)
                         .apply();
-
+                */
                 Toast.makeText(getApplicationContext(), getString(R.string.application_list_saved), Toast.LENGTH_SHORT).show();
 
             }
         });
- /*       Map<String, ?> allEntries = pref.getAll();
-        for (Map.Entry<String, ?> entry : allEntries.entrySet()) {
-            Log.d("map values", entry.getKey() + ": " + entry.getValue().toString());
-        }*/
+    }
+    class SampleComparator implements Comparator<sApp> {
+        @Override
+        public int compare(sApp o1, sApp o2) {
+
+            return o1.getAppName().compareTo(o2.getAppName());
+        }
     }
 
     public void doTheMagic(sApp s)
@@ -143,7 +172,7 @@ public class SharedApp extends AppCompatActivity {
             //result = Shell.su("mount -o bind " + s.commonPath + " " + s.dataPath).exec();
         }
         result = Shell.su("echo " + s.commonPath + " " + s.dataPath + " >> " + datacommon + datamount).exec();
-
+        result = Shell.su("echo " + s.pName + " >> " + datacommon + selapplist).exec();
 
     }
     public void onClickExit(View view) {
@@ -153,26 +182,6 @@ public class SharedApp extends AppCompatActivity {
         catch (Exception e){}
         SharedApp.this.finish();
     }
-
-    /*private SparseBooleanArray convertToCheckedItems(Set<String> checkedItems) {
-        SparseBooleanArray array = new SparseBooleanArray();
-        for(String itemPositionStr : checkedItems) {
-            int position = Integer.parseInt(itemPositionStr);
-            array.put(position, true);
-        }
-
-        return array;
-    }
-
-    private Set<String> convertToStringSet(SparseBooleanArray checkedItems) {
-        Set<String> result = new HashSet<>();
-        for (int i = 0; i < checkedItems.size(); i++) {
-            result.add(String.valueOf(checkedItems.keyAt(i)));
-        }
-        return result;
-    }
-     */
-
 }
 
 class AppAdapter extends StableArrayAdapter<sApp> {
@@ -197,11 +206,11 @@ class AppAdapter extends StableArrayAdapter<sApp> {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.application_detail, null);
             viewHolder = new ViewHolder();
-            viewHolder.icon = (ImageView) convertView.findViewById(R.id.appicons);
-            viewHolder.appName = (TextView) convertView.findViewById(R.id.tappName);
-            viewHolder.dataPath = (TextView) convertView.findViewById(R.id.tdataPath);
-            viewHolder.commonPath = (TextView) convertView.findViewById(R.id.tcommonPath);
-            viewHolder.selected = (CheckBox) convertView.findViewById(R.id.tchecked);
+            viewHolder.icon = convertView.findViewById(R.id.appicons);
+            viewHolder.appName = convertView.findViewById(R.id.tappName);
+            viewHolder.dataPath = convertView.findViewById(R.id.tdataPath);
+            viewHolder.commonPath = convertView.findViewById(R.id.tcommonPath);
+            viewHolder.selected = convertView.findViewById(R.id.tchecked);
             convertView.setTag(viewHolder);
 
         } else {

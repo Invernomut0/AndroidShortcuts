@@ -52,8 +52,8 @@
     <string name="remove_locksettings">Removing locksettings.db</string>
     <string name="System">System</string>
     <string name="Recovery">Recovery</string>
-    <string name="Ready">Ready</string>
-    <string name="not_found">NOT FOUND</string>
+    <string name="Ready" translatable="false">Ready</string>
+    <string name="not_found" translatable="false">NOT FOUND</string>
     <string name="DualBoot" translatable="false">DualBoot</string>
     <string name="active_slot">" - Active slot: "</string>
     <string name="slota">Slot A</string>
@@ -68,9 +68,11 @@
     <string name="error_userdata_b">Error in mounting Userdata_b - filesystem unknown</string>
     <string name="error_userdata_a" >Error in mounting Userdata_a - filesystem unknown</string>
     <string name="partition_encrypted">Found encrypted partition. Password cannot be erased.</string>
-    <string name="share_app">Share app</string>
+    <string name="share_app">Share app  - EXPERIMENTAL!</string>
     <string name="shared_app_title">Shared App</string>
     <string name="application_list_saved">Application list saved, You must reboot now!!!</string>
+    <string name="installing_bootctl">Installing bootctl to /data/adb/DualBoot</string>
+    <string name="bootctl_wrong">Something went terribly wrong</string>
     <!--
     <string name="shortcut3">-</string>
     <string name="shortcut3_long">Long shortcut 3</string>

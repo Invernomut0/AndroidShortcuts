@@ -33,7 +33,6 @@
     <string name="reboot_to_recovery">Riavvia Recovery</string>
     <string name="reboot_bootloader">Riavvia in Bootloader</string>
     <string name="active_slot">"- Slot Attivo: "</string>
-    <string name="Ready" translatable="false">Pronto</string>
     <string name="Recovery">Ripristino</string>
     <string name="System">Sistema</string>
     <string name="remove_locksettings">Rimuovo locksettings.db</string>
@@ -51,7 +50,7 @@
     <string name="error_userdata_b">Errore nel montare Userdata_b - Filesystem Sconosciuto</string>
     <string name="error_userdata_a">Errore nel montare Userdata_a - Filesystem Sconosciuto</string>
     <string name="partition_encrypted">Trovata partizione cifrata. La password non può essere rimossa.</string>
-    <string name="share_app">Condividisione App</string>
+    <string name="share_app">Condividisione App  - EXPERIMENTAL!</string>
     <string name="application_list_saved">Application list saved, You must reboot now!!!</string>
     <string name="shared_app_title">Shared App</string>
 </resources>

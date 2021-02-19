@@ -34,6 +34,7 @@ android {
 
 dependencies {
 
+
     def libsuVersion = '3.1.1'
     // The core module is used by all other components
     implementation "com.github.topjohnwu.libsu:core:${libsuVersion}"

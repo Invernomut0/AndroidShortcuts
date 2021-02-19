@@ -52,5 +52,5 @@
     <string name="partition_encrypted">Found encrypted partition. Password cannot be erased.</string>
     <string name="application_list_saved">Application list saved, You must reboot now!!!</string>
     <string name="shared_app_title">Shared App</string>
-    <string name="share_app">Share App</string>
+    <string name="share_app">Share App  - EXPERIMENTAL!</string>
 </resources>

@@ -20,10 +20,6 @@ android {
     }
 
 // as 3.0 use implementation
-
-    dependencies {
-        implementation 'com.nambimobile.widgets:expandable-fab:1.0.2'
-    }
     buildTypes {
         release {
             minifyEnabled false

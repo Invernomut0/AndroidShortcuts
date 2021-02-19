@@ -139,7 +139,6 @@ public class MainActivity extends AppCompatActivity {
         Button bSB = findViewById(R.id.button4);
         Button bPA = findViewById(R.id.button5);
         Button bPB = findViewById(R.id.button6);
-        Button bShared = findViewById(R.id.bShareApp);
 
         bRA.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ra, 0, 0, 0);
         bRB.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rb, 0, 0, 0);
@@ -147,8 +146,7 @@ public class MainActivity extends AppCompatActivity {
         bSB.setCompoundDrawablesWithIntrinsicBounds(R.drawable.b, 0, 0, 0);
         bPA.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_outline_lock_open_47, 0, 0, 0);
         bPB.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_round_android_47, 0, 0, 0);
-        bShared.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.star_big_on, 0, 0, 0);
-        //PASSWORD DISABLED -
+         //PASSWORD DISABLED -
         //disableButton(bPA,"A");
         //disableButton(bPB,"B");
         //pwd.setEnabled(false);
@@ -249,7 +247,7 @@ public class MainActivity extends AppCompatActivity {
                 disableButton(bSA,"A");
             }
 
-            iDB.setColorFilter(getResources().getColor(R.color.efab_disabled), PorterDuff.Mode.MULTIPLY);
+            //iDB.setColorFilter(getResources().getColor(R.color.efab_disabled), PorterDuff.Mode.MULTIPLY);
 
         }
 
@@ -649,15 +647,6 @@ public class MainActivity extends AppCompatActivity {
         btn.setTextColor(Color.DKGRAY);
     }
 
-    public void onClickShareApp(View view) {
-        // definisco l'intenzione di aprire l'Activity "Page1.java"
-        Intent Sapp = new Intent(MainActivity.this, SharedApp.class);
-        // passo all'attivazione dell'activity page1.java
-        //Button btn = (Button) findViewById(R.id.bShareApp);
-        //btn.setEnabled(false);
-        startActivity(Sapp);
-
-        }
 }
 
 class SplashActivity extends MainActivity {

@@ -37,6 +37,10 @@
             android:name=".Info"
             android:label="@string/title_activity_info"
             android:launchMode="singleTop" />
+        <activity
+            android:name=".SharedApp"
+            android:label="@string/shared_app_title"
+            android:launchMode="singleTop" />
 
         <meta-data
             android:name="preloaded_fonts"

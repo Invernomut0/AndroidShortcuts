@@ -65,8 +65,12 @@
     <string name="build">"Build: "</string>
     <string name="build_id">"Build Id: "</string>
     <string name="Build_flavor">"Build Flavor: "</string>
-    <string name="error_userdata_b">\nError in mounting Userdata_b - filesystem unknown</string>
-    <string name="error_userdata_a" >\nError in mounting Userdata_b - filesystem unknown</string>
+    <string name="error_userdata_b">Error in mounting Userdata_b - filesystem unknown</string>
+    <string name="error_userdata_a" >Error in mounting Userdata_a - filesystem unknown</string>
+    <string name="partition_encrypted">Found encrypted partition. Password cannot be erased.</string>
+    <string name="share_app">Share app</string>
+    <string name="shared_app_title">Shared App</string>
+    <string name="application_list_saved">Application list saved, You must reboot now!!!</string>
     <!--
     <string name="shortcut3">-</string>
     <string name="shortcut3_long">Long shortcut 3</string>

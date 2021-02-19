@@ -41,9 +41,9 @@ public class Info extends AppCompatActivity {
         paint.setAntiAlias(true);
         paint.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
 
-        TextSurface text_surface = (TextSurface) findViewById(R.id.text_surface);
+        TextSurface text_surface = findViewById(R.id.text_surface);
         Spanned sLink = Html.fromHtml(getString(R.string.linkxda));
-        TextView tlink = (TextView)findViewById(R.id.tLink);
+        TextView tlink = findViewById(R.id.tLink);
         //String link = "<a href='http://www.google.com'> Google </a>"
         //tLink.setMovementMethod(LinkMovementMethod.getInstance());
         /*

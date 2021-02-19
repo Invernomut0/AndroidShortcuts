@@ -9,12 +9,9 @@ import android.os.Build;
 import android.service.controls.Control;
 import android.service.controls.ControlsProviderService;
 import android.service.controls.DeviceTypes;
-import android.service.controls.actions.BooleanAction;
 import android.service.controls.actions.ControlAction;
 import android.service.controls.templates.ControlButton;
-import android.service.controls.templates.ControlTemplate;
 import android.service.controls.templates.ToggleTemplate;
-import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 

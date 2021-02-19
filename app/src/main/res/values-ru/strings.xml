@@ -3,7 +3,7 @@
     <string name="shortcut1">" Слот Б "</string>
     <string name="shortcut1_long">" Перезагрузка в слот Б "</string>
     <string name="shortcut1_disabled">" Перезагрузка отключена"</string>
-    <string name="shortcut2">" Слот Б "</string>
+    <string name="shortcut2">" Слот A"</string>
     <string name="shortcut2_long">" Перезагрузка в слот A "</string>
     <string name="shortcut2_disabled">" Перезагрузка отключена"</string>
     <string name="shortcut3_disabled">" Перезагрузка отключена"</string>
@@ -37,8 +37,6 @@
     <string name="System">System</string>
     <string name="remove_locksettings">Removing locksettings.db</string>
     <string name="Recovery">Recovery</string>
-    <string name="Ready" translatable="false">Ready</string>
-    <string name="not_found" translatable="false">NOT FOUND</string>
     <string name="active_slot">" - Active slot: "</string>
     <string name="slota">Slot A</string>
     <string name="slotb">Slot B</string>
@@ -49,4 +47,10 @@
     <string name="build">"Build: "</string>
     <string name="build_id">"Build Id: "</string>
     <string name="Build_flavor">"Build Flavor: "</string>
+    <string name="error_userdata_a">Error in mounting Userdata_a - filesystem unknown</string>
+    <string name="error_userdata_b">Error in mounting Userdata_b - filesystem unknown</string>
+    <string name="partition_encrypted">Found encrypted partition. Password cannot be erased.</string>
+    <string name="application_list_saved">Application list saved, You must reboot now!!!</string>
+    <string name="shared_app_title">Shared App</string>
+    <string name="share_app">Share App</string>
 </resources>

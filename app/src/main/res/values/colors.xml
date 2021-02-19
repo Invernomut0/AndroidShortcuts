@@ -20,4 +20,6 @@
     <color name="invernomuto_A200">#613eff</color>
     <color name="invernomuto_A400">#370bff</color>
     <color name="invernomuto_A700">#2c00f1</color>
+    <color name="SlotA">#79c257</color>
+    <color name="SlotB">#b85e5e</color>
 </resources>

@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -32,6 +34,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import com.topjohnwu.superuser.Shell;
+import com.topjohnwu.superuser.io.SuFileInputStream;
+import com.topjohnwu.superuser.io.SuFileOutputStream;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
 
 import java.io.BufferedReader;
@@ -68,15 +72,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         String cmd;
-        ImageView iv = (ImageView) findViewById(R.id.imageView);
+        ImageView iv = findViewById(R.id.imageView);
         SharedPreferences pref = getApplicationContext().getSharedPreferences("DualBoot_prefs", 0); // 0 - for private mode
         SharedPreferences.Editor editor = pref.edit();
-        FrameLayout root = (FrameLayout) findViewById(R.id.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        View contentHamburger = (View) findViewById(R.id.content_hamburger);
+        FrameLayout root = findViewById(R.id.activity_main);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        View contentHamburger = findViewById(R.id.content_hamburger);
         View guillotineMenu = LayoutInflater.from(this).inflate(R.layout.preferences_layout, null);
         root.addView(guillotineMenu);
-        TextView tLog = (TextView) findViewById(R.id.tLog);
+        TextView tLog = findViewById(R.id.tLog);
         //tLog.setMovementMethod(new ScrollingMovementMethod());
 
         new GuillotineAnimation.GuillotineBuilder(guillotineMenu, guillotineMenu.findViewById(R.id.guillotine_hamburger), contentHamburger)
@@ -84,20 +88,27 @@ public class MainActivity extends AppCompatActivity {
                 .setActionBarViewForAnimation(toolbar)
                 .setClosedOnStart(true)
                 .build();
-        pwd = (Switch) findViewById(R.id.pwd);
+        pwd = findViewById(R.id.pwd);
+        NoWarn = findViewById(R.id.NoWarn);
+
+        log(getString(R.string.reading_options));
+        if (pref.contains("ErasePwd")) {
+            Boolean ErasePwd = pref.getBoolean("ErasePwd", false);
+            //log(getString(R.string.P_ErasPWD) + ErasePwd.toString());
+            pwd.setChecked(ErasePwd);
+        }
+        if (pref.contains("NoWarn")) {
+            Boolean bNoWarn = pref.getBoolean("NoWarn", false);
+            //log(getString(R.string.P_NoWarn) + bNoWarn.toString());
+            NoWarn.setChecked(bNoWarn);
+        }
+
         pwd.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                TextView tLog = (TextView) findViewById(R.id.tLog);
+                TextView tLog = findViewById(R.id.tLog);
                 bPwd = false;
 
-                if(pwd.isChecked())
-                {
-                    bPwd = true;
-                }
-                else
-                {
-                    bPwd = false;
-                }
+                bPwd = pwd.isChecked();
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("DualBoot_prefs", 0); // 0 - for private mode
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putBoolean("ErasePwd", bPwd);
@@ -107,20 +118,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         log(getString(R.string.AppStarted));
-        NoWarn = (Switch) findViewById(R.id.NoWarn);
         NoWarn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                TextView tLog = (TextView) findViewById(R.id.tLog);
+                TextView tLog = findViewById(R.id.tLog);
                 bNoWarn = false;
 
-                if(NoWarn.isChecked())
-                {
-                    bNoWarn = true;
-                }
-                else
-                {
-                    bNoWarn = false;
-                }
+                bNoWarn = NoWarn.isChecked();
                 SharedPreferences pref = getApplicationContext().getSharedPreferences("DualBoot_prefs", 0); // 0 - for private mode
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putBoolean("NoWarn", bNoWarn);
@@ -130,13 +133,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button bRA = (Button) findViewById(R.id.button);
-        Button bRB = (Button) findViewById(R.id.button2);
-        Button bSA = (Button) findViewById(R.id.button3);
-        Button bSB = (Button) findViewById(R.id.button4);
-        Button bPA = (Button) findViewById(R.id.button5);
-        Button bPB = (Button) findViewById(R.id.button6);
-
+        Button bRA = findViewById(R.id.button);
+        Button bRB = findViewById(R.id.button2);
+        Button bSA = findViewById(R.id.button3);
+        Button bSB = findViewById(R.id.button4);
+        Button bPA = findViewById(R.id.button5);
+        Button bPB = findViewById(R.id.button6);
+        Button bShared = findViewById(R.id.bShareApp);
 
         bRA.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ra, 0, 0, 0);
         bRB.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rb, 0, 0, 0);
@@ -144,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
         bSB.setCompoundDrawablesWithIntrinsicBounds(R.drawable.b, 0, 0, 0);
         bPA.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_outline_lock_open_47, 0, 0, 0);
         bPB.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_round_android_47, 0, 0, 0);
-
+        bShared.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.star_big_on, 0, 0, 0);
         //PASSWORD DISABLED -
         //disableButton(bPA,"A");
         //disableButton(bPB,"B");
@@ -166,7 +169,8 @@ public class MainActivity extends AppCompatActivity {
 
         }
         else
-        { log(getString(R.string.AB_partition_not_found));
+        {
+            log(getString(R.string.AB_partition_not_found));
             dualboot = false;
             if(active_slot.contains("a"))
             {
@@ -178,7 +182,9 @@ public class MainActivity extends AppCompatActivity {
                 disableButton(bRA,"A");
                 disableButton(bSA,"A");
             }
-
+            disableButton(bPA,"A");
+            //disableButton(bPB,"B");
+            pwd.setEnabled(false);
 
         }
 
@@ -188,28 +194,43 @@ public class MainActivity extends AppCompatActivity {
             if (null != layout) //for safety only  as you are doing onClick
                 layout.removeView(bPA);
 
-            layout.addView((View) bPA);
+            layout.addView(bPA);
         }
         //END
         //LinearLayout ln = (LinearLayout) findViewById(R.id.main);
         //int index = ln.indexOfChild((View) bPB);
         //ln.removeViewAt(index);
 
-        ImageView iDB = (ImageView) findViewById(R.id.imageView);
+        ImageView iDB = findViewById(R.id.imageView);
 
         String os = Build.FINGERPRINT;
 
-        log(getString(R.string.reading_options));
-        if (pref.contains("ErasePwd")) {
-            Boolean ErasePwd = pref.getBoolean("ErasePwd", false);
-            //log(getString(R.string.P_ErasPWD) + ErasePwd.toString());
-            pwd.setChecked(ErasePwd);
+        //BOOTCTL ---------------------------
+
+        try {
+            InputStream is = getAssets().open("bootctl");
+
+            // We guarantee that the available method returns the total
+            // size of the asset...  of course, this does mean that a single
+            // asset can't be more than 2 gigs.
+            int size = is.available();
+            if (size > 0) {
+                try (InputStream in = is;
+                     OutputStream out = SuFileOutputStream.open("/data/adb/DualBoot/bootctl")) {
+                        copyFile(is,out);
+                        Shell.su("chmod +x /data/adb/DualBoot/bootctl").submit();
+                        Shell.su("chcon u:object_r:system_file:s0 /data/adb/DualBoot/bootctl").submit();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (IOException e) {
+            // Should never happen!
+            throw new RuntimeException(e);
         }
-        if (pref.contains("NoWarn")) {
-            Boolean bNoWarn = pref.getBoolean("NoWarn", false);
-            //log(getString(R.string.P_NoWarn) + bNoWarn.toString());
-            NoWarn.setChecked(bNoWarn);
-        }
+
+        //BOOTCTL END---------------------------
+
         String[] cmdline1 = new String[]{"su", "-c", "/data/adb/DualBoot/bootctl hal-info"};
         String res = exec_command(cmdline1);
         if (res.startsWith("HAL")) {
@@ -233,15 +254,18 @@ public class MainActivity extends AppCompatActivity {
         }
 
                 /* ANDROID INFO */
-        TextView tSlotAtitle = (TextView) findViewById(R.id.slotatitle);
-        TextView tSlotBtitle = (TextView) findViewById(R.id.slotbtitle);
-        TextView tSlotA = (TextView) findViewById(R.id.slota);
-        TextView tSlotB = (TextView) findViewById(R.id.slotb);
+        TextView tSlotAtitle = findViewById(R.id.slotatitle);
+        TextView tSlotBtitle = findViewById(R.id.slotbtitle);
+        TextView tSlotA = findViewById(R.id.slota);
+        TextView tSlotB = findViewById(R.id.slotb);
         String sAndroidInfoA = getString(R.string.slota);
         String sAndroidInfoB = getString(R.string.slotb);
         List<String> out = new ArrayList<String>();
         String partition="";
         Shell.Result result;
+        TextView tRom_sx = findViewById(R.id.tRoma);
+        TextView tRom_dx = findViewById(R.id.tRomb);
+
         result = Shell.su("mkdir /data/adb/DualBoot/system_").exec();
         result = Shell.su("mkdir /data/adb/DualBoot/data_").exec();
         //log("\nRoot permission: " + Shell.getShell().isRoot());
@@ -254,13 +278,14 @@ public class MainActivity extends AppCompatActivity {
             //log("System_b info: " + result.getOut().toString() + "\nError Code: " + result.getErr().toString());
             result = Shell.su("umount /dev/block/by-name/system_b").exec();
             result = Shell.su("mount -t ext4 /dev/block/by-name/system_b /data/adb/DualBoot/system_").exec();
-
-            if (!result.isSuccess())
-            {
-                log("Mount System_b failed: " + result.getOut().toString() + "\nError Code: " + result.getErr().toString());
-            }
+            tRom_sx = findViewById(R.id.tRoma);
+            tRom_dx = findViewById(R.id.tRomb);
             tSlotAtitle.setText("Slot A");
             tSlotBtitle.setText("Slot B");
+            tRom_sx.setTextColor(getColor(R.color.SlotA));
+            tRom_dx.setTextColor(getColor(R.color.SlotB));
+            tRom_dx.setTypeface(tRom_dx.getTypeface(), Typeface.BOLD_ITALIC);
+
 
         }
         else if (active_slot.contains("b")) {
@@ -270,39 +295,64 @@ public class MainActivity extends AppCompatActivity {
             result = Shell.su("umount /dev/block/by-name/system_a").exec();
 
             result = Shell.su("mount -t ext4 /dev/block/by-name/system_a /data/adb/DualBoot/system_").exec();
-
-            if (!result.isSuccess())
-            {
-                log("Mount System_a failed: " + result.getOut().toString() + "\nError Code: " + result.getErr().toString());
-            }
             tSlotBtitle.setText("Slot A");
             tSlotAtitle.setText("Slot B");
 
+
+
+            tRom_dx = findViewById(R.id.tRoma);
+            tRom_sx = findViewById(R.id.tRomb);
+            tRom_sx.setTypeface(tRom_sx.getTypeface(), Typeface.BOLD);
+            tRom_dx.setTextColor(getColor(R.color.SlotA));
+            tRom_sx.setTextColor(getColor(R.color.SlotB));
         }
         tSlotA.setText("");
         tSlotB.setText("");
-
+        String sSx="Unknown OS";
+        String sDx="Unknown OS";
+        String sVal="";
         out = Shell.su("cat /system/build.prop").exec().getOut();
         for (int i = 0; i < out.size(); i++)
         {
-            if (out.get(i).contains("ro.build.version.security_patch=")) tSlotA.append("\n" + getString(R.string.security_patch) + out.get(i).split("(?<==)")[1]);
-            else if (out.get(i).contains("ro.system.build.version.release=")) tSlotA.append("\n" + getString(R.string.Release_version) + out.get(i).split("(?<==)")[1]);
-            else if (out.get(i).contains("ro.build.tags=release-keys=")) tSlotA.append("\n" + getString(R.string.Release_key) + out.get(i).split("(?<==)")[1]);
-            else if (out.get(i).contains("ro.system.build.date=")) tSlotA.append("\n"+getString(R.string.build) + out.get(i).split("(?<==)")[1]);
-            else if (out.get(i).contains("ro.system.build.id=")) tSlotA.append("\n" + getString(R.string.build_id) + out.get(i).split("(?<==)")[1]);
-            else if (out.get(i).contains("ro.build.flavor=")) tSlotA.append("\n" + getString(R.string.Build_flavor) + (out.get(i).split("(?<==)")[1]));
+            sVal=out.get(i);
+            if (sVal.contains("ro.build.version.security_patch=")) tSlotA.append("\n" + getString(R.string.security_patch) + out.get(i).split("(?<==)")[1]);
+            else if (sVal.contains("ro.system.build.version.release=")) tSlotA.append("\n" + getString(R.string.Release_version) + out.get(i).split("(?<==)")[1]);
+            else if (sVal.contains("ro.build.tags=release-keys=")) tSlotA.append("\n" + getString(R.string.Release_key) + out.get(i).split("(?<==)")[1]);
+            else if (sVal.contains("ro.system.build.date=")) tSlotA.append("\n"+getString(R.string.build) + out.get(i).split("(?<==)")[1]);
+            else if (sVal.contains("ro.system.build.id=")) tSlotA.append("\n" + getString(R.string.build_id) + out.get(i).split("(?<==)")[1]);
+            else if (sVal.contains("ro.build.flavor=")) tSlotA.append("\n" + getString(R.string.Build_flavor) + (out.get(i).split("(?<==)")[1]));
+
+            if (out.get(i).contains("ro.build.flavor="))
+            {
+               if(sVal.contains("qssi")) sSx="OXYGEN OS 11";
+               if(sVal.contains("guacamole-user") || out.get(i).contains("OnePlus7Pro-user")) sSx="OXYGEN OS 10";
+               if(sVal.contains("descendant")) sSx="DESCENDANT OS";
+               if(sVal.contains("kang")) sSx="KANG OS";
+               if(sVal.contains("evolution")) sSx="EVOLUTION X OS";
+            }
         }
         out = Shell.su("cat /data/adb/DualBoot/system_/system/build.prop").exec().getOut();
         for (int i = 0; i < out.size(); i++)
         {
-            if (out.get(i).contains("ro.build.version.security_patch=")) tSlotB.append("\n" + getString(R.string.security_patch) + out.get(i).split("(?<==)")[1]);
-            else if (out.get(i).contains("ro.system.build.version.release=")) tSlotB.append("\n" + getString(R.string.Release_version) + out.get(i).split("(?<==)")[1]);
-            else if (out.get(i).contains("ro.build.tags=release-keys=")) tSlotB.append("\n" + getString(R.string.Release_key) + out.get(i).split("(?<==)")[1]);
-            else if (out.get(i).contains("ro.system.build.date=")) tSlotB.append("\n"+getString(R.string.build) + out.get(i).split("(?<==)")[1]);
-            else if (out.get(i).contains("ro.system.build.id=")) tSlotB.append("\n" + getString(R.string.build_id) + out.get(i).split("(?<==)")[1]);
-            else if (out.get(i).contains("ro.build.flavor=")) tSlotB.append("\n" + getString(R.string.Build_flavor) + out.get(i).split("(?<==)")[1]);
-        }
+            sVal=out.get(i);
+            if (sVal.contains("ro.build.version.security_patch=")) tSlotB.append("\n" + getString(R.string.security_patch) + out.get(i).split("(?<==)")[1]);
+            else if (sVal.contains("ro.system.build.version.release=")) tSlotB.append("\n" + getString(R.string.Release_version) + out.get(i).split("(?<==)")[1]);
+            else if (sVal.contains("ro.build.tags=release-keys=")) tSlotB.append("\n" + getString(R.string.Release_key) + out.get(i).split("(?<==)")[1]);
+            else if (sVal.contains("ro.system.build.date=")) tSlotB.append("\n"+getString(R.string.build) + out.get(i).split("(?<==)")[1]);
+            else if (sVal.contains("ro.system.build.id=")) tSlotB.append("\n" + getString(R.string.build_id) + out.get(i).split("(?<==)")[1]);
+            else if (sVal.contains("ro.build.flavor=")) tSlotB.append("\n" + getString(R.string.Build_flavor) + out.get(i).split("(?<==)")[1]);
 
+            if (out.get(i).contains("ro.build.flavor="))
+            {
+                if(sVal.contains("qssi")) sDx="OXYGEN OS 11";
+                if(sVal.contains("guacamole-user") || out.get(i).contains("OnePlus7Pro-user")) sDx="OXYGEN OS 10";
+                if(sVal.contains("descendant")) sDx="DESCENDANT OS";
+                if(sVal.contains("kang")) sDx="KANG OS";
+                if(sVal.contains("evolution")) sDx="EVOLUTION X OS";
+            }
+        }
+        tRom_sx.setText(sSx);
+        tRom_dx.setText(sDx);
         //log("OK");
 
         /*END ANDROID INFO */
@@ -332,7 +382,8 @@ public class MainActivity extends AppCompatActivity {
         Boolean deletepwd = false;
         if(bPwd && !currentSlot.contains(active_slot))
         {
-            log("1");
+            Button bp = findViewById(R.id.button5);
+            bp.performClick();
             //onClickErasePwdA((View) new View.TEXT_ALIGNMENT_CENTER);
         }
         //Toast.makeText(this, getString(R.string.error_ab_device), Toast.LENGTH_LONG).show(); //This is not an A/B device!
@@ -388,7 +439,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
+    private void copyFile(InputStream in, OutputStream out) throws IOException {
+        byte[] buffer = new byte[1024];
+        int read;
+        while((read = in.read(buffer)) != -1){
+            out.write(buffer, 0, read);
+        }
+    }
     public String exec_command(String[] cmd) {
 
         try {
@@ -468,7 +525,8 @@ public class MainActivity extends AppCompatActivity {
             }
             else
             {
-                log(getString(R.string.error_userdata_b));
+                if (res.getCode() == 2) log(getString(R.string.partition_encrypted));
+                else log(getString(R.string.error_userdata_b));
                 return;
             }
             out = Shell.su("umount /dev/block/by-name/userdata_b" + partition).exec().getOut();
@@ -489,7 +547,8 @@ public class MainActivity extends AppCompatActivity {
             }
             else
             {
-                log(getString(R.string.error_userdata_a));
+                if (res.getCode() == 2) log(getString(R.string.partition_encrypted));
+                else log(getString(R.string.error_userdata_a));
                 return;
             }
             out = Shell.su("umount /dev/block//by-name/userdata_a").exec().getOut();
@@ -569,7 +628,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void log(String s)
     {
-        TextView tLog = (TextView) findViewById(R.id.tLog);
+        TextView tLog = findViewById(R.id.tLog);
         tLog.append(s + "\n");
         tLog.setMovementMethod(new ScrollingMovementMethod());
         while (tLog.canScrollVertically(1)) {
@@ -581,13 +640,26 @@ public class MainActivity extends AppCompatActivity {
     public void disableButton(Button btn, String slot)
     {
 
+    //TODO - Remove icon from password Button disable
+
         btn.setEnabled(false);
         btn.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
         if (slot.contains("A")) btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.disable_a, 0, 0, 0);
         else btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.disable_b, 0, 0, 0);
         btn.setTextColor(Color.DKGRAY);
     }
+
+    public void onClickShareApp(View view) {
+        // definisco l'intenzione di aprire l'Activity "Page1.java"
+        Intent Sapp = new Intent(MainActivity.this, SharedApp.class);
+        // passo all'attivazione dell'activity page1.java
+        //Button btn = (Button) findViewById(R.id.bShareApp);
+        //btn.setEnabled(false);
+        startActivity(Sapp);
+
+        }
 }
+
 class SplashActivity extends MainActivity {
 
     static {

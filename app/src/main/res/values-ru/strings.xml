@@ -60,4 +60,6 @@
     <string name="data_encrypted">" Зашифровано."</string>
     <string name="unknown_fiesystem">Неизвестная файловая система</string>
     <string name="data_partition">Раздел пользовательских данных</string>
+    <string name="Share_app_abc">Share App - Works only on A/B/C layout!</string>
+    <string name="no_shared_app">Shared App - it works only on A/B/C layout</string>
 </resources>

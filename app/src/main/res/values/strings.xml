@@ -78,6 +78,8 @@
     <string name="data_encrypted"> is encrypted.</string>
     <string name="unknown_fiesystem">Unknown filesystem</string>
     <string name="data_partition">Data partition</string>
+    <string name="Share_app_abc">Share App - Works only on A/B/C layout!</string>
+    <string name="no_shared_app">Shared App - it works only on A/B/C layout</string>
     <!--
     <string name="shortcut3">-</string>
     <string name="shortcut3_long">Long shortcut 3</string>

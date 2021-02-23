@@ -19,20 +19,21 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
 
+        <activity android:name=".MainActivity">
             <!-- Sortcut Support -->
             <meta-data
-                android:name="android.app.shortcuts"
+                android:name="android.app.DualBoot"
                 android:resource="@xml/dualboot" />
-            <!--  -->
-
         </activity>
+
         <activity
             android:name=".Info"
             android:label="@string/title_activity_info"

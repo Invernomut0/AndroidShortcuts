@@ -16,7 +16,7 @@ android {
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 27
         versionCode 1
-        versionName "2.0 - ALPHA - Bleeding bug"
+        versionName "2.2 - ALPHA - Bleeding bug"
         //testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 

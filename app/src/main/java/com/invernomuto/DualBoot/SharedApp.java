@@ -1,5 +1,6 @@
 package com.invernomuto.DualBoot;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -26,6 +27,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.topjohnwu.superuser.Shell;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -38,12 +43,15 @@ import java.util.Set;
 public class SharedApp extends AppCompatActivity {
 
     String datacommon = "/datacommon/SharedData/";
+    //String datacommon = "/sdcard/SharedData/";
     String datamount = "datamount.conf";
     String selapplist = "selapplist.conf";
+    String apps_date = "apps_date.conf";
     Button btn;
     ImageView lvSave;
     //SharedPreferences sharedPreferences;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +66,7 @@ public class SharedApp extends AppCompatActivity {
         //sharedPreferences = getApplicationContext().getSharedPreferences("DualBoot_prefs", 0);
         setContentView(R.layout.shared_app);
         btn = findViewById(R.id.bShareApp);
+        TextView tTitle = findViewById(R.id.TitleSaveApp);
         ArrayList<sApp> appList = new ArrayList<sApp>();
         //ImageView im = (ImageView) findViewById(R.id.SaveApp)
         lvSave = findViewById(R.id.bSaveApp);
@@ -103,13 +112,15 @@ public class SharedApp extends AppCompatActivity {
                     if (p.contains(app.processName))
                     {
                         checked = true;
+                        i++;
                     }
                 }
-                i++;
+
                 if(!label.contains("DualBoot"))
                 {
                     sApp sapp = new sApp(app.processName, label, app.dataDir, datacommon + app.processName, icon, checked);
                     appList.add(sapp);
+
                 }
 
 
@@ -124,15 +135,17 @@ public class SharedApp extends AppCompatActivity {
         //create an ArrayAdaptar from the String Array
         AppAdapter adapter = new AppAdapter(this, R.layout.application_detail, appList);
         listView.setAdapter(adapter);
-
+        tTitle.setText(getText(R.string.shared_app_title) + " (" + i + ")" );
         lvSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 Shell.Result result = Shell.su("rm -f " + datacommon + datamount).exec();
                 result = Shell.su("rm -f " + datacommon + selapplist).exec();
+                result = Shell.su("rm -f " + datacommon + apps_date).exec();
                 Set<String> stringSet = new HashSet<>();
                 Shell.su("mkdir " + datacommon).exec();
                 Shell.su("chown 1023:1023 " + datacommon);
+                int number_of_app = 0;
                 for (int i=0; i<listView.getCount(); i++) {
                     sApp s = (sApp) listView.getItemAtPosition(i);
                     if(s.Selected)
@@ -140,6 +153,7 @@ public class SharedApp extends AppCompatActivity {
                         String val = s.pName;
                         stringSet.add(val);
                         doTheMagic(s);
+                        number_of_app++;
                     }
                 }
                 /*sharedPreferences.edit()
@@ -147,7 +161,7 @@ public class SharedApp extends AppCompatActivity {
                         .apply();
                 */
                 Toast.makeText(getApplicationContext(), getString(R.string.application_list_saved), Toast.LENGTH_SHORT).show();
-
+                tTitle.setText(getText(R.string.shared_app_title) + " (" + number_of_app + ")" );
             }
         });
     }
@@ -162,18 +176,32 @@ public class SharedApp extends AppCompatActivity {
     public void doTheMagic(sApp s)
     {
         Shell.Result result;
-        result = Shell.su("test -d "+ s.commonPath +" && echo OK || echo KO").exec();
+        /*Shell.setDefaultBuilder(Shell.Builder.create()
+                .setFlags(Shell.FLAG_MOUNT_MASTER)
+                //.setFlags(Shell.ROOT_MOUNT_MASTER)
+        );
+        Shell su = Shell.*/
+        result = Shell.su("test -d " + s.commonPath + " && echo OK || echo KO").exec();
         String res = result.getOut().toString();
+        Long tsLong = System.currentTimeMillis()/1000;
+        String ts = tsLong.toString();
         if (res.contains("KO"))
         {
             result = Shell.su("cp -r --preserve=all " + s.dataPath + " " + s.commonPath).exec();
-            //result = Shell.su("restorecon -R " +s.dataPath + " " + s.commonPath).exec();
-            //result = Shell.su("am kill " + s.pName).exec();
-            //result = Shell.su("mount -o bind " + s.commonPath + " " + s.dataPath).exec();
+            result = Shell.su("restorecon -R " + s.dataPath + " " + s.commonPath).exec();
+            result = Shell.su("chmod -R 777 " + s.commonPath).exec();
         }
-        result = Shell.su("echo " + s.commonPath + " " + s.dataPath + " >> " + datacommon + datamount).exec();
         result = Shell.su("echo " + s.pName + " >> " + datacommon + selapplist).exec();
-
+        result = Shell.su("am kill " + s.pName).exec();
+        //su.newJob().add("mount -o bind " + s.commonPath + " " + s.dataPath).exec();
+        //result = su.newJob().exec();
+        result = Shell.su("mount -o bind " + s.commonPath + " " + s.dataPath).exec();
+        result = Shell.su("mount | grep " + s.pName).exec();
+        result = Shell.su("echo " + s.commonPath + " " + s.dataPath + " >> " + datacommon + datamount).exec();
+        result = Shell.su("echo " + s.pName + " " + ts + " >> " + datacommon + apps_date).exec();
+//        result = Shell.su("echo mount -o bind " + s.commonPath + " " + s.dataPath + " >> " + datacommon + datamount + ".sh").exec();
+//        result = Shell.su("chmod -R 755 " + datacommon + datamount + ".sh").exec();
+//        result = Shell.su("./" + datacommon + datamount + ".sh").exec();
     }
     public void onClickExit(View view) {
         try {
@@ -181,6 +209,34 @@ public class SharedApp extends AppCompatActivity {
         }
         catch (Exception e){}
         SharedApp.this.finish();
+    }
+    public String exec_command(String[] cmd) {
+
+        try {
+            // Executes the command.
+            Process process = Runtime.getRuntime().exec(cmd);
+            // Reads stdout.
+            // NOTE: You can write to stdin of the command using
+            //       process.getOutputStream().
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
+
+            int read;
+            char[] buffer = new char[4096];
+            StringBuffer output = new StringBuffer();
+            while ((read = reader.read(buffer)) > 0) {
+                output.append(buffer, 0, read);
+            }
+            reader.close();
+            // Waits for the command to finish.
+            process.waitFor();
+
+            return output.toString();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 

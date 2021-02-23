@@ -73,6 +73,11 @@
     <string name="application_list_saved">Application list saved, You must reboot now!!!</string>
     <string name="installing_bootctl">Installing bootctl to /data/adb/DualBoot</string>
     <string name="bootctl_wrong">Something went terribly wrong</string>
+    <string name="mount_inactive_data">Mount inactive data at boot</string>
+    <string name="mount_inactive_system">Mount inactive system at boot</string>
+    <string name="data_encrypted"> is encrypted.</string>
+    <string name="unknown_fiesystem">Unknown filesystem</string>
+    <string name="data_partition">Data partition</string>
     <!--
     <string name="shortcut3">-</string>
     <string name="shortcut3_long">Long shortcut 3</string>

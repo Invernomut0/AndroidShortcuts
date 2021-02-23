@@ -74,16 +74,30 @@ public class MainActivity extends AppCompatActivity {
     Boolean bNoWarn = false;
     Boolean bSys = false;
     Boolean bData = false;
-    String datacommon = "/datacommon/SharedData/";
-    String datamount = "/datacommon/DB/";
-    String commondatamount = "/sdcard/CommonData/DualBoot/";
-    String mSystemPartition = "InactiveSystem";
-    String mDatapPartition = "InactiveData";
-    String mInactive = "mInactive.conf";
+    String commondatamount11 = "/mnt/pass_through/0/emulated/0/DualBoot/";
+    String commondatamount10 = "/mnt/pass_through/0/emulated/0/DualBoot/";
+    String initrc = "/system/etc/init/hw/init.rc";
+    String sdcard = "/sdcard/DualBoot/";
+    String mSystemPartition = "System_";
+    String mDatapPartition = "UserData_";
+    String mSdcard = "SDcard_";
+    //String mInactive = "mInactive.conf";
+
+    static {
+        // Set settings before the main shell can be created
+        Shell.enableVerboseLogging = BuildConfig.DEBUG;
+        Shell.setDefaultBuilder(Shell.Builder.create()
+                .setFlags(Shell.FLAG_REDIRECT_STDERR)
+                .setFlags(Shell.ROOT_MOUNT_MASTER)
+                .setTimeout(10)
+        );
+    }
+
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         String versionName = BuildConfig.VERSION_NAME;
         String cmd;
@@ -155,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         //SELINUX CHECK
         Shell.Result result;
         result = Shell.su("getenforce").exec();
-        //if(result.getOut(0).toString().contains())
+        log("Selinux: " + result.getOut().toString());
 
         pwd = findViewById(R.id.pwd);
         NoWarn = findViewById(R.id.NoWarn);
@@ -252,7 +266,13 @@ public class MainActivity extends AppCompatActivity {
 
         String os = Build.FINGERPRINT;
 
-
+        //CHECK LAYOUT
+        result = Shell.su("test -d /datacommon && echo OK || echo KO").exec();
+        if(result.getOut().toString().contains("KO"))
+        {
+            bShared.setText(getString(R.string.no_shared_app));
+            disableButton(bShared,"");
+        }
         //BOOTCTL ---------------------------
         try {
             InputStream is = getAssets().open("bootctl");
@@ -445,9 +465,10 @@ public class MainActivity extends AppCompatActivity {
         //log("OK");
         /*END ANDROID INFO */
 
-
+        String response;
+        response = getIntent().getAction();
         //textView.animateText(tLog);
-        switch (getIntent().getAction()) {
+        switch (response) {
             case ACTION_1:
                 switchSlot(this, "_a", 0);
                 break;
@@ -464,23 +485,72 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
     }
+    @SuppressLint("SetTextI18n")
     private void mountSetup()
     {
         Shell.Result result;
-        Shell.sh("mkdir -p " + datamount).submit();
+        Shell ss = Shell.getCachedShell();
+        Integer i = ss.getStatus();
+        Shell.Job jb;
+        List<String> res = new ArrayList<>();
+        String commondatamount = commondatamount10;
+        result = Shell.su("test -d " + initrc + " && echo OK || echo KO").exec();
+        if(result.getOut().toString().contains("KO"))
+        {
+            commondatamount = commondatamount11;
+        }
         Shell.sh("mkdir -p " + commondatamount).submit();
-        result = Shell.su("rm -f " + datacommon + mInactive).exec();
+        //result = Shell.su("rm -f " + commondatamount + mInactive).exec();
+
         if (bSys)
         {
-            Shell.su("mkdir -p " + datamount + mSystemPartition).submit();
-            Shell.su("mkdir -p " + commondatamount + mSystemPartition).submit();
-            result = Shell.su("echo system >> " + datacommon + mInactive).exec();
+            jb = ss.newJob();
+            //Shell.su("mkdir -p " + datamount + mSystemPartition).submit();
+            jb.add("mkdir -p " + commondatamount + mSystemPartition + inactive_slot);
+            jb.add("mount -t ext4 /dev/block/by-name/system_"+ inactive_slot + " " + commondatamount + mSystemPartition + inactive_slot);
+            result = jb.exec();
+            mSys.setText(getString(R.string.mount_inactive_system) + "\n" + sdcard + mSystemPartition + inactive_slot);
         }
-        if(bData)
+        else
         {
-            Shell.su("mkdir -p " + datamount + mDatapPartition).submit();
-            Shell.su("mkdir -p " + commondatamount + mDatapPartition).submit();
-            result = Shell.su("echo data >> " + datacommon + mInactive).exec();
+            jb = ss.newJob();
+            jb.add("umount " + commondatamount + mSystemPartition + inactive_slot);
+            jb.add("rmdir " + commondatamount + mSystemPartition + inactive_slot);
+            result = jb.exec();
+            mSys.setText(getString(R.string.mount_inactive_system));
+        }
+        if (bData)
+        {
+            //Shell.su("mkdir -p " + datamount + mDatapPartition).submit();
+            //Shell.su("mkdir -p " + commondatamount + mDatapPartition).submit();
+            //result = Shell.su("echo data >> " + commondatamount + mInactive).exec();
+            //result = Shell.su("mount -t " + fsdata(inactive_slot) + " /dev/block/by-name/userdata_"+ inactive_slot +" /data/adb/Dualboot/data_").exec();
+            jb = ss.newJob();
+            //jb.add("mkdir -p " + commondatamount + mDatapPartition + inactive_slot);
+            jb.add("mkdir -p " + commondatamount + mSdcard + inactive_slot);
+            result = jb.to(res).exec();
+            //jb.add("echo data >> " + commondatamount + mInactive);
+            jb.add("mount -t " + fsdata(inactive_slot) + " /dev/block/by-name/userdata_"+ inactive_slot + " /data/adb/Dualboot/data_");
+            //jb.add("mount -o bind /data/adb/Dualboot/data_ " + commondatamount + mDatapPartition + inactive_slot);
+            jb.add("mount -o bind /data/adb/Dualboot/data_/media/0 " + commondatamount + mSdcard + inactive_slot);
+            result = jb.to(res).exec();
+            mData.setText(getString(R.string.mount_inactive_data) + "\n"
+                    //        + sdcard + mSystemPartition + inactive_slot + "\n"
+                    + sdcard + mSdcard + inactive_slot);
+
+        }
+        else
+        {
+            jb = ss.newJob();
+            //jb.add("umount " + commondatamount + mDatapPartition + inactive_slot);
+            jb.add("umount /data/adb/Dualboot/data_");
+            //jb.add("umount " + commondatamount + mDatapPartition + inactive_slot);
+            jb.add("umount " + commondatamount + mSdcard + inactive_slot);
+            result = jb.to(res).exec();
+            //jb.add("rmdir " + commondatamount + mDatapPartition + inactive_slot);
+            jb.add("rmdir " + commondatamount + mSdcard + inactive_slot);
+            result = jb.to(res).exec();
+            mData.setText(getString(R.string.mount_inactive_data));
         }
     }
     private void reloadPref()
@@ -506,10 +576,20 @@ public class MainActivity extends AppCompatActivity {
         if (pref.contains("mSys")) {
             bSys = pref.getBoolean("mSys", false);
             mSys.setChecked(bSys);
+            if(bSys){
+                mSys.setText(getString(R.string.mount_inactive_system) + "\n"
+                    + sdcard + mSystemPartition + inactive_slot);
+                mountSetup();
+            }
         }
         if (pref.contains("mData")) {
             bData = pref.getBoolean("mData", false);
             mData.setChecked(bData);
+            if(bData) {
+                mData.setText(getString(R.string.mount_inactive_data) + "\n"
+                        + sdcard + mSdcard + inactive_slot);
+                mountSetup();
+            }
         }
 
     }
@@ -592,6 +672,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(InfoPage);
     }
 
+    public void onClickNo_click(View view) {}
 
     public void onClickRebootA(View view) {
         switchSlot(this, "_b", 0);
@@ -773,7 +854,7 @@ public class MainActivity extends AppCompatActivity {
         btn.setEnabled(false);
         btn.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
         if (slot.contains("A")) btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.disable_a, 0, 0, 0);
-        else btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.disable_b, 0, 0, 0);
+        else if (slot.contains("B"))  btn.setCompoundDrawablesWithIntrinsicBounds(R.drawable.disable_b, 0, 0, 0);
         btn.setTextColor(Color.DKGRAY);
     }
 
@@ -788,6 +869,7 @@ public class MainActivity extends AppCompatActivity {
         }
 }
 
+/*
 class SplashActivity extends MainActivity {
 
     static {
@@ -800,18 +882,4 @@ class SplashActivity extends MainActivity {
         );
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // Preheat the main root shell in the splash screen
-        // so the app can use it afterwards without interrupting
-        // application flow (e.g. root permission prompt)
-        Shell.getShell(shell -> {
-            // The main shell is now constructed and cached
-            // Exit splash screen and enter main activity
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
-            finish();
-        });
-    }
-}
+}*/

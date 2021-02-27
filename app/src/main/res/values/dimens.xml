@@ -1,9 +1,5 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    <dimen name="ui_margin_medium">32dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
     <!--
     Because the window insets on round devices are larger than 15dp, this padding only applies
     to square screens.
@@ -15,15 +11,12 @@
     and the window insets is box_inset_layout_padding (above variable) on square screens and
     inner_frame_layout_padding (below variable) on round screens.
     -->
-    <dimen name="inner_frame_layout_padding">5dp</dimen>
 
     <!-- Guillotine screen dimens-->
     <dimen name="guillotine_small_margin">8dp</dimen>
     <dimen name="guillotine_medium_margin">16dp</dimen>
     <dimen name="guillotine_large_margin">64dp</dimen>
-    <dimen name="guillotine_divider_height">40dp</dimen>
 
     <dimen name="guillotine_item_text_size">20sp</dimen>
-    <dimen name="guillotine_actionbar_background_view_height">35dp</dimen>
 
 </resources>

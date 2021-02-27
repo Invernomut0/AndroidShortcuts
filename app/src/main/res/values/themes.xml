@@ -1,13 +1,3 @@
 <resources>
 
-    <style name="NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:navigationBarColor">@color/guillotine_background_dark</item>
-        <item name="android:windowLightNavigationBar">true</item>
-    </style>
-
-    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

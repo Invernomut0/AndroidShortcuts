@@ -120,8 +120,8 @@ public class DBService extends ControlsProviderService {
         activeslot = getText(R.string.not_found).toString();
         List<String> out = new ArrayList<String>();
         out = Shell.su("getprop ro.boot.slot_suffix").exec().getOut();
-        if (out.get(0).contains("a")) activeslot = "A";
-        else if (out.get(0).contains("b")) activeslot = "B";
+        if (out.toString().contains("a")) activeslot = "A";
+        else if (out.toString().contains("b")) activeslot = "B";
 
         Context context = getBaseContext();
         /* Fill in details for the activity related to this device. On long press,

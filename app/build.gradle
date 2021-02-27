@@ -16,7 +16,7 @@ android {
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 27
         versionCode 1
-        versionName "2.2 - ALPHA - Bleeding bug"
+        versionName '2.5 - BETA - Bleeding bug'
         //testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
@@ -65,12 +65,10 @@ dependencies {
         //...
         implementation 'com.github.elevenetc:textsurface:0.9.1'
     }
-
     //implementation 'com.rom4ek:arcnavigationview:2.0.0'
     //implementation 'androidx.appcompat:appcompat:1.0.0'
     //testImplementation 'junit:junit:4.12'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'org.reactivestreams:reactive-streams:1.0.3'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
-
 }

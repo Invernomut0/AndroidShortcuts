@@ -1,9 +1,6 @@
 package com.invernomuto.DualBoot;
 
-
 import android.graphics.drawable.Drawable;
-
-
 
 public class sApp {
 

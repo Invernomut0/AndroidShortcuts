@@ -55,8 +55,8 @@
     <string name="share_app">Перенос приложений  - ЭКСПЕРИМЕНТАЛЬНО!</string>
     <string name="installing_bootctl">Установка bootctl в /data/adb/DualBoot</string>
     <string name="bootctl_wrong">Что то пошло не так</string>
-    <string name="mount_inactive_data">Монтировать раздел пользовательских данных при загрузке</string>
-    <string name="mount_inactive_system">Монтировать системный раздел при загрузке</string>
+    <string name="mount_inactive_data">Монтировать раздел пользовательских данных</string>
+    <string name="mount_inactive_system">Монтировать системный раздел</string>
     <string name="data_encrypted">" Зашифровано."</string>
     <string name="unknown_fiesystem">Неизвестная файловая система</string>
     <string name="data_partition">Раздел пользовательских данных</string>

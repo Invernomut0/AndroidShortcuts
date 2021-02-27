@@ -1,25 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@android:color/secondary_text_light</color>
     <color name="colorPrimaryDark">@android:color/background_dark</color>
     <color name="colorAccent">@android:color/white</color>
     <color name="guillotine_background">#444153</color>
     <color name="guillotine_background_dark">#383547</color>
-    <color name="selected_item_color">#30d1d5</color>
-    <color name="invernomuto_50">#e9e8ea</color>
-    <color name="invernomuto_100">#c7c6cb</color>
-    <color name="invernomuto_200">#a2a0a9</color>
     <color name="invernomuto_300">#7c7a87</color>
     <color name="invernomuto_400">#605e6d</color>
-    <color name="invernomuto_500">#444153</color>
-    <color name="invernomuto_600">#3e3b4c</color>
-    <color name="invernomuto_700">#353242</color>
-    <color name="invernomuto_800">#2d2a39</color>
-    <color name="invernomuto_900">#1f1c29</color>
-    <color name="invernomuto_A100">#8b71ff</color>
-    <color name="invernomuto_A200">#613eff</color>
-    <color name="invernomuto_A400">#370bff</color>
-    <color name="invernomuto_A700">#2c00f1</color>
-    <color name="SlotA">#79c257</color>
-    <color name="SlotB">#b85e5e</color>
 </resources>

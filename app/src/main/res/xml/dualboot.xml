@@ -8,7 +8,7 @@
         android:shortcutLongLabel="@string/shortcut1_long"
         android:shortcutDisabledMessage="@string/shortcut1_disabled">
         <intent
-            android:action="action1"
+            android:action="RebootB"
             android:targetPackage="com.invernomuto.DualBoot"
             android:targetClass="com.invernomuto.DualBoot.MainActivity" />
     </shortcut>
@@ -21,7 +21,7 @@
         android:shortcutLongLabel="@string/shortcut2_long"
         android:shortcutDisabledMessage="@string/shortcut2_disabled">
         <intent
-            android:action="action2"
+            android:action="RebootA"
             android:targetPackage="com.invernomuto.DualBoot"
             android:targetClass="com.invernomuto.DualBoot.MainActivity" />
     </shortcut>
@@ -34,7 +34,7 @@
         android:shortcutLongLabel="@string/shortcut3_long"
         android:shortcutDisabledMessage="@string/shortcut3_disabled">
         <intent
-            android:action="action3"
+            android:action="RebootRB"
             android:targetPackage="com.invernomuto.DualBoot"
             android:targetClass="com.invernomuto.DualBoot.MainActivity" />
     </shortcut>
@@ -47,7 +47,7 @@
         android:shortcutLongLabel="@string/shortcut4_long"
         android:shortcutDisabledMessage="@string/shortcut4_disabled">
         <intent
-            android:action="action4"
+            android:action="RebootRA"
             android:targetPackage="com.invernomuto.DualBoot"
             android:targetClass="com.invernomuto.DualBoot.MainActivity" />
     </shortcut>

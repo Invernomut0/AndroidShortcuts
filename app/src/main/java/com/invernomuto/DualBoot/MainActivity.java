@@ -1,6 +1,5 @@
 package com.invernomuto.DualBoot;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
@@ -21,7 +20,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toolbar;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
@@ -36,6 +34,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
     String userMountPath11 = "/mnt/runtime/full/emulated/0/DualBoot/";
     String userMountPath10 = "/mnt/runtime/full/emulated/0/DualBoot/";
     String userPath = "/sdcard/DualBoot/";
+    private static final String TAG = "invernomuto";
 
     @Override
     public void onDestroy() {
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Log.d(TAG, "Application started");
         //Preference panel
         FrameLayout root = findViewById(R.id.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -174,8 +175,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Start
         log(getString(R.string.AppStarted));
-
-
+        copyBootctl();
 
         //Setup Version Name
         String versionName = BuildConfig.VERSION_NAME;
@@ -358,7 +358,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> sErr = new ArrayList<>();
 
         if (!bNoWarn) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(android.R.string.dialog_alert_title);
             builder.setMessage(getString(R.string.dialog_confirmation));
             builder.setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
@@ -369,7 +369,27 @@ public class MainActivity extends AppCompatActivity {
             });
             builder.setNegativeButton(getString(android.R.string.no), null);
             AlertDialog dialog = builder.create();
-            dialog.show();
+            dialog.show();*/
+            SweetAlertDialog.DARK_STYLE = true;
+            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText(getString(R.string.reboot_to_bootloader))
+                    .setContentText(getString(R.string.dialog_confirmation))
+                    .setConfirmText(getString(R.string.yes))
+                    //.setCustomImage(R.mipmap.ic_launcher_foreground)
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                            jb.add("reboot bootloader").to(sRes, sErr).exec();
+                        }
+                    })
+                    .setCancelButton(getString(R.string.Cancel), new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .show();
         } else {
             jb.add("reboot bootloader").to(sRes, sErr).exec();
         }
@@ -421,14 +441,16 @@ public class MainActivity extends AppCompatActivity {
             bRB.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rbd, 0, 0, 0);
             TextView tRom_sx = findViewById(R.id.tRoma);
             TextView tRom_dx = findViewById(R.id.tRomb);
-            tRom_sx.setTextColor(getColor(R.color.efab_disabled_text));
+
             tRom_dx = findViewById(R.id.tRomb);
             tRom_sx = findViewById(R.id.tRoma);
+            tRom_dx.setTextColor(getColor(R.color.efab_disabled_text));
 
             tSlotAtitle=findViewById(R.id.slot_a_title);
             tSlotBtitle=findViewById(R.id.slot_b_title);
             tSlotAtitle.setText("Slot A");
             tSlotBtitle.setText("Slot B");
+
             tSlotA = findViewById(R.id.slota);
             tSlotB = findViewById(R.id.slotb);
 
@@ -438,9 +460,10 @@ public class MainActivity extends AppCompatActivity {
             String tmp = "";
             for (String s : ls ) tmp += s + "\n";
 
-            tSlotB.setText(tmp);
+            tSlotA.setText(tmp);
 
             ls = new ArrayList<>();
+            tmp="";
             ls=getSystemInfo("b");
             tRom_dx.setText(ls.get(ls.size()-1));
             for (String s : ls ) tmp += s + "\n";
@@ -602,7 +625,31 @@ public class MainActivity extends AppCompatActivity {
         }
 
         if (!bNoWarn) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            String rec = getString(R.string.system);
+            String _Slot = "A";
+            if (currentSlot.contains("a")) _Slot= "B";
+            if(recovery == 1) rec = getString(R.string.recovery);
+            SweetAlertDialog.DARK_STYLE = true;
+            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText(getString(R.string.reboot_to) + " " + rec + " " + _Slot)
+                    .setContentText(getString(R.string.dialog_confirmation))
+                    .setConfirmText(getString(R.string.yes))
+                    //.setCustomImage(R.mipmap.ic_launcher_foreground)
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                            rebootProc(currentSlot, recovery);
+                        }
+                    })
+                    .setCancelButton(getString(R.string.Cancel), new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .show();
+            /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(android.R.string.dialog_alert_title);
             builder.setMessage(getString(R.string.dialog_confirmation));
             builder.setPositiveButton(getString(android.R.string.ok), new DialogInterface.OnClickListener() {
@@ -613,7 +660,7 @@ public class MainActivity extends AppCompatActivity {
             });
             builder.setNegativeButton(getString(android.R.string.no), null);
             AlertDialog dialog = builder.create();
-            dialog.show();
+            dialog.show();*/
         } else {
             rebootProc(currentSlot, recovery);
         }
@@ -660,7 +707,7 @@ public class MainActivity extends AppCompatActivity {
             else if (sVal.contains("ro.crdroid")) crDroid = true;
 
             if (sRes.get(i).contains("ro.build.flavor=")) {
-                Log.d("invernomuto - ro.build.flavor", sVal);
+                Log.d(TAG, sVal);
                 if (sVal.contains("qssi")) ls.add("OXYGEN OS 11");
                 if (sVal.contains("android-user")) ls.add("Android Emulator");
                 if (sVal.contains("guacamole-user") || sVal.contains("OnePlus7Pro-user")) ls.add("OXYGEN OS 10");
@@ -707,7 +754,8 @@ public class MainActivity extends AppCompatActivity {
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
 
-        jb.add("[ -f " + initrc_A11 + " ] && OK || KO").to(sRes, sErr).exec();
+        jb.add("[ -f " + initrc_A11 + " ] && echo OK || echo KO").to(sRes, sErr).exec();
+        Log.d(TAG, "Android: " + sRes.toString());
         if (sRes.toString().contains("OK")) {
             return "Android 11";
         }
@@ -766,6 +814,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
         jb.add("rmdir " + getCommonDataMount() + "*").to(sRes, sErr).exec();
+        jb.add("mkdir " + getCommonDataMount()).to(sRes, sErr).exec();
         jb.add("mkdir " + getCommonDataMount() + userSystem + inactiveSlot).to(sRes, sErr).exec();
         jb.add("mkdir " + getCommonDataMount() + userSdcard + inactiveSlot).to(sRes, sErr).exec();
         jb.add("mkdir " + baseMountPath).to(sRes, sErr).exec();
@@ -784,8 +833,8 @@ public class MainActivity extends AppCompatActivity {
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
         jb.add("mount | grep " + partition).to(sRes, sErr).exec();
-        Log.d("Invernomuto - ismount | ","mount | grep " + partition);
-        Log.d("Invernomuto - ismount | ", "RES: " + !sRes.isEmpty());
+        Log.d(TAG,"mount | grep " + partition);
+        Log.d(TAG, "RES: " + !sRes.isEmpty());
         return !sRes.isEmpty();
     }
 
@@ -854,7 +903,7 @@ public class MainActivity extends AppCompatActivity {
         //jb.add("umount " + getCommonDataMount() + userSystem + inactiveSlot).to(sRes, sErr).exec();
         if(isMounted(mounts.get("uSystem"))) {
             jb.add("umount " + getCommonDataMount() + userSystem + inactiveSlot).to(sRes, sErr).exec();
-            Log.d("Invernomuto - umount user system", sErr.toString());
+            Log.d(TAG, sErr.toString());
             if (!sErr.isEmpty()) {
                 return sErr.toString();
             }

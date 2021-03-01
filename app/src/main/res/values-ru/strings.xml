@@ -63,4 +63,10 @@
     <string name="inactive_sys_unmounted">Inactive system dismounted</string>
     <string name="inactive_sdcard_mounted">"Inactive Sd Card mounted to "</string>
     <string name="inactive_sdcard_dismounted">Inactive SD Card dismounted</string>
+    <string name="yes">Yes</string>
+    <string name="Cancel">No</string>
+    <string name="reboot_to">Reboot to</string>
+    <string name="reboot_to_bootloader">Reboot to Bootloader</string>
+    <string name="recovery">Recovery:</string>
+    <string name="Ready">Ready</string>
 </resources>

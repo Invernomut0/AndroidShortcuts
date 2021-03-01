@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name" translatable="false">DualBoot Companion App</string>
-
     <string name="shortcut1">Slot B</string>
     <string name="shortcut1_long">Reboot to Slot B</string>
     <string name="shortcut1_disabled">Reboot disabled</string>
@@ -30,8 +29,10 @@
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
+    <string name="Ready">Ready</string>
+    <string name="not_found" translatable="false">NOT FOUND</string>
+    <string name="DualBoot" translatable="false">DualBoot</string>
     <string name="linkxda" translatable="false">Information:&lt;br>&lt;br>&lt;a href=https://forum.xda-developers.com/t/recovery-dualboot-unified-a10-a11-oos11-orangefox-dualboot-unified-reborn-06-02-2021.4177865/>Xda DualBoot Thread&lt;/a>&lt;br>&lt;br>&lt;a href=https://github.com/Invernomut0?tab=repositories>GitHub DualBoot Thread&lt;/a>&lt;br>&lt;br>&lt;a href=https://t.me/OrangeFoxDualBootRebornOnePlus7>Telegram Support chat&lt;/a></string>
-    <string name="orangefox_dualboot" translatable="false">Orangefox DualBoot</string>
     <string name="options">Options</string>
     <string name="clear_password_when_reboot_to_other_system_slot">Clear password when Reboot to INACTIVE system slot</string>
     <string name="AppStarted">Application Started</string>
@@ -40,10 +41,7 @@
     <string name="console_log">Console Log</string>
     <string name="locksettings_not_found">locksettings.db not found!</string>
     <string name="remove_locksettings">Removing locksettings.db</string>
-    <string name="Ready" translatable="false">Ready</string>
-    <string name="not_found" translatable="false">NOT FOUND</string>
-    <string name="DualBoot" translatable="false">DualBoot</string>
-    <string name="active_slot">"Active slot: "</string>
+    <string name="active_slot">" - Active slot: "</string>
     <string name="slota">Slot A</string>
     <string name="slotb">Slot B</string>
     <string name="Android_information">Android Information</string>
@@ -65,20 +63,26 @@
     <string name="data_partition">Data partition</string>
     <string name="no_shared_app">Shared App - it works only on A/B/C layout</string>
     <string name="bootctl_empty">Bootctl Error:Empty response.</string>
-    <string name="bootctl_error">Bootctl Error: </string>
+    <string name="bootctl_error">"Bootctl Error: "</string>
     <string name="error_to_dismount">"Error to dismount "</string>
     <string name="dismount">Dismount</string>
-    <string name="erasing_password">Erasing password: </string>
-    <string name="version">Version: </string>
+    <string name="erasing_password">"Erasing password: "</string>
+    <string name="version">"Version: "</string>
     <string name="shared_app_disabled_log">A/b/c layout not found. Shared app feature is disabled</string>
     <string name="Device_not_compatible">No compatible device found.</string>
+    <string name="inactive_sys_mounted">"Inactive system mounted to "</string>
+    <string name="inactive_sys_unmounted">Inactive system dismounted</string>
+    <string name="inactive_sdcard_dismounted">Inactive SD Card dismounted</string>
     <string name="system">"System: "</string>
     <string name="inactive_sd_card">Inactive SDCard mounted</string>
     <string name="inactive_system_mounted">Inactive System mounted</string>
-    <string name="inactive_sys_mounted">"Inactive system mounted to "</string>
-    <string name="inactive_sys_unmounted">Inactive system dismounted</string>
     <string name="inactive_sdcard_mounted">"Inactive Sd Card mounted to "</string>
-    <string name="inactive_sdcard_dismounted">Inactive SD Card dismounted</string>
+    <string name="yes">Yes</string>
+    <string name="Cancel">No</string>
+    <string name="reboot_to">Reboot to</string>
+    <string name="reboot_to_bootloader">Reboot to Bootloader</string>
+    <string name="recovery">Recovery:</string>
+    <string name="orangefox_dualboot" translatable="false">OrangeFox DualBoot</string>
     <!--
     <string name="shortcut3">-</string>
     <string name="shortcut3_long">Long shortcut 3</string>

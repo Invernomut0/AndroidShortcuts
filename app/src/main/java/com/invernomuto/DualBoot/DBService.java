@@ -232,22 +232,22 @@ public class DBService extends ControlsProviderService {
 
         if(controlId.contains("REBOOT-A"))
         {
-            out = Shell.su("/data/adb/DualBoot/bootctl set-active-boot-slot 0").exec().getOut();
+            out = Shell.su("/data/adb/Dualboot/bootctl set-active-boot-slot 0").exec().getOut();
             out = Shell.su("reboot").exec().getOut();
         }
         else if (controlId.contains("REBOOT-B"))
         {
-            out = Shell.su("/data/adb/DualBoot/bootctl set-active-boot-slot 1").exec().getOut();
+            out = Shell.su("/data/adb/Dualboot/bootctl set-active-boot-slot 1").exec().getOut();
             out = Shell.su("reboot").exec().getOut();
         }
         else if (controlId.contains("REBOOT-RA"))
         {
-            out = Shell.su("/data/adb/DualBoot/bootctl set-active-boot-slot 0").exec().getOut();
+            out = Shell.su("/data/adb/Dualboot/bootctl set-active-boot-slot 0").exec().getOut();
             out = Shell.su("reboot recovery").exec().getOut();
         }
         else if (controlId.contains("REBOOT-RB"))
         {
-            out = Shell.su("/data/adb/DualBoot/bootctl set-active-boot-slot 1").exec().getOut();
+            out = Shell.su("/data/adb/Dualboot/bootctl set-active-boot-slot 1").exec().getOut();
             out = Shell.su("reboot recovery").exec().getOut();
         }
 

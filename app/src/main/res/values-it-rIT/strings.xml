@@ -56,11 +56,17 @@
     <string name="version">"Versione: "</string>
     <string name="shared_app_disabled_log">A/b/c layout non trovato. La funzionalità di condivisione App è disabilitata</string>
     <string name="Device_not_compatible">Il Device non è compatibile</string>
-    <string name="inactive_sys_mounted">"Systema inattivo montato su  "</string>
-    <string name="inactive_sys_unmounted">"Systema inattivo smontato "</string>
+    <string name="inactive_sys_mounted">"Sistema inattivo montato su  "</string>
+    <string name="inactive_sys_unmounted">"Sistema inattivo smontato "</string>
     <string name="inactive_sdcard_dismounted">SD Card inattiva smontata</string>
     <string name="system">"Sistema: "</string>
-    <string name="inactive_sd_card">SD Card Inattiva, montata</string>
-    <string name="inactive_system_mounted">Systema Inattivo, montato</string>
+    <string name="inactive_sd_card">SD Card Inattiva montata</string>
+    <string name="inactive_system_mounted">Sistema Inattivo montato</string>
     <string name="inactive_sdcard_mounted">"SD Card inattiva montata su "</string>
+    <string name="yes">Sì</string>
+    <string name="Cancel">No</string>
+    <string name="reboot_to">"Riavvia in "</string>
+    <string name="reboot_to_bootloader">Riavvia in Bootloader</string>
+    <string name="recovery">Recovery:</string>
+    <string name="Ready">Ready</string>
 </resources>

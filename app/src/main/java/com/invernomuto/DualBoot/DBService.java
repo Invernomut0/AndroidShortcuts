@@ -21,7 +21,7 @@ import org.reactivestreams.FlowAdapters;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Flow;
+import java.util.concurrent.Flow.Publisher;
 import java.util.function.Consumer;
 
 import io.reactivex.Flowable;
@@ -44,7 +44,7 @@ public class DBService extends ControlsProviderService {
     String activeslot;
     @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
-    public Flow.Publisher<Control> createPublisherForAllAvailable() {
+    public Publisher<Control> createPublisherForAllAvailable() {
 
         activeslot = getText(R.string.not_found).toString();
         List<String> out = new ArrayList<String>();
@@ -115,7 +115,7 @@ public class DBService extends ControlsProviderService {
 
     @NonNull
     @Override
-    public Flow.Publisher<Control> createPublisherFor(@NonNull List<String> controlIds) {
+    public Publisher<Control> createPublisherFor(@NonNull List<String> controlIds) {
 
         activeslot = getText(R.string.not_found).toString();
         List<String> out = new ArrayList<String>();

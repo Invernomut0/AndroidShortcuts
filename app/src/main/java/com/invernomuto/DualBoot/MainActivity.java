@@ -98,6 +98,12 @@ public class MainActivity extends AppCompatActivity {
         if (im) umountBaseInactiveSystem();
         im= isMounted(mounts.get("Data"));
         if (im) umountBaseInactiveData();
+        try {
+            ss.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -500,7 +506,7 @@ public class MainActivity extends AppCompatActivity {
             tRom_dx.setText(ls.get(ls.size()-1));
             for (String s : ls ) tmp += s + "\n";
 
-            tSlotA.append(tmp);
+            tSlotA.setText(tmp);
 
             ls = new ArrayList<>();
             tmp="";

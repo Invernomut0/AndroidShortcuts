@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "473796138225",
+    "project_id": "dualboot-c32dc",
+    "storage_bucket": "dualboot-c32dc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473796138225:android:731c016146d81be3d28550",
+        "android_client_info": {
+          "package_name": "com.invernomuto.DualBoot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "473796138225-5ubafvfo7mhd7unagi2okfns12so8i4b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADozir62LbvXTVgdUcJAPpxs5zyVK-mzw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "473796138225-5ubafvfo7mhd7unagi2okfns12so8i4b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

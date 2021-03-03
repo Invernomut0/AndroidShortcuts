@@ -1,9 +1,5 @@
 apply plugin: 'com.android.application'
-
-ext {
-    debugApplicationIdSuffix = 'invernomuto'
-}
-
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 30
@@ -15,16 +11,21 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     defaultConfig {
-        applicationId "com.invernomuto.DualBoot"
+        applicationId defaultApplicationId
         minSdkVersion 27
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 27
         versionCode 1
-        versionName '2.5 - BETA - Bleeding bug'
+        versionName '2.6 - BETA - Bleeding bug'
         //testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
 // as 3.0 use implementation
+
+    dependencies {
+        implementation 'com.nambimobile.widgets:expandable-fab:1.0.2'
+        implementation 'com.google.firebase:firebase-analytics:17.4.1'
+    }
     buildTypes {
         release {
             minifyEnabled false
@@ -41,6 +42,7 @@ android {
 dependencies {
 
     implementation 'info.androidhive:fontawesome:0.0.5'
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
 
     def libsuVersion = '3.1.1'
     // The core module is used by all other components

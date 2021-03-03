@@ -23,6 +23,7 @@ import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.topjohnwu.superuser.Shell;
 import com.topjohnwu.superuser.io.SuFileOutputStream;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
@@ -89,7 +90,9 @@ public class MainActivity extends AppCompatActivity {
     String userMountPath11 = "/mnt/runtime/full/emulated/0/DualBoot/";
     String userMountPath10 = "/mnt/runtime/full/emulated/0/DualBoot/";
     String userPath = "/sdcard/DualBoot/";
+    FirebaseAnalytics mFirebaseAnalytics;
     private static final String TAG = "invernomuto";
+    private final String id = "DualBoot";
 
     @Override
     public void onDestroy() {
@@ -109,11 +112,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Log.d(TAG, "Application started");
         //Preference panel
         FrameLayout root = findViewById(R.id.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
-
         View contentHamburger = findViewById(R.id.content_hamburger);
         View guillotineMenu = LayoutInflater.from(this).inflate(R.layout.preferences_layout, null);
         root.addView(guillotineMenu);
@@ -348,6 +351,11 @@ public class MainActivity extends AppCompatActivity {
         // passo all'attivazione dell'activity page1.java
         //Button btn = (Button) findViewById(R.id.bShareApp);
         //btn.setEnabled(false);
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.ITEM_ID, id);
+        bundle.putString(FirebaseAnalytics.Param.ITEM_NAME, "Shared App Button");
+        bundle.putString(FirebaseAnalytics.Param.CONTENT_TYPE, "Click");
+        mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle);
         startActivity(Sapp);
     }
 

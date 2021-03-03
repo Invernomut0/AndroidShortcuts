@@ -12,7 +12,7 @@
     <string name="shortcut3_long">Riavvia in Recovery B</string>
     <string name="shortcut4">Recovery A</string>
     <string name="shortcut4_long">Riavvia in Recovery A</string>
-    <string name="dialog_confirmation">Vuoi davvero riavviare, sei sicuro?</string>
+    <string name="dialog_confirmation">Sei sicuro?</string>
     <string name="reboot_to_system">Riavvia Sistema</string>
     <string name="delete_npassword">Cancella password slot Inattivo</string>
     <string name="Active_Slot">"Dispositivo A/B. Slot Attivo: "</string>

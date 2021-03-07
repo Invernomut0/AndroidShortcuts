@@ -48,6 +48,8 @@ public class SharedApp extends AppCompatActivity {
     String apps_date = "apps_date.conf";
     Button btn;
     ImageView lvSave;
+    Shell ss = Shell.getCachedShell();
+    Shell.Job jb;
     //SharedPreferences sharedPreferences;
 
     @SuppressLint("SetTextI18n")
@@ -61,6 +63,7 @@ public class SharedApp extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.guillotine_background_dark));
         }
+
         //mExplosionField = ExplosionField.attach2Window(this);
         //sharedPreferences = getApplicationContext().getSharedPreferences("DualBoot_prefs", 0);
         setContentView(R.layout.shared_app);
@@ -180,24 +183,34 @@ public class SharedApp extends AppCompatActivity {
                 //.setFlags(Shell.ROOT_MOUNT_MASTER)
         );
         Shell su = Shell.*/
-        result = Shell.su("test -d " + s.commonPath + " && echo OK || echo KO").exec();
-        String res = result.getOut().toString();
+        jb = ss.newJob();
+        List<String> sRes = new ArrayList<>();
+        List<String> sErr = new ArrayList<>();
+        jb.add("test -d " + s.commonPath + " && echo OK || echo KO").to(sRes,sErr).exec();
+        String res = sRes.toString();
         Long tsLong = System.currentTimeMillis()/1000;
         String ts = tsLong.toString();
         if (res.contains("KO"))
         {
-            result = Shell.su("cp -r --preserve=all " + s.dataPath + " " + s.commonPath).exec();
-            result = Shell.su("restorecon -R " + s.dataPath + " " + s.commonPath).exec();
-            result = Shell.su("chmod -R 777 " + s.commonPath).exec();
+            jb.add("cp -r --preserve=all " + s.dataPath + " " + s.commonPath).to(sRes,sErr).exec();
+            jb.add("restorecon -R " + s.dataPath + " " + s.commonPath).to(sRes,sErr).exec();
+            jb.add("chmod -R 777 " + s.commonPath).to(sRes,sErr).exec();
         }
-        result = Shell.su("echo " + s.pName + " >> " + datacommon + selapplist).exec();
-        result = Shell.su("am kill " + s.pName).exec();
+        jb.add("am kill " + s.pName).to(sRes,sErr).exec();
         //su.newJob().add("mount -o bind " + s.commonPath + " " + s.dataPath).exec();
         //result = su.newJob().exec();
-        result = Shell.su("mount -o bind " + s.commonPath + " " + s.dataPath).exec();
-        result = Shell.su("mount | grep " + s.pName).exec();
-        result = Shell.su("echo " + s.commonPath + " " + s.dataPath + " >> " + datacommon + datamount).exec();
-        result = Shell.su("echo " + s.pName + " " + ts + " >> " + datacommon + apps_date).exec();
+        do {
+            jb.add("umount " + s.dataPath).to(sRes, sErr).exec();
+            jb = ss.newJob();
+            sRes = new ArrayList<>();
+            sErr = new ArrayList<>();
+            jb.add("mount | grep " + s.commonPath).to(sRes, sErr).exec();
+        }while (!sRes.isEmpty());
+        jb.add("mount -o bind " + s.commonPath + " " + s.dataPath).to(sRes,sErr).exec();
+        jb.add("mount | grep " + s.pName).to(sRes,sErr).exec();
+        jb.add("echo " + s.commonPath + " " + s.dataPath + " >> " + datacommon + datamount).to(sRes,sErr).exec();
+        jb.add("echo " + s.pName + " " + ts + " >> " + datacommon + apps_date).to(sRes,sErr).exec();
+        jb.add("echo " + s.pName + " >> " + datacommon + selapplist).to(sRes,sErr).exec();
 //        result = Shell.su("echo mount -o bind " + s.commonPath + " " + s.dataPath + " >> " + datacommon + datamount + ".sh").exec();
 //        result = Shell.su("chmod -R 755 " + datacommon + datamount + ".sh").exec();
 //        result = Shell.su("./" + datacommon + datamount + ".sh").exec();

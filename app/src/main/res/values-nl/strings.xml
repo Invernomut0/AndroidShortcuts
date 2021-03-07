@@ -49,7 +49,7 @@
     <string name="Build_flavor">"Build Flavor: "</string>
     <string name="share_app">Share app  - EXPERIMENTAL!</string>
     <string name="shared_app_title">Shared App</string>
-    <string name="application_list_saved">Application list saved, You must reboot now!!!</string>
+    <string name="application_list_saved_old">Application list saved, You must reboot now!!!</string>
     <string name="installing_bootctl">Installing bootctl to /data/adb/DualBoot</string>
     <string name="bootctl_wrong">Something went terribly wrong</string>
     <string name="mount_inactive_data">Mount inactive data</string>
@@ -79,6 +79,12 @@
     <string name="Ready">Pronto</string>
     <string name="Cancel">No</string>
     <string name="yes">Yes</string>
+    <string name="application_list_saved">Application list saved!</string>
+    <string name="device">"Device: "</string>
+    <string name="dualboot_found">Checking DualBoot: Found!</string>
+    <string name="dualboot_not_found">Checking DualBoot: Not Found!</string>
+    <string name="dualboot_layout">"DualBoot layout: "</string>
+    <string name="selinux_permissive">Setting seLixux permissive</string>
     <!--
     <string name="shortcut3">-</string>
     <string name="shortcut3_long">Long shortcut 3</string>

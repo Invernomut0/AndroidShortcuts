@@ -37,7 +37,7 @@
     <string name="build">"Build: "</string>
     <string name="build_id">"Идентификатор сборки: "</string>
     <string name="Build_flavor">"Версия сборки: "</string>
-    <string name="application_list_saved">Список приложений сохранен, требуется перезагрузка!!!</string>
+    <string name="application_list_saved_old">Список приложений сохранен, требуется перезагрузка!!!</string>
     <string name="shared_app_title">Перенос приложений</string>
     <string name="share_app">Перенос приложений </string>
     <string name="installing_bootctl">Установка bootctl в /data/adb/DualBoot</string>
@@ -69,4 +69,10 @@
     <string name="reboot_to_bootloader">Перезагрузить в Bootloader</string>
     <string name="recovery">Recovery:</string>
     <string name="Ready">Готово</string>
+    <string name="application_list_saved">Application list saved!</string>
+    <string name="device">"Device: "</string>
+    <string name="dualboot_found">Checking DualBoot: Found!</string>
+    <string name="dualboot_not_found">Checking DualBoot: Not Found!</string>
+    <string name="dualboot_layout">"DualBoot layout: "</string>
+    <string name="selinux_permissive">Setting seLixux permissive</string>
 </resources>

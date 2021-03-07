@@ -93,6 +93,8 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAnalytics mFirebaseAnalytics;
     private static final String TAG = "invernomuto";
     private final String id = "DualBoot";
+    String INCVersion = Build.VERSION.INCREMENTAL;
+    String device = Build.DEVICE;
 
     @Override
     public void onDestroy() {
@@ -183,7 +185,29 @@ public class MainActivity extends AppCompatActivity {
         bShared.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.star_big_on, 0, 0, 0);
 
         //Start
+        log("");
         log(getString(R.string.AppStarted));
+        log(getString(R.string.device) + device);
+        log("Incremental update: " + INCVersion);
+        Shell.Result result;
+        result = Shell.su("file /init.mount_datacommon.sh").exec();
+        if (result.getOut().toString().contains("script"))
+        {
+            log(getString(R.string.dualboot_found));
+        }
+        else {
+            log(getString(R.string.dualboot_not_found));
+            disableButton(bRB, "B");
+            disableButton(bSB, "B");
+            disableButton(bRA, "A");
+            disableButton(bSA, "A");
+            disableButton(bEP, "A");
+            disableButton(bBL, "B");
+            pwd.setEnabled(false);
+            NoWarn.setEnabled(false);
+            mSys.setEnabled(false);
+            mData.setEnabled(false);
+        }
         copyBootctl();
 
         //Setup Version Name
@@ -192,7 +216,6 @@ public class MainActivity extends AppCompatActivity {
         log(getString(R.string.version) + versionName);
 
         //SELINUX CHECK
-        Shell.Result result;
         result = Shell.su("getenforce").exec();
         log("Selinux: " + result.getOut().toString());
 
@@ -204,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
 
         //CheckLayout and disable SharedApp if a/b
         String sLayout = getLayout();
+        log(getString(R.string.dualboot_layout) + sLayout);
         if (sLayout.equals("a/b")) {
             bShared.setText(getString(R.string.no_shared_app));
             log(getString(R.string.shared_app_disabled_log));
@@ -276,7 +300,8 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putBoolean("ErasePwd", bbPwd);
                 editor.commit();
-                reloadPref();
+
+                //reloadPref();
                 //log("Saving preferences: ErasePWD -> " + bPwd.toString());
             }
         });
@@ -289,7 +314,7 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putBoolean("NoWarn", bbNoWarn);
                 editor.commit();
-                reloadPref();
+                //reloadPref();
                 //log("Saving preferences: NoWarn -> " + bNoWarn.toString());
             }
         });
@@ -302,12 +327,12 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putBoolean("mSys", bbSys);
                 editor.commit();
-                reloadPref();
+                //reloadPref();
                 if (bbSys) {
                     umountUserInactiveSystem();
                     mountUserInactiveSystem();
                     iSys.setImageTintList(ColorStateList.valueOf(Color.GREEN));
-                    log(getString(R.string.inactive_sys_mounted) + userPath + userSdcard + inactiveSlot);
+                    log(getString(R.string.inactive_sys_mounted) + userPath + userSystem + inactiveSlot);
                 } else {
                     umountUserInactiveSystem();
                     iSys.setImageTintList(getColorStateList(R.color.invernomuto_300));
@@ -324,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor = pref.edit();
                 editor.putBoolean("mData", bbData);
                 editor.commit();
-                reloadPref();
+                //reloadPref();
                 if (bbData) {
                     umountUserInactiveData();
                     mountUserInactiveData();
@@ -549,10 +574,33 @@ public class MainActivity extends AppCompatActivity {
         if (pref.contains("mSys")) {
             bSys = pref.getBoolean("mSys", false);
             mSys.setChecked(bSys);
+            ImageView iSys = findViewById(R.id.iSystem);
+            if (bSys) {
+                umountUserInactiveSystem();
+                mountUserInactiveSystem();
+                iSys.setImageTintList(ColorStateList.valueOf(Color.GREEN));
+                log(getString(R.string.inactive_sys_mounted) + userPath + userSystem + inactiveSlot);
+            } else {
+                umountUserInactiveSystem();
+                iSys.setImageTintList(getColorStateList(R.color.invernomuto_300));
+                //log(getString(R.string.inactive_sys_unmounted));
+            }
         }
         if (pref.contains("mData")) {
             bData = pref.getBoolean("mData", false);
             mData.setChecked(bData);
+            ImageView iSD = findViewById(R.id.iSdcard);
+            if (bData) {
+                umountUserInactiveData();
+                mountUserInactiveData();
+                iSD.setImageTintList(ColorStateList.valueOf(Color.GREEN));
+                log(getString(R.string.inactive_sdcard_mounted) + userPath + userSdcard + inactiveSlot);
+            }
+            else {
+                umountUserInactiveSystem();
+                iSD.setImageTintList(getColorStateList(R.color.invernomuto_300));
+                //log(getString(R.string.inactive_sdcard_dismounted));
+            }
         }
 
     }
@@ -895,6 +943,8 @@ public class MainActivity extends AppCompatActivity {
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
         if(!isMounted(mounts.get("uSystem"))) {
+            log(getString(R.string.selinux_permissive));
+            jb.add("setenforce 0").to(sRes, sErr).exec();
             jb.add("mkdir " + getCommonDataMount() + userSystem + inactiveSlot).to(sRes, sErr).exec();
             sRes = new ArrayList<>();
             jb.add("mount -o bind " + baseMountPath + baseSystem + " "
@@ -971,6 +1021,8 @@ public class MainActivity extends AppCompatActivity {
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
         if(!isMounted(mounts.get("uData"))) {
+            log(getString(R.string.selinux_permissive));
+            jb.add("setenforce 0").to(sRes, sErr).exec();
             jb.add("mkdir " + getCommonDataMount() + userSdcard + inactiveSlot).to(sRes, sErr).exec();
             sRes = new ArrayList<>();
             sErr = new ArrayList<>();

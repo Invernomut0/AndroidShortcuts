@@ -1,21 +1,31 @@
 <resources>
-
-    <!-- Base application theme. -->
-    <style name="LinearLayout" />
-
-    <style name="LinearLayout.GuillotineItem">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:layout_marginTop">@dimen/guillotine_small_margin</item>
+    <style name="Theme.App.Dark" parent="Theme.IssueReporter">
+        <item name="colorPrimary">@color/guillotine_background</item>
+        <item name="colorPrimaryDark">@color/guillotine_background_dark</item>
+        <item name="colorAccent">@color/success_stroke_color</item>
+        <item name="cardBackgroundColor">@color/guillotine_background_dark</item>
+        <item name="md_background_color">@color/guillotine_background_dark</item>
     </style>
 
+
+
+    <!-- Base application theme. -->
     <style name="Toolbar">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:minHeight">?attr/actionBarSize</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:background">@color/guillotine_background</item>
+    </style>
+
+    <style name="LinearLayout"/>
+
+
+    <style name="LinearLayout.GuillotineItem">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">@dimen/guillotine_small_margin</item>
     </style>
 
     <style name="ImageView" />

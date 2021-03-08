@@ -154,7 +154,7 @@
     <LinearLayout
         android:id="@+id/Secpatch"
         style="@style/LinearLayout.GuillotineItem"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp">
 
         <TextView
@@ -175,7 +175,7 @@
     <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
+        android:layout_margin="4dp"
         android:background="@drawable/border"
         android:onClick="onClickNo_click">
 
@@ -189,9 +189,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:paddingTop="8dp"
+                android:paddingTop="4dp"
                 android:layout_weight=".5"
                 android:text="Slot A"
+                android:textSize="14sp"
                 android:textAlignment="textStart"
                 android:textAllCaps="true"
                 android:textStyle="bold" />
@@ -209,6 +210,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_weight=".5"
+                android:textSize="14sp"
                 android:text="No Information"
                 android:textAlignment="textStart" />
         </TableRow>
@@ -224,7 +226,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_weight=".5"
-                android:paddingTop="8dp"
+                android:paddingTop="2dp"
+                android:textSize="14sp"
                 android:text="Slot B"
                 android:textAlignment="textStart"
                 android:textAllCaps="true"
@@ -240,9 +243,10 @@
                 android:id="@+id/slotb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="12dp"
                 android:layout_weight=".5"
-                android:paddingBottom="8dp"
+                android:textSize="14sp"
+
                 android:text="No Information"
                 android:textAlignment="textStart" />
         </TableRow>
@@ -250,23 +254,53 @@
 
     </TableLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/Version"
         style="@style/LinearLayout.GuillotineItem"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_weight="1"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="0dp"
         android:layout_marginBottom="4dp"
         android:onClick="onClickNo_click">
 
+        <Button
+            android:id="@+id/bIssue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="0.5"
+            android:backgroundTint="@color/invernomuto_400"
+            android:ellipsize="end"
+            android:insetLeft="32dp"
+            android:insetTop="0dp"
+            android:insetRight="32dp"
+            android:insetBottom="0dp"
+            android:onClick="onSendIssue"
+            android:text="@string/send_issue"
+            android:textColor="#FFFFFF"
+            android:textSize="12sp"
+            app:cornerRadius="10dp"
+            app:icon="@drawable/ic_github"
+            app:iconTint="@color/colorAccent"
+            app:iconTintMode="src_in" />
+
         <TextView
             android:id="@+id/tVersione"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/bIssue"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:layout_gravity="bottom"
-            android:layout_margin="16dp"
-            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             android:fontFamily="@font/duru_sans"
             android:text="Application Version"
             android:textAlignment="center"
@@ -275,6 +309,6 @@
             android:textStyle="bold"
             tools:ignore="RtlCompat" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

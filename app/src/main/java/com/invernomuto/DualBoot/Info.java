@@ -114,13 +114,65 @@ public class Info extends AppCompatActivity {
                 .setColor(Color.WHITE)
                 .setPosition(Align.BOTTOM_OF, BasedOn).build();
 
+        Text tx = TextBuilder
+                .create("Thanks to:")
+                .setPaint(paint)
+                .setPadding(0,64,0,0)
+                //.setPosition(200,600)
+                .setSize(24)
+                .setAlpha(0)
+                .setColor(Color.RED)
+                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, Zack).build();
+
+        Text flo = TextBuilder
+                .create("Florian (@whismasterflo)")
+                .setPaint(paint)
+                .setSize(24)
+                .setAlpha(0)
+                .setColor(Color.WHITE)
+                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, tx).build();
+
+        Text flo2 = TextBuilder
+                .create("OP6 DualBoot Creator")
+                .setPaint(paint)
+                .setSize(24)
+                .setAlpha(0)
+                .setColor(Color.WHITE)
+                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, flo).build();
+
+
+        Text tx2 = TextBuilder
+                .create("Special thanks to:")
+                .setPaint(paint)
+                .setPadding(0,64,0,0)
+                .setSize(24)
+                .setAlpha(0)
+                .setColor(Color.RED)
+                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, flo2).build();
+
+        Text n1 = TextBuilder
+                .create("John (@Tomkumaton_FAJITA)")
+                .setPaint(paint)
+                .setSize(24)
+                .setAlpha(0)
+                .setColor(Color.WHITE)
+                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, tx2).build();
+
+        Text n2 = TextBuilder
+                .create("Ivar (@Ivar418)")
+                .setPaint(paint)
+                .setSize(24)
+                .setAlpha(0)
+                .setColor(Color.WHITE)
+                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, n1).build();
+
         Text Reborn = TextBuilder
                 .create("Reborn by")
                 .setPaint(paint)
                 .setSize(44)
                 .setAlpha(0)
                 .setColor(Color.WHITE)
-                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, Zack).build();
+                .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, n2).build();
 
         Text Inverno = TextBuilder
                 .create("Invernomut0")
@@ -153,24 +205,41 @@ public class Info extends AppCompatActivity {
                 .setColor(Color.WHITE)
                 .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, Telegram).build();
 
+
         text_surface.play(
                 new Sequential(
                         ShapeReveal.create(DualBoot, 1250, SideCut.show(Side.LEFT), false),
-                        new Parallel(ShapeReveal.create(DualBoot, 750, SideCut.hide(Side.LEFT), false), new Sequential(Delay.duration(600), ShapeReveal.create(DualBoot, 600, SideCut.show(Side.LEFT), false))),
-                        new Parallel(new TransSurface(500, Ofox, Pivot.CENTER), ShapeReveal.create(Ofox, 1300, SideCut.show(Side.LEFT), false)),
+                        new Parallel(ShapeReveal.create(DualBoot, 750, SideCut.hide(Side.LEFT), false), new Sequential(Delay.duration(400), ShapeReveal.create(DualBoot, 600, SideCut.show(Side.LEFT), false))),
+                        new Parallel(new TransSurface(700, Ofox, Pivot.CENTER), ShapeReveal.create(Ofox, 700, SideCut.show(Side.LEFT), false)),
                         Delay.duration(500),
                         new Parallel(new TransSurface(750, DoubleYour, Pivot.CENTER), Slide.showFrom(Side.LEFT, DoubleYour, 750)),
                         Delay.duration(500),
-                        new Parallel(TransSurface.toCenter(Oneplus, 500), Rotate3D.showFromSide(Oneplus, 750, Pivot.TOP)),
+                        new Parallel(TransSurface.toCenter(Oneplus, 500), Rotate3D.showFromSide(Oneplus, 500, Pivot.TOP)),
                         new Parallel(TransSurface.toCenter(BasedOn, 500), Slide.showFrom(Side.TOP, BasedOn, 500)),
-                        new Parallel(TransSurface.toCenter(Zack, 750), Slide.showFrom(Side.LEFT, Zack, 500)),
+                        new Parallel(TransSurface.toCenter(Zack, 550), Slide.showFrom(Side.LEFT, Zack, 500)),
                         Delay.duration(500),
-                        new Parallel(
-                                new TransSurface(1500, Reborn, Pivot.CENTER),
+                        Delay.duration(500),
+                        new Sequential(
+                                //new TransSurface(100, tx, Pivot.CENTER),
                                 new Sequential(
-                                        new Sequential(ShapeReveal.create(Reborn, 500, Circle.show(Side.CENTER, Direction.OUT), false)),
-                                        new Sequential(ShapeReveal.create(Inverno, 500, Circle.show(Side.CENTER, Direction.OUT), false)),
-                                        new Sequential(ShapeReveal.create(Enjoy, 750, Circle.show(Side.CENTER, Direction.OUT), false)),
+                                    new Sequential(TransSurface.toCenter(tx, 500), Slide.showFrom(Side.LEFT, tx, 500)),
+                                    Delay.duration(500),
+                                    new Parallel(ShapeReveal.create(flo, 500, Circle.show(Side.CENTER, Direction.CLOCK), false)),
+                                    new Parallel(ShapeReveal.create(flo2, 500, Circle.show(Side.CENTER, Direction.COUNTER_CLOCK), false)),
+                                    Delay.duration(500),
+                                    new Sequential(TransSurface.toCenter(tx2, 500), Slide.showFrom(Side.LEFT, tx2, 500)),
+                                    Delay.duration(500),
+                                    new Parallel(TransSurface.toCenter(n1, 500), Slide.showFrom(Side.RIGHT, n1, 500)),
+                                    new Parallel(TransSurface.toCenter(n2, 500), Slide.showFrom(Side.RIGHT, n2, 500)),
+                                    Delay.duration(1000)
+                                )
+                        ),
+                        new Sequential(
+                                new TransSurface(500, Reborn, Pivot.CENTER),
+                                new Sequential(
+                                        new Parallel(ShapeReveal.create(Reborn, 500, Circle.show(Side.CENTER, Direction.OUT), false)),
+                                        new Parallel(ShapeReveal.create(Inverno, 500, Circle.show(Side.CENTER, Direction.OUT), false)),
+                                        new Parallel(ShapeReveal.create(Enjoy, 750, Circle.show(Side.CENTER, Direction.OUT), false)),
                                         new TransSurface(750, Telegram, Pivot.CENTER), Slide.showFrom(Side.LEFT, Telegram, 1750),
                                         new TransSurface(750, xda, Pivot.CENTER), Slide.showFrom(Side.RIGHT, xda, 1750)
 
@@ -178,9 +247,9 @@ public class Info extends AppCompatActivity {
                                 )
                         ),
                         Delay.duration(200),
-                        new Parallel(
-                                ShapeReveal.create(Enjoy, 1500, SideCut.hide(Side.LEFT), true),
-                                new Sequential(Delay.duration(500), ShapeReveal.create(Reborn, 1500, SideCut.hide(Side.LEFT), true)),
+                        new Sequential(
+                                ShapeReveal.create(Enjoy, 500, SideCut.hide(Side.LEFT), true),
+                                new Sequential(Delay.duration(500), ShapeReveal.create(Reborn, 500, SideCut.hide(Side.LEFT), true)),
                                 Alpha.hide(Zack, 1500),
                                 Alpha.hide(BasedOn, 1500),
                                 Alpha.hide(DualBoot, 1500),
@@ -190,7 +259,9 @@ public class Info extends AppCompatActivity {
                                 )
                 )
         );
-
+        /*RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tlink.getLayoutParams();
+        params.height = 0;
+        tlink.setLayoutParams(params);*/
     }
     public void onClickInfo(View view) {
         Info.this.finish();

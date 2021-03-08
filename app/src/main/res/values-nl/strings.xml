@@ -84,7 +84,8 @@
     <string name="dualboot_found">Checking DualBoot: Found!</string>
     <string name="dualboot_not_found">Checking DualBoot: Not Found!</string>
     <string name="dualboot_layout">"DualBoot layout: "</string>
-    <string name="selinux_permissive">Setting seLixux permissive</string>
+    <string name="selinux_permissive">Setting seLinux permissive</string>
+    <string name="send_issue">Open issue/request on github</string>
     <!--
     <string name="shortcut3">-</string>
     <string name="shortcut3_long">Long shortcut 3</string>

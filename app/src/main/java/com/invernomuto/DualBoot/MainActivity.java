@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.heinrichreimersoftware.androidissuereporter.IssueReporterLauncher;
 import com.topjohnwu.superuser.Shell;
 import com.topjohnwu.superuser.io.SuFileOutputStream;
 import com.yalantis.guillotine.animation.GuillotineAnimation;
@@ -189,25 +190,6 @@ public class MainActivity extends AppCompatActivity {
         log(getString(R.string.AppStarted));
         log(getString(R.string.device) + device);
         log("Incremental update: " + INCVersion);
-        Shell.Result result;
-        result = Shell.su("file /init.mount_datacommon.sh").exec();
-        if (result.getOut().toString().contains("script"))
-        {
-            log(getString(R.string.dualboot_found));
-        }
-        else {
-            log(getString(R.string.dualboot_not_found));
-            disableButton(bRB, "B");
-            disableButton(bSB, "B");
-            disableButton(bRA, "A");
-            disableButton(bSA, "A");
-            disableButton(bEP, "A");
-            disableButton(bBL, "B");
-            pwd.setEnabled(false);
-            NoWarn.setEnabled(false);
-            mSys.setEnabled(false);
-            mData.setEnabled(false);
-        }
         copyBootctl();
 
         //Setup Version Name
@@ -216,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         log(getString(R.string.version) + versionName);
 
         //SELINUX CHECK
-        result = Shell.su("getenforce").exec();
+        Shell.Result result = Shell.su("getenforce").exec();
         log("Selinux: " + result.getOut().toString());
 
         //Swap buttons if active slot A
@@ -434,6 +416,32 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void onSendIssue(View view) {
+        List<String> lsa = new ArrayList<>();
+        List<String> lsb = new ArrayList<>();
+        lsa=getSystemInfo("a");
+        lsb=getSystemInfo("b");
+        IssueReporterLauncher.forTarget("Invernomut0", "DualBoot-Companion-app")
+                // [Recommended] Theme to use for the reporter.
+                // (See #theming for further information.)
+                .theme(R.style.Theme_App_Dark)
+                // [Optional] Auth token to open issues if users don't have a GitHub account
+                // You can register a bot account on GitHub and copy ist OAuth2 token here.
+                // (See #how-to-create-a-bot-key for further information.)
+                .guestToken("c5459ea95c10f35187e0cacbab29c8d3657c15f6")
+                // [Optional] Force users to enter an email adress when the report is sent using
+                // the guest token.
+                .guestEmailRequired(true)
+                // [Optional] Set a minimum character limit for the description to filter out
+                // empty reports.
+                .minDescriptionLength(20)
+                // [Optional] Include other relevant info in the bug report (like custom variables)
+                .putExtraInfo("Slot A", lsa.toString())
+                .putExtraInfo("Slot B", lsb.toString())
+                // [Optional] Disable back arrow in toolbar
+                .homeAsUpEnabled(true)
+                .launch(this);
+    }
     public void onClickNo_click(View view) {
     }
 
@@ -457,8 +465,6 @@ public class MainActivity extends AppCompatActivity {
         String res = erasePassword();
         log(getString(R.string.erasing_password) + res);
     }
-
-    //Useful function
 
     /**
      * set UI information about system slots
@@ -739,11 +745,10 @@ public class MainActivity extends AppCompatActivity {
         List<String> ls = new ArrayList<>();
         //tSlotActive.setText("");
         //tSlotInactive.setText("");
-        String sSx = "Unknown OS";
-        String sDx = "Unknown OS";
         String sVal = "";
-        Boolean crDroid;
-        crDroid = false;
+        Boolean crDroid = false;
+        Boolean Jaguar = false;
+        Boolean Lineage = false;
 
         if (slot.contains(activeSlot)) {
             jb.add("cat /system/build.prop").to(sRes, sErr).exec();
@@ -767,6 +772,7 @@ public class MainActivity extends AppCompatActivity {
             else if (sVal.contains("ro.system.build.id=")) ls.add(getString(R.string.build_id) + sRes.get(i).split("(?<==)")[1]);
             else if (sVal.contains("ro.build.flavor=")) ls.add(getString(R.string.Build_flavor) + (sRes.get(i).split("(?<==)")[1]));
             else if (sVal.contains("ro.crdroid")) crDroid = true;
+            else if (sVal.contains("ro.jaguar.version")) Jaguar = true;
 
             if (sRes.get(i).contains("ro.build.flavor=")) {
                 Log.d(TAG, sVal);
@@ -778,13 +784,14 @@ public class MainActivity extends AppCompatActivity {
                 if (sVal.contains("evolution")) ls.add("EVO X OS");
                 if (sVal.contains("derp")) ls.add("DERPFEST OS");
                 if (sVal.contains("havok")) ls.add("HAVOK OS");
-                if (sVal.contains("crdroid")) ls.add("CR DROID OS");
                 if (sVal.contains("rr_")) ls.add("RES REMIX OS");
-                if (sVal.contains("lineage_")) ls.add("LINEAGE OS");
-            }
+                if (sVal.contains("lineage_")) Lineage=true;
 
-            if (crDroid) sSx = "CRDROID OS";
+            }
         }
+        if(Lineage && !crDroid && !Jaguar) ls.add("LINEAGE OS");
+        if (crDroid) ls.add("CR DROID OS");
+        if (Jaguar) ls.add("JAGUAR OS");
         return ls;
     }
 

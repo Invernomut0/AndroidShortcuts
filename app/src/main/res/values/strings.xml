@@ -16,7 +16,7 @@
     <string name="shortcut4_long">Reboot to Recovery A</string>
     <string name="shortcut4_disabled">Reboot disabled</string>
 
-    <string name="Active_Slot">Found A/B device!\nActive Slot: </string>
+    <string name="Active_Slot">Treble device found!\nActive Slot: </string>
     <string name="dialog_confirmation">Do you want to reboot, are you sure?</string>
     <string name="reboot_to_recovery">Reboot to Recovery</string>
     <string name="reboot_to_system">Reboot to System</string>
@@ -37,7 +37,7 @@
     <string name="clear_password_when_reboot_to_other_system_slot">Clear password when Reboot to INACTIVE system slot</string>
     <string name="AppStarted">Application Started</string>
     <string name="reading_options">Reading options</string>
-    <string name="reboot_whitout_confirmation">Reboot whitout confirmation</string>
+    <string name="reboot_whitout_confirmation">Reboot without confirmation</string>
     <string name="console_log">Console Log</string>
     <string name="locksettings_not_found">locksettings.db not found!</string>
     <string name="remove_locksettings">Removing locksettings.db</string>
@@ -88,7 +88,8 @@
     <string name="dualboot_found">Checking DualBoot: Found!</string>
     <string name="dualboot_not_found">Checking DualBoot: Not Found!</string>
     <string name="dualboot_layout">"DualBoot layout: "</string>
-    <string name="selinux_permissive">Setting seLixux permissive</string>
+    <string name="selinux_permissive">Setting seLinux permissive</string>
+    <string name="send_issue">Open issue/request on github</string>
     <!--
     <string name="shortcut3">-</string>
     <string name="shortcut3_long">Long shortcut 3</string>

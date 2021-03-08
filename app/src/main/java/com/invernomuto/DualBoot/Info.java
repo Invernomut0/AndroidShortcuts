@@ -125,7 +125,7 @@ public class Info extends AppCompatActivity {
                 .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, Zack).build();
 
         Text flo = TextBuilder
-                .create("Florian (@whismasterflo)")
+                .create("Florian (@Wishmasterflo)")
                 .setPaint(paint)
                 .setSize(24)
                 .setAlpha(0)

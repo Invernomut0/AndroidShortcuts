@@ -1,91 +1,84 @@
 <resources>
 
     <string name="shortcut1">Slot B</string>
-    <string name="shortcut1_long">Reboot to Slot B</string>
-    <string name="shortcut1_disabled">Reboot disabled</string>
+    <string name="shortcut1_long">Herstart naar Slot B</string>
+    <string name="shortcut1_disabled">Herstart uitgeschakeld</string>
 
     <string name="shortcut2">Slot A</string>
-    <string name="shortcut2_long">Reboot to Slot A</string>
-    <string name="shortcut2_disabled">Reboot disabled</string>
+    <string name="shortcut2_long">Herstart naar Slot A</string>
+    <string name="shortcut2_disabled">Herstart uitgeschakeld</string>
 
-    <string name="shortcut3">Recovery B</string>
-    <string name="shortcut3_long">Reboot to Recovery B</string>
-    <string name="shortcut3_disabled">Reboot disabled</string>
+    <string name="shortcut3">Herstel modus slot B</string>
+    <string name="shortcut3_long">Herstarten naar herstel modus slot B</string>
+    <string name="shortcut3_disabled">Herstart uitgeschakeldd</string>
 
-    <string name="shortcut4">Recovery A</string>
-    <string name="shortcut4_long">Reboot to Recovery A</string>
-    <string name="shortcut4_disabled">Reboot disabled</string>
+    <string name="shortcut4">Herstel modus slot A</string>
+    <string name="shortcut4_long">Herstarten naar herstel modus slot A</string>
+    <string name="shortcut4_disabled">Herstart uitgeschakeld</string>
 
-    <string name="Active_Slot">Found A/B device!\nActive Slot: </string>
-    <string name="dialog_confirmation">Do you want to reboot, are you sure?</string>
-    <string name="reboot_to_recovery">Reboot to Recovery</string>
-    <string name="reboot_to_system">Reboot to System</string>
-    <string name="delete_npassword">Delete inactive Slot password</string>
-    <string name="reboot_bootloader">Reboot Bootloader</string>
-    <string name="title_activity_info">About</string>
+    <string name="Active_Slot">Project Trebble apparaat gevonden!\nActieve Slot: </string>
+    <string name="dialog_confirmation">Weet je zeker dat u wilt herstarten>?</string>
+    <string name="reboot_to_recovery">Herstart naar herstel modus</string>
+    <string name="reboot_to_system">Herstart naar Android</string>
+    <string name="delete_npassword">Verweider inactieve slot z'n wachtwoord</string>
+    <string name="reboot_bootloader">Herstart naar Bootloader</string>
+    <string name="title_activity_info">Over</string>
     <!-- Strings used for fragments for navigation -->
 
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
-    <string name="options">Options</string>
-    <string name="clear_password_when_reboot_to_other_system_slot">Clear password when Reboot to INACTIVE system slot</string>
-    <string name="AppStarted">Application Started</string>
-    <string name="reading_options">Reading options</string>
-    <string name="reboot_whitout_confirmation">Reboot whitout confirmation</string>
+    <string name="options">Instellingen</string>
+    <string name="clear_password_when_reboot_to_other_system_slot">Verwijder wachtwoord van INACTIEVE slot tijdens Herstart naar Android</string>
+    <string name="AppStarted">App Opgestart</string>
+    <string name="reading_options">Lezen van instellingen</string>
+    <string name="reboot_whitout_confirmation">Herstart bevestiging weg halen?</string>
     <string name="console_log">Console Log</string>
-    <string name="locksettings_not_found">locksettings.db not found!</string>
-    <string name="remove_locksettings">Removing locksettings.db</string>
-    <string name="active_slot">" - Active slot: "</string>
+    <string name="locksettings_not_found">locksettings.db niet gevonden!</string>
+    <string name="remove_locksettings">verweideren van locksettings.db</string>
+    <string name="active_slot">" - Actieve slot: "</string>
     <string name="slota">Slot A</string>
     <string name="slotb">Slot B</string>
-    <string name="Android_information">Android Information</string>
-    <string name="security_patch">"Security Patch: "</string>
-    <string name="Release_version">"Release Version: "</string>
+    <string name="Android_information">Android Informatie</string>
+    <string name="security_patch">"Beveiligings Patch Datum: "</string>
+    <string name="Release_version">"Android Versie: "</string>
     <string name="Release_key">"Release Key: "</string>
     <string name="build">"Build: "</string>
     <string name="build_id">"Build Id: "</string>
     <string name="Build_flavor">"Build Flavor: "</string>
-    <string name="share_app">Share app  - EXPERIMENTAL!</string>
-    <string name="shared_app_title">Shared App</string>
-    <string name="application_list_saved_old">Application list saved, You must reboot now!!!</string>
-    <string name="installing_bootctl">Installing bootctl to /data/adb/DualBoot</string>
-    <string name="bootctl_wrong">Something went terribly wrong</string>
-    <string name="mount_inactive_data">Mount inactive data</string>
-    <string name="mount_inactive_system">Mount inactive system</string>
-    <string name="data_encrypted"> is encrypted.</string>
-    <string name="unknown_fiesystem">Unknown filesystem</string>
-    <string name="data_partition">Data partition</string>
-    <string name="no_shared_app">Shared App - it works only on A/B/C layout</string>
+    <string name="share_app">App delen  - EXPERIMENTEEL!</string>
+    <string name="shared_app_title">Gedeelde App's</string>
+    <string name="application_list_saved">Applicatie lijst opgeslagen, Je moet nu herstarten!!!</string>
+    <string name="installing_bootctl">Installeren van bootctl naar /data/adb/DualBoot</string>
+    <string name="bootctl_wrong">Iets is vreselijk mis gegaan!</string>
+    <string name="mount_inactive_data">Mount inactieve Data partitie</string>
+    <string name="mount_inactive_system">Mount inactieve Systeem partitie</string>
+    <string name="data_encrypted"> is versleuteld.</string>
+    <string name="unknown_fiesystem">Onbekend Bestandssysteem</string>
+    <string name="data_partition">Data partitie</string>
+    <string name="no_shared_app">Gedeelde app's - Deze feature werkt alleen met de A/B/C partitie layout</string>
     <string name="bootctl_empty">Bootctl Error:Empty response.</string>
     <string name="bootctl_error">"Bootctl Error: "</string>
     <string name="error_to_dismount">"Error to dismount "</string>
     <string name="dismount">Dismount</string>
-    <string name="erasing_password">"Erasing password: "</string>
-    <string name="version">"Version: "</string>
-    <string name="shared_app_disabled_log">A/b/c layout not found. Shared app feature is disabled</string>
-    <string name="Device_not_compatible">No compatible device found.</string>
-    <string name="inactive_sys_mounted">"Inactive system mounted to "</string>
-    <string name="inactive_sys_unmounted">Inactive system dismounted</string>
-    <string name="inactive_sdcard_dismounted">Inactive SD Card dismounted</string>
-    <string name="system">"System: "</string>
-    <string name="inactive_sd_card">Inactive SDCard mounted</string>
-    <string name="inactive_system_mounted">Inactive System mounted</string>
-    <string name="inactive_sdcard_mounted">"Inactive Sd Card mounted to "</string>
-    <string name="reboot_to">Reboot to</string>
-    <string name="reboot_to_bootloader">Reboot to Bootloader</string>
-    <string name="recovery">Recovery:</string>
-    <string name="Ready">Pronto</string>
-    <string name="Cancel">No</string>
-    <string name="yes">Yes</string>
-    <string name="application_list_saved">Application list saved!</string>
-    <string name="device">"Device: "</string>
-    <string name="dualboot_found">Checking DualBoot: Found!</string>
-    <string name="dualboot_not_found">Checking DualBoot: Not Found!</string>
-    <string name="dualboot_layout">"DualBoot layout: "</string>
-    <string name="selinux_permissive">Setting seLinux permissive</string>
-    <string name="send_issue">Open issue/request on github</string>
+    <string name="erasing_password">"Wachtwoord wissen: "</string>
+    <string name="version">"Versie: "</string>
+    <string name="shared_app_disabled_log">A/b/c layout niet gevonden. Gedeelde app's feature uitgeschakeld</string>
+    <string name="Device_not_compatible">Ondersteund apparaat niet gevonden.</string>
+    <string name="inactive_sys_mounted">"Inactieve systeem partitie gekopeld op "</string>
+    <string name="inactive_sys_unmounted">Inactieve systeem ontkoppeld</string>
+    <string name="inactive_sdcard_dismounted">Inactieve SD Kaart ontkoppeld</string>
+    <string name="system">"Systeem: "</string>
+    <string name="inactive_sd_card">Inactieve SD Kaart gekoppeld</string>
+    <string name="inactive_system_mounted">Inactieve Systeem gekoppeld</string>
+    <string name="inactive_sdcard_mounted">"Inactieve Sd Kaart gekoppeld op "</string>
+    <string name="reboot_to">Herstarten naar</string>
+    <string name="reboot_to_bootloader">Herstart naar Bootloader</string>
+    <string name="recovery">Herstel modus:</string>
+    <string name="Ready">Klaar</string>
+    <string name="Cancel">Cancel</string>
+    <string name="yes">Ja</string>
     <!--
     <string name="shortcut3">-</string>
     <string name="shortcut3_long">Long shortcut 3</string>

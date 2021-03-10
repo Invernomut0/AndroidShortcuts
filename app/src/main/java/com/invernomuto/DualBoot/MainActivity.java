@@ -24,8 +24,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.AppUpdaterUtils;
+import com.github.javiersantos.appupdater.enums.AppUpdaterError;
 import com.github.javiersantos.appupdater.enums.Display;
 import com.github.javiersantos.appupdater.enums.UpdateFrom;
+import com.github.javiersantos.appupdater.objects.Update;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.heinrichreimersoftware.androidissuereporter.IssueReporterLauncher;
 import com.topjohnwu.superuser.Shell;
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
     TextView tSlotInactive;
     TextView tSlotActiveTitle;
     TextView tSlotInactiveTitle;
+    String newVersion;
     Button bRA;
     Button bRB;
     Button bSA;
@@ -168,26 +172,47 @@ public class MainActivity extends AppCompatActivity {
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.guillotine_background_dark));
 
         //APP Updater
-        AppUpdater appUpdater = new AppUpdater(this)
-                .setDisplay(Display.DIALOG)
+        AppUpdaterUtils appUpdaterUtils = new AppUpdaterUtils(this)
+                //.setUpdateFrom(UpdateFrom.AMAZON)
                 .setUpdateFrom(UpdateFrom.GITHUB)
                 .setGitHubUserAndRepo("Invernomut0", "DualBoot-Companion-app")
-                .setTitleOnUpdateAvailable(getString(R.string.check_update_title))
-                .setContentOnUpdateAvailable(getString(R.string.check_out_latest_version))
-                .setTitleOnUpdateNotAvailable(getString(R.string.update_not_available))
-                .setContentOnUpdateNotAvailable(getString(R.string.no_update_available))
-                .setButtonUpdate(getString(R.string.update_now))
-                //.setButtonUpdateClickListener(...)
-	            .setButtonDismiss(getString(R.string.update_later))
-                //.setButtonDismissClickListener(...)
-	            //.setButtonDoNotShowAgain("Huh, not interested")
-                //.setButtonDoNotShowAgainClickListener(...)
-                .showAppUpdated(false)
-                .setIcon(R.mipmap.ic_launcher) // Notification icon
-                .setCancelable(false); // Dialog could not be dismissable
+                //...
+                .withListener(new AppUpdaterUtils.UpdateListener() {
+                    @Override
+                    public void onSuccess(Update update, Boolean isUpdateAvailable) {
+                        newVersion = update.getLatestVersion();
+                        Log.d("Latest Version", update.getLatestVersion());
+                        //Log.d("Release notes", update.getReleaseNotes());
+                        AppUpdater appUpdater = new AppUpdater(MainActivity.this)
+                                .setDisplay(Display.DIALOG)
+                                .setUpdateFrom(UpdateFrom.GITHUB)
+                                .setGitHubUserAndRepo("Invernomut0", "DualBoot-Companion-app")
+                                .setTitleOnUpdateAvailable(getString(R.string.check_update_title))
+                                .setContentOnUpdateAvailable(getString(R.string.check_out_latest_version) + " : Version " + newVersion)
+                                .setTitleOnUpdateNotAvailable(getString(R.string.update_not_available))
+                                .setContentOnUpdateNotAvailable(getString(R.string.no_update_available))
+                                .setButtonUpdate(getString(R.string.update_now))
+                                //.setButtonUpdateClickListener(...)
+                                .setButtonDismiss(getString(R.string.update_later))
+                                //.setButtonDismissClickListener(...)
+                                //.setButtonDoNotShowAgain("Huh, not interested")
+                                //.setButtonDoNotShowAgainClickListener(...)
+                                .showAppUpdated(false)
+                                .setIcon(R.mipmap.ic_launcher) // Notification icon
+                                .setCancelable(false); // Dialog could not be dismissable
 
-        appUpdater.start();
-
+                        appUpdater.start();
+                        //Log.d("Latest Version Code", update.getLatestVersionCode().toString());
+                        //Log.d("Release notes", update.getReleaseNotes());
+                        //Log.d("URL", update.getUrlToDownload().toString());
+                        //Log.d("Is update available?", Boolean.toString(isUpdateAvailable));
+                    }
+                    @Override
+                    public void onFailed(AppUpdaterError error) {
+                        Log.d("AppUpdater Error", "Something went wrong");
+                    }
+                });
+        appUpdaterUtils.start();
         //Setup main info
         activeSlot   = getActiveSlot();
         inactiveSlot = getInactiveSlot();
@@ -662,7 +687,7 @@ public class MainActivity extends AppCompatActivity {
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
         log("Mount " + getFsType(inactiveSlot) + " - userdata_: /dev/block/by-name/userdata_" + inactiveSlot);
-        jb.add("test -f " + baseMountPath + baseData + "/system/locksettings.db").to(sRes, sErr).exec();
+        jb.add("ls -la " + baseMountPath + baseData + "/system/locksettings.db").to(sRes, sErr).exec();
         if (sErr.isEmpty()) {
             jb   = ss.newJob();
             sRes = new ArrayList<>();
@@ -677,8 +702,8 @@ public class MainActivity extends AppCompatActivity {
                 return (sErr.toString());
             }
         } else {
-            log(getText(R.string.locksettings_not_found).toString());
-            return (sErr.toString());
+            //log(getText(R.string.locksettings_not_found).toString());
+            return (getText(R.string.locksettings_not_found).toString());
         }
     }
 
@@ -711,6 +736,32 @@ public class MainActivity extends AppCompatActivity {
         jb   = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
+        List<String> tmplist = new ArrayList<>();
+        jb.add("cat /datacommon/SharedData/selapplist.conf").to(sRes, sErr).exec();
+        tmplist=sRes;
+        for(String tmp : tmplist) {
+            jb   = ss.newJob();
+            jb.add("am kill " + tmp).to(sRes,sErr).exec();
+            if (!sErr.isEmpty())
+            {
+                Log.d(TAG, "FAILED KILLING - " + tmp + " - " + sErr);
+                jb.add("am kill " + tmp).to(sRes,sErr).exec();
+            }
+        }
+        tmplist.removeAll(tmplist);
+        jb   = ss.newJob();
+        jb.add("cat /datacommon/SharedData/datamount.conf").to(sRes, sErr).exec();
+        tmplist=sRes;
+
+        for(String tmp : tmplist) {
+            jb   = ss.newJob();
+            String[] um = tmp.split("\\s");
+            jb.add("umount " + um[0]).to(sRes, sErr).exec();
+            if (!sErr.isEmpty()) Log.d(TAG, "FAILED UMOUNT - " + tmp + " - " + sErr);
+        }
+        jb   = ss.newJob();
+        jb.add("umount -l /mnt/user/0/emulated").to(sRes, sErr).exec();
+        jb.add("umount -l /mnt/pass_through/0/emulated").to(sRes, sErr).exec();
 
         //TextView textView = (TextView) findViewById(R.id.textview);
         if (currentSlot.contains("_b")) {
@@ -836,6 +887,7 @@ public class MainActivity extends AppCompatActivity {
                 if (sVal.contains("derp")) ls.add("DERPFEST OS");
                 if (sVal.contains("havok")) ls.add("HAVOK OS");
                 if (sVal.contains("rr_")) ls.add("RES REMIX OS");
+                if (sVal.contains("potato")) ls.add("POTATO OS");
                 if (sVal.contains("lineage_")) Lineage=true;
 
             }

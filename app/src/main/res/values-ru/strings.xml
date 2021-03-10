@@ -76,4 +76,11 @@
     <string name="dualboot_layout">"DualBoot layout: "</string>
     <string name="selinux_permissive">Setting seLinux permissive</string>
     <string name="send_issue">Open issue/request on github</string>
+    <string name="check_update_title">Update available</string>
+    <string name="check_out_latest_version">Check out the latest version available!</string>
+    <string name="update_not_available">Update not available</string>
+    <string name="no_update_available">No update available. Check for updates again later!</string>
+    <string name="update_now">Update now?</string>
+    <string name="update_later">Maybe later</string>
+    <string name="share_data_app">Shared data for apps - EXPERIMENTAL</string>
 </resources>

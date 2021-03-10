@@ -98,10 +98,13 @@ public class SharedApp extends AppCompatActivity {
 
         int i=0;
         for (ApplicationInfo app : apps) {
+
+
             //checks for flags; if flagged, check if updated system app
-            if ((app.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
-                //Not interested in
-            } else if ((app.flags & ApplicationInfo.FLAG_SYSTEM)== 0) {
+           // if ((app.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != 0) {
+            //Not interested in
+            //} else
+            if ((app.flags & ApplicationInfo.FLAG_SYSTEM)== 0 || app.packageName.contains("com.google.android.apps")) {
                 String label = (String) pm.getApplicationLabel(app);
                 Drawable icon = pm.getApplicationIcon(app);
 

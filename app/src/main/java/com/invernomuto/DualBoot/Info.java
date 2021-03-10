@@ -169,6 +169,7 @@ public class Info extends AppCompatActivity {
         Text Reborn = TextBuilder
                 .create("Reborn by")
                 .setPaint(paint)
+                .setPadding(0,64,0,0)
                 .setSize(44)
                 .setAlpha(0)
                 .setColor(Color.WHITE)
@@ -176,6 +177,7 @@ public class Info extends AppCompatActivity {
 
         Text Inverno = TextBuilder
                 .create("Invernomut0")
+                .setPadding(0,80,0,0)
                 .setPaint(paint)
                 .setSize(44)
                 .setAlpha(0)
@@ -198,9 +200,10 @@ public class Info extends AppCompatActivity {
                 .setColor(Color.WHITE)
                 .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, Enjoy).build();
         Text xda = TextBuilder
-                .create("XDA: Invernomut0")
+                .create("Oneplus 7 series")
                 .setPaint(paint)
-                .setSize(32)
+                .setPadding(0,64,0,0)
+                .setSize(28)
                 .setAlpha(0)
                 .setColor(Color.WHITE)
                 .setPosition(Align.BOTTOM_OF | Align.CENTER_OF, Telegram).build();

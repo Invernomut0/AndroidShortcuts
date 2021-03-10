@@ -23,12 +23,6 @@
     <string name="delete_npassword">Verweider inactieve slot z\n wachtwoord</string>
     <string name="reboot_bootloader">Herstart naar Bootloader</string>
     <string name="title_activity_info">Over</string>
-    <!-- Strings used for fragments for navigation -->
-
-    <!--
-    This string is used for square devices and overridden by hello_world in
-    values-round/strings.xml for round devices.
-    -->
     <string name="options">Instellingen</string>
     <string name="clear_password_when_reboot_to_other_system_slot">Verwijder wachtwoord van INACTIEVE slot tijdens Herstart naar Android</string>
     <string name="AppStarted">App Opgestart</string>
@@ -86,6 +80,13 @@
     <string name="dualboot_layout">"DualBoot layout: "</string>
     <string name="selinux_permissive">Setting seLinux permissive</string>
     <string name="send_issue">Open issue/request on github</string>
+    <string name="check_update_title">Update available</string>
+    <string name="check_out_latest_version">Check out the latest version available!</string>
+    <string name="update_not_available">Update not available</string>
+    <string name="no_update_available">No update available. Check for updates again later!</string>
+    <string name="update_now">Update now?</string>
+    <string name="update_later">Maybe later</string>
+    <string name="share_data_app">Shared data for apps - EXPERIMENTAL</string>
     <!--
     <string name="shortcut3">-</string>
     <string name="shortcut3_long">Long shortcut 3</string>

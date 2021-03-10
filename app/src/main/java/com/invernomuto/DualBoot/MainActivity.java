@@ -23,6 +23,9 @@ import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.heinrichreimersoftware.androidissuereporter.IssueReporterLauncher;
 import com.topjohnwu.superuser.Shell;
@@ -73,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
     TextView tSlotBtitle;
     TextView tSlotA;
     TextView tSlotB;
+    String roma;
+    String romb;
 
     Shell ss = Shell.getCachedShell();
     Shell.Job jb;
@@ -161,6 +166,27 @@ public class MainActivity extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.guillotine_background_dark));
+
+        //APP Updater
+        AppUpdater appUpdater = new AppUpdater(this)
+                .setDisplay(Display.DIALOG)
+                .setUpdateFrom(UpdateFrom.GITHUB)
+                .setGitHubUserAndRepo("Invernomut0", "DualBoot-Companion-app")
+                .setTitleOnUpdateAvailable(getString(R.string.check_update_title))
+                .setContentOnUpdateAvailable(getString(R.string.check_out_latest_version))
+                .setTitleOnUpdateNotAvailable(getString(R.string.update_not_available))
+                .setContentOnUpdateNotAvailable(getString(R.string.no_update_available))
+                .setButtonUpdate(getString(R.string.update_now))
+                //.setButtonUpdateClickListener(...)
+	            .setButtonDismiss(getString(R.string.update_later))
+                //.setButtonDismissClickListener(...)
+	            //.setButtonDoNotShowAgain("Huh, not interested")
+                //.setButtonDoNotShowAgainClickListener(...)
+                .showAppUpdated(false)
+                .setIcon(R.mipmap.ic_launcher) // Notification icon
+                .setCancelable(false); // Dialog could not be dismissable
+
+        appUpdater.start();
 
         //Setup main info
         activeSlot   = getActiveSlot();
@@ -501,7 +527,9 @@ public class MainActivity extends AppCompatActivity {
 
             List<String> ls = new ArrayList<>();
             ls=getSystemInfo("a");
-            tRom_sx.setText(ls.get(ls.size()-1));
+            roma=ls.get(ls.size()-1);
+            tRom_sx.setText(roma);
+
             String tmp = "";
             for (String s : ls ) tmp += s + "\n";
 
@@ -510,7 +538,8 @@ public class MainActivity extends AppCompatActivity {
             ls = new ArrayList<>();
             tmp="";
             ls=getSystemInfo("b");
-            tRom_dx.setText(ls.get(ls.size()-1));
+            romb=ls.get(ls.size()-1);
+            tRom_dx.setText(romb);
             for (String s : ls ) tmp += s + "\n";
 
             tSlotB.setText(tmp);
@@ -654,12 +683,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
+     * Full unmount partitions
+     */
+    private void full_unmount()
+    {
+        umountUserInactiveData();
+        umountUserInactiveSystem();
+        umountBaseInactiveData();
+        umountBaseInactiveSystem();
+        jb   = ss.newJob();
+        List<String> sRes = new ArrayList<>();
+        List<String> sErr = new ArrayList<>();
+        jb.add("mount").to(sRes,sErr).exec();
+        sRes = new ArrayList<>();
+        sErr = new ArrayList<>();
+
+
+    }
+
+    /**
      * Reboot procedure
      *
      * @param currentSlot - Slot to reboot
      * @param recovery    - 1 to recovery, 0 to system
      */
     private void rebootProc(String currentSlot, int recovery) {
+        jb   = ss.newJob();
+        List<String> sRes = new ArrayList<>();
+        List<String> sErr = new ArrayList<>();
+
         //TextView textView = (TextView) findViewById(R.id.textview);
         if (currentSlot.contains("_b")) {
             jb.add("/data/adb/Dualboot/bootctl set-active-boot-slot 0").submit();
@@ -668,9 +720,9 @@ public class MainActivity extends AppCompatActivity {
             jb.add("/data/adb/Dualboot/bootctl set-active-boot-slot 1").submit();
         }
         if (recovery == 0) {
-            jb.add("reboot").submit();
+            jb.add("reboot").to(sRes,sErr).exec();
         } else {
-            jb.add("reboot recovery").submit();
+            jb.add("reboot recovery").to(sRes,sErr).exec();
         }
     }
 
@@ -685,7 +737,6 @@ public class MainActivity extends AppCompatActivity {
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
-
         Boolean deletepwd = false;
         if (bPwd && currentSlot.contains(inactiveSlot)) {
             String res = erasePassword();

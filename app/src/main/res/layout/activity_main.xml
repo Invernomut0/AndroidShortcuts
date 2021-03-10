@@ -361,7 +361,7 @@
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:onClick="onClickShareApp"
-                    android:text="@string/share_app"
+                    android:text="@string/share_data_app"
                     android:textColor="#FFFFFF"
                     android:textSize="12sp"
                     app:cornerRadius="10dp"

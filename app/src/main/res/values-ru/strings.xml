@@ -93,5 +93,5 @@
     <string name="a">A</string>
     <string name="b">B</string>
     <string name="restore_data"><![CDATA[<b>ВОССТАНОВЛЕНИЕ ДАННЫХ!</b>]]>></string>
-    <string name="restore_data_content"><![CDATA[<b>Восстановить содержимое данных?</b><br/><br/>All data in shared folder will be deleted and your /data/data/ overwrited!! No recovery will be possible<br/><br/>Application: ]]></string>
+    <string name="restore_data_content"><![CDATA[<b>Восстановить содержимое данных?</b><br/><br/>Все данные в общей папке будут удалены, а ваши /data/data/ перезаписаны!! Восстановление невозможно<br/><br/>Application: ]]></string>
 </resources>

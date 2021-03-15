@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/logo_image"
+    android:layout_width="600dp"
+    android:layout_height="600dp"
+    android:src="@drawable/web_hi_res_512"
+    android:contentDescription="@string/DualBoot"/>

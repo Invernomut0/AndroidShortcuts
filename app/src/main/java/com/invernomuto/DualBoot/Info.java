@@ -265,6 +265,14 @@ public class Info extends AppCompatActivity {
         /*RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) tlink.getLayoutParams();
         params.height = 0;
         tlink.setLayoutParams(params);*/
+ /*       @SuppressLint("ResourceType") RelativeLayout layout = (RelativeLayout)findViewById(R.layout.info_layout);
+        LayoutInflater inflater = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        ImageView image = (ImageView) inflater.inflate(R.layout.logo_layout, null);
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(-1, 345);
+        params.leftMargin = 32*2*3;
+        params.topMargin = 34*2*3;
+        layout.addView(image);*/
+
     }
     public void onClickInfo(View view) {
         Info.this.finish();

@@ -25,36 +25,55 @@
             android:layout_marginEnd="8dp"
             app:srcCompat="@android:drawable/ic_menu_help" />
             -->
-        <Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="64dp"
-            android:background="@color/guillotine_background"
-            app:contentInsetStart="0dp">
+            <Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:background="@color/guillotine_background"
+                app:contentInsetStart="0dp">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/content_hamburger"
+                        style="@style/ImageView.Hamburger"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_menu" />
 
-            <ImageView
-                android:id="@+id/content_hamburger"
-                style="@style/ImageView.Hamburger"
-                android:src="@drawable/ic_menu" />
+                    <ImageView
+                        android:id="@+id/info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignEnd="@+id/iv"
+                        style="@style/ImageView.Info"
+                        android:layout_centerVertical="true"
+                        android:onClick="onClickInfo"
+                        android:src="@drawable/info"
+                        app:tint="#FFFFFF" />
 
-            <ImageView
-                android:id="@+id/info"
-                style="@style/ImageView.Info"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:onClick="onClickInfo"
-                android:src="@drawable/info"
-                app:tint="#FFFFFF" />
+                    <TextView
+                        android:id="@+id/tSlot"
+                        android:paddingTop="8dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/lato_bold"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"
+                        android:text="-"
+                        android:textColor="@color/colorAccent"
+                        android:textSize="26sp" />
 
-            <ImageView
-                android:id="@+id/iv"
-                android:src="@drawable/logo_resized"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/orangefox_dualboot"
-                android:textSize="@dimen/guillotine_item_text_size" />
-        </Toolbar>
+                    <ImageView
+                        android:id="@+id/iv"
+                        android:src="@drawable/web_hi_res_512"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/orangefox_dualboot"
+                        android:textSize="@dimen/guillotine_item_text_size" />
+                </RelativeLayout>
+
+            </Toolbar>
 
         <TextView
             android:id="@+id/tv"

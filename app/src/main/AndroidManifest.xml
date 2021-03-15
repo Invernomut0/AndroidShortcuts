@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.invernomuto.DualBoot">
+    package="com.invernomuto.DualBoot" >
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MaterialComponents.NoActionBar"
-        tools:replace="android:icon">
-
-        <activity android:name=".SplashActivity">
+        android:theme="@style/Dark"
+        tools:replace="android:icon" >
+        <activity android:name=".SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,11 +22,10 @@
                 android:resource="@xml/dualboot" />
             <!--  -->
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:label="DualBoot"
-            android:launchMode="singleTop"></activity>
+            android:launchMode="singleTop" />
         <activity
             android:name=".Info"
             android:label="@string/title_activity_info"
@@ -36,6 +34,7 @@
             android:name=".SharedApp"
             android:label="@string/shared_app_title"
             android:launchMode="singleTop" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
@@ -45,7 +44,7 @@
             android:enabled="true"
             android:exported="true"
             android:label="DualBoot"
-            android:permission="android.permission.BIND_CONTROLS">
+            android:permission="android.permission.BIND_CONTROLS" >
             <intent-filter>
                 <action android:name="android.service.controls.ControlsProviderService" />
             </intent-filter>

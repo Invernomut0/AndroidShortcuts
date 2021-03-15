@@ -36,20 +36,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/shared_app_title"
+                android:text="@string/idle"
                 android:textSize="@dimen/guillotine_item_text_size" />
         </Toolbar>
+        <TextView
+            android:id="@+id/tWork"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/shared_app_title"
+            android:textSize="14sp" />
 
+        <com.daimajia.numberprogressbar.NumberProgressBar
+            android:id="@+id/number_progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <com.baoyz.swipemenulistview.SwipeMenuListView
+            android:id="@+id/listapp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!--
         <ListView
             android:id="@+id/listapp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="20"
+            android:layout_weight="100"
             />
-        <!--
-
-
-
              <TableLayout
                        android:layout_width="match_parent"
                        android:layout_height="match_parent"

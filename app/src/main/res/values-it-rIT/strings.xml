@@ -83,4 +83,18 @@
     <string name="update_now">Update now?</string>
     <string name="update_later">Maybe later</string>
     <string name="share_data_app">Shared data for apps - EXPERIMENTAL</string>
+    <string name="working_on">"Working on "</string>
+    <string name="shared_data">Shared Data</string>
+    <string name="delete_data"><![CDATA[<b>DELETE DATA!</b>]]></string>
+    <string name="delete_data_content"><![CDATA[<b>Are you really sure?</b><br/><br/>All data will be deleted! No recovery will be possible<br/><br/>Application: ]]></string>
+    <string name="title_activity_shared_app_settings">SharedAppSettingsActivity</string>
+    <string name="messages_header">Messaggi</string>
+    <string name="sync_header">Sync</string>
+    <string name="signature_title">La tua firma</string>
+    <string name="data_app_deleted">Data application deleted!</string>
+    <string name="idle">Idle</string>
+    <string name="a">A</string>
+    <string name="b">B</string>
+    <string name="restore_data"><![CDATA[<b>RESTORE DATA!</b>]]>></string>
+    <string name="resore_data_content"><![CDATA[<b>Are you really really sure?</b><br/><br/>All data in shared folder will be deleted and your /data/data/ overwrited!! No recovery will be possible<br/><br/>Application: ]]></string>
 </resources>

@@ -4,14 +4,15 @@ import android.graphics.drawable.Drawable;
 
 public class sApp {
 
-    String pName="";
-    String AppName="";
-    String dataPath="";
-    String commonPath="";
-    Drawable icon=null;
-    Boolean Selected=false;
+    private String pName="";
+    private String AppName="";
+    private String dataPath="";
+    private String commonPath="";
+    private Drawable icon=null;
+    private Boolean Shared=false;
+    private Boolean Selected=false;
 
-    public sApp(String pName, String AppName, String dataPath, String commonPath, Drawable icon, Boolean Selected)
+    public sApp(String pName, String AppName, String dataPath, String commonPath, Drawable icon, Boolean Shared, Boolean Selected)
     {
         this.pName = pName;
         this.AppName=AppName;
@@ -19,6 +20,8 @@ public class sApp {
         this.dataPath=dataPath;
         this.icon=icon;
         this.Selected=Selected;
+        this.Shared = Shared;
+
     }
 
     public String getpName() {
@@ -59,6 +62,14 @@ public class sApp {
 
     public void setIcon(Drawable icon) {
         this.icon = icon;
+    }
+
+    public Boolean getShared() {
+        return Shared;
+    }
+
+    public void setShared(Boolean shared) {
+        Shared = shared;
     }
 
     public Boolean getSelected() {

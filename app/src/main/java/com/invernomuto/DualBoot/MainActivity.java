@@ -18,11 +18,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.bugfender.sdk.Bugfender;
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.AppUpdaterUtils;
 import com.github.javiersantos.appupdater.enums.AppUpdaterError;
@@ -44,9 +46,12 @@ import java.util.List;
 import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import tyrantgit.explosionfield.ExplosionField;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final boolean DEBUG = true;
+    private ExplosionField mExplosionField;
     private static final long RIPPLE_DURATION = 250;
     private final static String RebootB = "RebootB";
     private final static String RebootA = "RebootA";
@@ -124,6 +129,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Bugfender.init(this, "DdGY1U04zaCvdyPJiBgc7n2b3KnXcUf8", BuildConfig.DEBUG);
+        Bugfender.enableCrashReporting();
+        Bugfender.enableUIEventLogging(this.getApplication());
+        Bugfender.enableLogcatLogging(); // optional, if you want logs automatically collected from logcat
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Log.d(TAG, "Application started");
         //Preference panel
@@ -138,6 +147,7 @@ public class MainActivity extends AppCompatActivity {
                 .setClosedOnStart(true)
                 .build();
         //GUI
+        TextView tSlot = findViewById(R.id.tSlot);
         TextView tVersion = findViewById(R.id.tVersione);
         ImageView iv = findViewById(R.id.iv);
         TextView tLog = findViewById(R.id.tLog);
@@ -170,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(ContextCompat.getColor(this, R.color.guillotine_background_dark));
+
+        mExplosionField = ExplosionField.attach2Window(this);
 
         //APP Updater
         AppUpdaterUtils appUpdaterUtils = new AppUpdaterUtils(this)
@@ -259,14 +271,15 @@ public class MainActivity extends AppCompatActivity {
         log(getString(R.string.system) + getAndroidVersion());
 
         //CheckLayout and disable SharedApp if a/b
-        String sLayout = getLayout();
-        log(getString(R.string.dualboot_layout) + sLayout);
-        if (sLayout.equals("a/b")) {
-            bShared.setText(getString(R.string.no_shared_app));
-            log(getString(R.string.shared_app_disabled_log));
-            disableButton(bShared, "");
+        if(!DEBUG) {
+            String sLayout = getLayout();
+            log(getString(R.string.dualboot_layout) + sLayout);
+            if (sLayout.equals("a/b")) {
+                bShared.setText(getString(R.string.no_shared_app));
+                log(getString(R.string.shared_app_disabled_log));
+                disableButton(bShared, "");
+            }
         }
-
         //Preferences
         pref   = getApplicationContext().getSharedPreferences("DualBoot_prefs", 0); // 0 - for private mode
         editor = pref.edit();
@@ -277,30 +290,33 @@ public class MainActivity extends AppCompatActivity {
         set_InfoSlotsUI();
 
         //Check device and setup buttons
-        if (!isValidDevice()) {
-            log(getString(R.string.Device_not_compatible));
-            disableButton(bRB, "B");
-            disableButton(bSB, "B");
-            disableButton(bRA, "A");
-            disableButton(bSA, "A");
-            disableButton(bEP, "A");
-            disableButton(bBL, "B");
-            pwd.setEnabled(false);
-            NoWarn.setEnabled(false);
-            mSys.setEnabled(false);
-            mData.setEnabled(false);
+        if(!DEBUG) {
+            if (!isValidDevice()) {
+                log(getString(R.string.Device_not_compatible));
+                disableButton(bRB, "B");
+                disableButton(bSB, "B");
+                disableButton(bRA, "A");
+                disableButton(bSA, "A");
+                disableButton(bEP, "A");
+                disableButton(bBL, "B");
+                pwd.setEnabled(false);
+                NoWarn.setEnabled(false);
+                mSys.setEnabled(false);
+                mData.setEnabled(false);
 
-        } else {
-            if (activeSlot.contains("a")) {
-                log(getString(R.string.Active_Slot) + "A");
-                iv.setImageResource(R.drawable.logo_resized_a);
-            }
-            if (activeSlot.contains("b")) {
-                log(getString(R.string.Active_Slot) + "B");
-                iv.setImageResource(R.drawable.logo_resized_b);
+            } else {
+                if (activeSlot.contains("a")) {
+                    log(getString(R.string.Active_Slot) + "A");
+                    tSlot.setText(getString(R.string.a));
+                    //iv.setImageResource(R.drawable.logo_resized_a);
+                }
+                if (activeSlot.contains("b")) {
+                    log(getString(R.string.Active_Slot) + "B");
+                    //iv.setImageResource(R.drawable.logo_resized_b);
+                    tSlot.setText(getString(R.string.b));
+                }
             }
         }
-
         //Setup Shortcuts
         String response;
         response = getIntent().getAction();
@@ -514,6 +530,16 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickErasePwdA(View view) {
         String res = erasePassword();
+        if(res.contains("OK"))
+        {
+
+        }
+        bEP = findViewById(R.id.bErasePassword);
+        //bBL = findViewById(R.id.bBootLoader);
+        bEP.setEnabled(false);
+        mExplosionField.explode(view);
+        Toast.makeText(getApplicationContext(), "Suicide!", Toast.LENGTH_SHORT).show();
+        //bBL.setLayoutParams(new TableRow.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
         log(getString(R.string.erasing_password) + res);
     }
 

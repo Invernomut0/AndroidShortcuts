@@ -70,7 +70,7 @@
     <string name="recovery">Recovery:</string>
     <string name="Ready">Готово</string>
     <string name="application_list_saved">Список приложений сохранен!</string>
-    <string name="device">"Device: "</string>
+    <string name="device">"Устройство: "</string>
     <string name="dualboot_found">Проверка DualBoot: Ошибка!</string>
     <string name="dualboot_not_found">Проверка DualBoot: Не обнаружено!</string>
     <string name="dualboot_layout">"Макет DualBoot: "</string>

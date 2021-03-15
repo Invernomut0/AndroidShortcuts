@@ -21,7 +21,7 @@
     <string name="options">Опции</string>
     <string name="clear_password_when_reboot_to_other_system_slot">" Автоматически удалять пароль при перезагрузке в НЕАКТИВНЫЙ системный слот"</string>
     <string name="AppStarted">Приложение запущено</string>
-    <string name="reading_options">" - Сообщества "</string>
+    <string name="reading_options">" - Чтение настроек "</string>
     <string name="reboot_whitout_confirmation">" Отключить подтверждение перезагрузки"</string>
     <string name="console_log">" Log журнал "</string>
     <string name="reboot_bootloader">Перезагрузка в Bootloader</string>
@@ -69,13 +69,13 @@
     <string name="reboot_to_bootloader">Перезагрузить в Bootloader</string>
     <string name="recovery">Recovery:</string>
     <string name="Ready">Готово</string>
-    <string name="application_list_saved">Application list saved!</string>
+    <string name="application_list_saved">Список приложений сохранен!</string>
     <string name="device">"Device: "</string>
     <string name="dualboot_found">Проверка DualBoot: Ошибка!</string>
-    <string name="dualboot_not_found">Checking DualBoot: Not Found!</string>
+    <string name="dualboot_not_found">Проверка DualBoot: Не обнаружено!</string>
     <string name="dualboot_layout">"Макет DualBoot: "</string>
     <string name="selinux_permissive">Настройка SeLinux permissive</string>
-    <string name="send_issue">Open issue/request on github</string>
+    <string name="send_issue">Отправить отчет об ошибке/предложение на Gidhub</string>
     <string name="check_update_title">Доступно обновление</string>
     <string name="check_out_latest_version">Проверить наличие обновления!</string>
     <string name="update_not_available">Обновление не найдено</string>
@@ -89,7 +89,7 @@
     <string name="delete_data_content"><![CDATA[<b>Вы действительно уверены?</b><br/><br/>All data will be deleted! No recovery will be possible<br/><br/>Application: ]]></string>
     <string name="title_activity_shared_app_settings">Настройка общих приложений</string>
     <string name="data_app_deleted">Данные приложений удалены!</string>
-    <string name="idle">Idle</string>
+    <string name="idle">Готово</string>
     <string name="a">A</string>
     <string name="b">B</string>
     <string name="restore_data"><![CDATA[<b>ВОССТАНОВЛЕНИЕ ДАННЫХ!</b>]]>></string>

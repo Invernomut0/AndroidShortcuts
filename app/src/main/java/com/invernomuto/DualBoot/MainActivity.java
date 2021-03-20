@@ -50,7 +50,7 @@ import tyrantgit.explosionfield.ExplosionField;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
     private ExplosionField mExplosionField;
     private static final long RIPPLE_DURATION = 250;
     private final static String RebootB = "RebootB";
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     String userMountPath10 = "/mnt/runtime/full/emulated/0/DualBoot/";
     String userPath = "/sdcard/DualBoot/";
     FirebaseAnalytics mFirebaseAnalytics;
-    private static final String TAG = "invernomuto";
+    public static final String TAG = "invernomuto";
     private final String id = "DualBoot";
     String INCVersion = Build.VERSION.INCREMENTAL;
     String device = Build.DEVICE;
@@ -810,7 +810,7 @@ public class MainActivity extends AppCompatActivity {
      * @param recovery    1 to recovery, 0 to system
      */
     private void RebootTo(String currentSlot, int recovery) {
-
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -866,6 +866,7 @@ public class MainActivity extends AppCompatActivity {
      * Return a String with the active slot: a or b
      */
     private List<String> getSystemInfo(String slot) {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -925,6 +926,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getActiveSlot() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -948,6 +950,7 @@ public class MainActivity extends AppCompatActivity {
      * Return a String with Android version: A11 or A10
      */
     private String getAndroidVersion() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -965,6 +968,7 @@ public class MainActivity extends AppCompatActivity {
      * there is a difference between Android 10 and Android 11
      */
     private String getCommonDataMount() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -981,6 +985,7 @@ public class MainActivity extends AppCompatActivity {
      * Return a String with the current layout of device: a/b or a/b/c
      */
     private String getLayout() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -997,6 +1002,7 @@ public class MainActivity extends AppCompatActivity {
      * Remove all temporary directories
      */
     private void removeDirectory() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -1008,6 +1014,7 @@ public class MainActivity extends AppCompatActivity {
      * Create all working directories
      */
     private void setDirectory() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -1027,6 +1034,7 @@ public class MainActivity extends AppCompatActivity {
      * @return true if mounted, false if not
      */
     private boolean isMounted(String partition) {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -1041,6 +1049,7 @@ public class MainActivity extends AppCompatActivity {
      * Return a String with OK if success of the error
      */
     private String mountBaseInactiveSystem() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -1058,6 +1067,7 @@ public class MainActivity extends AppCompatActivity {
      * Return a String with OK if success of the error
      */
     private String umountBaseInactiveSystem() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -1075,6 +1085,7 @@ public class MainActivity extends AppCompatActivity {
      * Return a String with OK if success of the error
      */
     private String mountUserInactiveSystem() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -1097,6 +1108,7 @@ public class MainActivity extends AppCompatActivity {
      * Return a String with OK if success of the error
      */
     private String umountUserInactiveSystem() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -1118,6 +1130,7 @@ public class MainActivity extends AppCompatActivity {
      * Return a String with OK if success of the error
      */
     private String mountBaseInactiveData() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -1135,6 +1148,7 @@ public class MainActivity extends AppCompatActivity {
      * Return a String with OK if success of the error
      */
     private String umountBaseInactiveData() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -1153,6 +1167,7 @@ public class MainActivity extends AppCompatActivity {
      * Return a String with OK if success of the error
      */
     private String mountUserInactiveData() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -1176,6 +1191,7 @@ public class MainActivity extends AppCompatActivity {
      * Return a String with OK if success of the error
      */
     private String umountUserInactiveData() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -1197,6 +1213,7 @@ public class MainActivity extends AppCompatActivity {
      * @param slot
      */
     private String getFsType(String slot) {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -1230,6 +1247,7 @@ public class MainActivity extends AppCompatActivity {
      * Return a String with value of HAL info or the error
      */
     private String getHAL() {
+        Shell ss = Shell.getShell();
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
@@ -1247,6 +1265,7 @@ public class MainActivity extends AppCompatActivity {
      */
     private void copyBootctl() {
         try {
+            Shell ss = Shell.getShell();
             jb = ss.newJob();
             List<String> sRes = new ArrayList<>();
             List<String> sErr = new ArrayList<>();

@@ -1,5 +1,7 @@
 package com.invernomuto.DualBoot;
 
+import static com.invernomuto.DualBoot.MainActivity.DEBUG;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -18,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -53,7 +56,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class SharedApp extends AppCompatActivity {
 
-    private static final Boolean DEBUG = true;
+    //private static final Boolean DEBUG = false;
     private static final String TAG = "invernomuto";
 
     String datacommon = "/datacommon/SharedData/";
@@ -83,7 +86,7 @@ public class SharedApp extends AppCompatActivity {
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setNavigationBarColor(getResources().getColor(R.color.guillotine_background_dark));
         }
-        if(DEBUG) datacommon=datacommon_debug;
+        if(DEBUG) datacommon = datacommon_debug;
 
         //mExplosionField = ExplosionField.attach2Window(this);
         //sharedPreferences = getApplicationContext().getSharedPreferences("DualBoot_prefs", 0);
@@ -105,7 +108,9 @@ public class SharedApp extends AppCompatActivity {
         SharedDataListPopulate();
         List<String> list = new ArrayList<String>();
         list = Shell.su("cat " + datacommon + selapplist).exec().getOut();
+        tTitle.setText(getText(R.string.shared_app_title) + " (" + list.size() + ")");
         int i = 0;
+        String source_path;
         for (ApplicationInfo app : apps) {
 
             //checks for flags; if flagged, check if updated system app
@@ -120,6 +125,8 @@ public class SharedApp extends AppCompatActivity {
                 //Set<String> checkedItemsSource = sharedPreferences.getStringSet("checked_items", new HashSet<String>());
                 //SparseBooleanArray checkedItems = convertToCheckedItems(checkedItemsSource);
                 Boolean checked = false;
+                List<String> sRes = new ArrayList<>();
+                List<String> sErr = new ArrayList<>();
 
                 for (int ix = 0; ix < list.size(); ix++) {
                     String p = list.get(ix);
@@ -128,6 +135,7 @@ public class SharedApp extends AppCompatActivity {
                         i++;
                     }
                 }
+                source_path = app.sourceDir;
                 Boolean ShareData = false;
                 for (String sData : SharedDataList) {
                     if (sData.contains(app.processName)) ShareData = true;
@@ -142,7 +150,6 @@ public class SharedApp extends AppCompatActivity {
                             ShareData,
                             checked);
                     appList.add(sapp);
-
                 }
                 //Discard this one
                 //in this case, it should be a user-installed app
@@ -155,7 +162,6 @@ public class SharedApp extends AppCompatActivity {
         //create an ArrayAdaptar from the String Array
         AppAdapter adapter = new AppAdapter(this, R.layout.application_detail, appList, SharedDataList);
         listView.setAdapter(adapter);
-        tTitle.setText(getText(R.string.shared_app_title) + " (" + i + ")");
         lvSave.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 ImageView iSave = findViewById(R.id.bSaveApp);
@@ -163,31 +169,18 @@ public class SharedApp extends AppCompatActivity {
                 iSave.setEnabled(false);
                 iBack.setEnabled(false);
                 new asyncSaveApplist().execute();
+                //iSave.setEnabled(true);
+                //iBack.setEnabled(true);
 
-                /*Shell.Result result = Shell.su("rm -f " + datacommon + datamount).exec();
-                result = Shell.su("rm -f " + datacommon + selapplist).exec();
-                result = Shell.su("rm -f " + datacommon + apps_date).exec();
-                Shell.su("mkdir " + datacommon).exec();
-                Shell.su("chown 1023:1023 " + datacommon);
-                Set<String> stringSet = new HashSet<>();
-                final int[] number_of_app = {0};
-                int total = listView.getCount();
-                //final double[] value = {0};
-                for (int i = 0; i < total; i++) {
-                    //value[0] = i*100/total;
-                    sApp s = (sApp) listView.getItemAtPosition(i);
-                    if (s.Selected) {
-                        String val = s.pName;
-                        stringSet.add(val);
-                        doTheMagic(s);
-                        number_of_app[0]++;
-                    }
-                }
-                Toast.makeText(getApplicationContext(), getString(R.string.application_list_saved), Toast.LENGTH_SHORT).show();
-                 */
 
-                iSave.setEnabled(true);
-                iBack.setEnabled(true);
+            }
+        });
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick( AdapterView<?> parent, View item,
+                                     int position, long id) {
+                sApp sapp = adapter.getItem( position );
 
             }
         });
@@ -494,6 +487,7 @@ public class SharedApp extends AppCompatActivity {
             }
             return true;
         }
+
         protected void onProgressUpdate(cInfo... info) {
 
             bar.setProgress(info[0].progress);
@@ -545,23 +539,10 @@ public class SharedApp extends AppCompatActivity {
                 //.setFlags(Shell.ROOT_MOUNT_MASTER)
         );
         Shell su = Shell.*/
+
         jb = ss.newJob();
         List<String> sRes = new ArrayList<>();
         List<String> sErr = new ArrayList<>();
-        jb.add("test -d " + s.getCommonPath() + " && echo OK || echo KO").to(sRes,sErr).exec();
-        String res = sRes.toString();
-        Long tsLong = System.currentTimeMillis()/1000;
-        String ts = tsLong.toString();
-        //Thread.yield();
-        //Toast.makeText(getApplicationContext(), (getString(R.string.working_on) + s.AppName), Toast.LENGTH_SHORT).show();
-        Thread.yield();
-        if (res.contains("KO")) {
-            jb.add("cp -r --preserve=all " + s.getDataPath() + " " + s.getCommonPath()).submit();
-            jb.add("restorecon -R " + s.getDataPath() + " " + s.getCommonPath()).submit();
-            jb.add("chmod -R 777 " + s.getCommonPath()).submit();
-        }
-        //su.newJob().add("mount -o bind " + s.commonPath + " " + s.dataPath).exec();
-        //result = su.newJob().exec();
         int i=0;
         do {
             jb.add("am kill " + s.getpName()).to(sRes,sErr).exec();
@@ -571,9 +552,24 @@ public class SharedApp extends AppCompatActivity {
             sErr = new ArrayList<>();
             sErr.clear();
             i++;
-            jb.add("ls -la " + s.getCommonPath()).to(sRes, sErr).exec();
+            jb.add("mount | grep " + s.getpName()).to(sRes, sErr).exec();
             if(i==20) break;
-        }while (sErr.size() != 0);
+        }while (sRes.size() != 0);
+        sRes.clear();
+        jb.add("test -d " + s.getCommonPath() + " && echo OK || echo KO").to(sRes,sErr).exec();
+        String res = sRes.toString();
+        Long tsLong = System.currentTimeMillis()/1000;
+        String ts = tsLong.toString();
+        //Thread.yield();
+        //Toast.makeText(getApplicationContext(), (getString(R.string.working_on) + s.AppName), Toast.LENGTH_SHORT).show();
+        Thread.yield();
+        if (res.contains("KO")) {
+            jb.add("cp -r --preserve=all " + s.getDataPath() + " " + s.getCommonPath()).submit();
+            //jb.add("restorecon -R " + s.getDataPath() + " " + s.getCommonPath()).submit();
+            jb.add("chmod -R 777 " + s.getCommonPath()).submit();
+        }
+        //su.newJob().add("mount -o bind " + s.commonPath + " " + s.dataPath).exec();
+        //result = su.newJob().exec();
         jb.add("mount -o bind " + s.getCommonPath() + " " + s.getDataPath()).submit();
         //jb.add("mount | grep " + s.pName).to(sRes,sErr).exec();
         jb = ss.newJob();
@@ -628,17 +624,21 @@ public class SharedApp extends AppCompatActivity {
 
 class AppAdapter extends StableArrayAdapter<sApp> {
     List<sApp> sAppList;
+    //private Boolean DEBUG = false;
     String datacommon = "/datacommon/SharedData/";
-    //String datacommon = "/sdcard/SharedData/";
+    String datacommon_debug = "/sdcard/SharedData/";
     String datamount = "datamount.conf";
     String selapplist = "selapplist.conf";
     String apps_date = "apps_date.conf";
     List<String> appSelected;
+    private ArrayList<String> SharedDataList;
+
     public AppAdapter(Context context, int textViewResourceId,
                                  List<sApp> objects, List<String> appSelected) {
         super(context, textViewResourceId, objects);
         sAppList = objects;
         this.appSelected = appSelected;
+        if (DEBUG) datacommon=datacommon_debug;
     }
     @Override
     public int getViewTypeCount() {
@@ -659,6 +659,7 @@ class AppAdapter extends StableArrayAdapter<sApp> {
     }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+
         return getViewOptimize(position, convertView, parent);
     }
 
@@ -686,6 +687,49 @@ class AppAdapter extends StableArrayAdapter<sApp> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 sAppList.get(position).setSelected(isChecked);
+                Shell ss = Shell.getCachedShell();
+                Shell.Job jb = ss.newJob();
+                List<String> sRes = new ArrayList<>();
+                List<String> sErr = new ArrayList<>();
+                if(!isChecked) {
+                    int i=0;
+                    do {
+                        jb.add("am kill " + sAppList.get(position).getpName()).to(sRes,sErr).exec();
+                        jb.add("umount " + sAppList.get(position).getDataPath()).to(sRes, sErr).exec();
+                        jb = ss.newJob();
+                        sRes = new ArrayList<>();
+                        sErr = new ArrayList<>();
+                        sErr.clear();
+                        i++;
+                        jb.add("ls -la " + sAppList.get(position).getCommonPath()).to(sRes, sErr).exec();
+                        if(i==20) break;
+                    }while (sErr.size() != 0);
+                    jb.add("sed -i '/" + sAppList.get(position).getpName() + "/d' " + datacommon + selapplist).submit();
+                    sAppList.get(position).setSelected(false);
+
+                    /*Context context;
+                    View v = new View(getContext());
+
+                    ListView rlv = (ListView) v.findViewById(R.id.listapp);
+                    sAppList.get(position).setSelected(false);
+                    sAppList.get(position).setShared(false);
+
+                    int x=0;
+                    for (sApp a : sAppList)
+                    {
+                        if (a.getSelected()) x++;
+                    }
+                    SharedDataListPopulate();
+                    TextView tTitle = v.findViewById(R.id.TitleSaveApp);
+                    tTitle.setText(getText(R.string.shared_app_title) + " (" + x + ")" );
+
+                    AppAdapter adapter = new AppAdapter(rlv.getContext(), R.layout.application_detail, sAppList, SharedDataList);
+                    rlv.setAdapter(adapter);
+                    rlv.destroyDrawingCache();
+                    rlv.setVisibility(ListView.INVISIBLE);
+                    rlv.setVisibility(ListView.VISIBLE);
+                    adapter.notifyDataSetChanged();*/
+                }
             }
         });
 
@@ -699,7 +743,17 @@ class AppAdapter extends StableArrayAdapter<sApp> {
         viewHolder.selected.setChecked(sapp.getSelected());
         return convertView;
     }
-
+    
+    private void SharedDataListPopulate() {
+        Shell ss = Shell.getCachedShell();
+        Shell.Job jb = ss.newJob();
+        List<String> sRes = new ArrayList<>();
+        List<String> sErr = new ArrayList<>();
+        jb.add("cd " + datacommon + " && ls -d */").to(sRes, sErr).exec();
+        SharedDataList = new ArrayList<>();
+        SharedDataList.clear();
+        SharedDataList.addAll(sRes);
+    }
     private class ViewHolder {
         public ImageView icon;
         public TextView appName;
@@ -707,6 +761,7 @@ class AppAdapter extends StableArrayAdapter<sApp> {
         public TextView commonPath;
         public TextView dataPath;
         public CheckBox selected;
+
     }
 
     private SparseBooleanArray convertToCheckedItems(Set<String> checkedItems) {

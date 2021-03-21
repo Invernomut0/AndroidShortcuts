@@ -16,7 +16,7 @@ android {
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 27
         versionCode 1
-        versionName '2.8.1.1'
+        versionName '2.8.7'
         //testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 

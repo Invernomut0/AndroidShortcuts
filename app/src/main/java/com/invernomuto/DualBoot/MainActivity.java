@@ -24,7 +24,6 @@ import android.widget.Toolbar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
-import com.bugfender.sdk.Bugfender;
 import com.github.javiersantos.appupdater.AppUpdater;
 import com.github.javiersantos.appupdater.AppUpdaterUtils;
 import com.github.javiersantos.appupdater.enums.AppUpdaterError;
@@ -50,7 +49,7 @@ import tyrantgit.explosionfield.ExplosionField;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
     private ExplosionField mExplosionField;
     private static final long RIPPLE_DURATION = 250;
     private final static String RebootB = "RebootB";
@@ -118,21 +117,16 @@ public class MainActivity extends AppCompatActivity {
         if (im) umountBaseInactiveSystem();
         im= isMounted(mounts.get("Data"));
         if (im) umountBaseInactiveData();
-        try {
-            ss.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Bugfender.init(this, "DdGY1U04zaCvdyPJiBgc7n2b3KnXcUf8", BuildConfig.DEBUG);
+        /*Bugfender.init(this, "DdGY1U04zaCvdyPJiBgc7n2b3KnXcUf8", BuildConfig.DEBUG);
         Bugfender.enableCrashReporting();
         Bugfender.enableUIEventLogging(this.getApplication());
-        Bugfender.enableLogcatLogging(); // optional, if you want logs automatically collected from logcat
+        Bugfender.enableLogcatLogging(); // optional, if you want logs automatically collected from logcat*/
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Log.d(TAG, "Application started");
         //Preference panel
@@ -188,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
                 //.setUpdateFrom(UpdateFrom.AMAZON)
                 .setUpdateFrom(UpdateFrom.GITHUB)
                 .setGitHubUserAndRepo("Invernomut0", "DualBoot-Companion-app")
-                //...
                 .withListener(new AppUpdaterUtils.UpdateListener() {
                     @Override
                     public void onSuccess(Update update, Boolean isUpdateAvailable) {

@@ -21,7 +21,7 @@
     <string name="options">Опции</string>
     <string name="clear_password_when_reboot_to_other_system_slot">" Автоматически удалять пароль при перезагрузке в НЕАКТИВНЫЙ системный слот"</string>
     <string name="AppStarted">Приложение запущено</string>
-    <string name="reading_options">" - Чтение настроек "</string>
+    <string name="reading_options">" - Проверка настроек "</string>
     <string name="reboot_whitout_confirmation">" Отключить подтверждение перезагрузки"</string>
     <string name="console_log">" Log журнал "</string>
     <string name="reboot_bootloader">Перезагрузка в Bootloader</string>
@@ -38,7 +38,7 @@
     <string name="build_id">"Идентификатор сборки: "</string>
     <string name="Build_flavor">"Версия сборки: "</string>
     <string name="application_list_saved_old">Список приложений сохранен, требуется перезагрузка!!!</string>
-    <string name="shared_app_title">Перенос приложений</string>
+    <string name="shared_app_title">Перенесено приложений</string>
     <string name="share_app">Перенос приложений </string>
     <string name="installing_bootctl">Установка bootctl в /data/adb/DualBoot</string>
     <string name="bootctl_wrong">Что то пошло не так</string>
@@ -86,12 +86,12 @@
     <string name="working_on">"Работаем над "</string>
     <string name="shared_data">Общие данные</string>
     <string name="delete_data"><![CDATA[<b>УДАЛЕНИЕ общих данных!</b>]]></string>
-    <string name="delete_data_content"><![CDATA[<b>Вы действительно уверены?</b><br/><br/>All data will be deleted! No recovery will be possible<br/><br/>Application: ]]></string>
+    <string name="delete_data_content"><![CDATA[<b>Вы действительно уверены?</b><br/><br/>Это удалит все данные приложения в общем разделе, без возможности восстановления<br/><br/>Application: ]]></string>
     <string name="title_activity_shared_app_settings">Настройка общих приложений</string>
     <string name="data_app_deleted">Данные приложений удалены!</string>
     <string name="idle">Готово</string>
     <string name="a">A</string>
     <string name="b">B</string>
     <string name="restore_data"><![CDATA[<b>ВОССТАНОВЛЕНИЕ ДАННЫХ!</b>]]>></string>
-    <string name="restore_data_content"><![CDATA[<b>Восстановить содержимое данных?</b><br/><br/>Все данные в общей папке будут удалены, а ваши /data/data/ перезаписаны!! Восстановление невозможно<br/><br/>Application: ]]></string>
+    <string name="restore_data_content"><![CDATA[<b>Восстановить содержимое данных?</b><br/><br/>Это перенесет все данные обратно в data/data. Перед применением отключите перенос приложений, для этого снимите галочку с приложения<br/><br/>Application: ]]></string>
 </resources>
